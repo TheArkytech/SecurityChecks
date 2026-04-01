@@ -3,7 +3,7 @@
 > **Modelo:** Claude Sonnet 4.6
 > **Frecuencia:** Cada mañana (automatizado con Claude scheduled tasks)
 > **Duración:** ~15-20 min con deep research
-> **Input:** Knowledge Base (Google Doc)
+> **Input:** Knowledge Base (`docs/knowledge-base.md`)
 > **Output:** Reporte diario + actualización de la Knowledge Base
 
 ---
@@ -28,16 +28,15 @@ global, y producir un briefing accionable.
 
 ## PASO 0 — Consultar la Knowledge Base
 
-Antes de investigar, consulta la Knowledge Base (Google Doc
-"Arkytech Security KB — 2026") para conocer:
+Antes de investigar, lee el archivo `docs/knowledge-base.md` en el repo
+SecurityChecks para conocer:
 - Amenazas ya identificadas (no repetir, pero sí actualizar si hay
   novedades)
 - IOCs que ya tenemos registrados
 - Dependencias bajo vigilancia
 - Contexto de decisiones anteriores
 
-Si no encuentras el documento o está vacío, avísame y empezamos
-desde cero.
+Si el archivo está vacío o no existe, avísame y empezamos desde cero.
 
 ---
 
@@ -180,13 +179,27 @@ DATO DEL DÍA
 
 ## PASO 4 — Actualizar la Knowledge Base
 
-Después de generar el reporte, actualiza la Knowledge Base (Google Doc):
+Después de generar el reporte, actualiza `docs/knowledge-base.md`:
 - Añadir nuevas amenazas con su THREAT ID
 - Actualizar el estado de amenazas existentes si hubo cambios
 - Añadir nuevos IOCs a la tabla acumulada
 - Añadir dependencias bajo vigilancia si se identificaron nuevas
 
-Confirma qué actualizaciones hiciste al documento.
+Confirma qué actualizaciones hiciste al archivo.
+
+---
+
+## PASO 5 — Auto-mejora del sistema
+
+Reflexiona brevemente:
+- ¿Hubo algún área de seguridad que no pudiste cubrir bien? ¿Por qué?
+- ¿El formato del reporte fue adecuado o algo podría mejorar?
+- ¿Hay fuentes de información que deberías consultar pero no están en tus instrucciones?
+- ¿La Knowledge Base tiene la estructura adecuada para lo que encontraste hoy?
+
+Si identificas algo, añade una entrada en la sección "Sugerencias pendientes"
+de `docs/SELF-IMPROVEMENT.md` siguiendo el formato establecido.
+No implementes cambios directamente — solo registra la sugerencia.
 
 ---
 

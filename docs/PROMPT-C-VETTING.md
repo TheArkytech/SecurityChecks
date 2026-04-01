@@ -27,8 +27,9 @@ Voy a instalar una nueva dependencia.
 
 ---
 
-Consulta la Knowledge Base (Google Doc "Arkytech Security KB — 2026")
-para ver si este paquete ya fue evaluado o si está bajo vigilancia.
+Consulta la Knowledge Base (`docs/knowledge-base.md` en el repo
+SecurityChecks) para ver si este paquete ya fue evaluado o si está
+bajo vigilancia.
 
 Luego busca en la web y evalúa:
 

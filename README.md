@@ -8,7 +8,7 @@ ejecutado por Claude.
 
 1. Copiar `.npmrc` a cada proyecto Node.js del equipo
 2. Instalar pre-commit hooks: `pre-commit install` (requiere [gitleaks](https://github.com/gitleaks/gitleaks))
-3. Crear la Knowledge Base en Google Docs siguiendo [KNOWLEDGE-BASE-SETUP.md](docs/KNOWLEDGE-BASE-SETUP.md)
+3. La Knowledge Base ya está lista en `docs/knowledge-base.md` — ver [KNOWLEDGE-BASE-SETUP.md](docs/KNOWLEDGE-BASE-SETUP.md) para detalles
 
 ## Estructura
 
@@ -22,8 +22,10 @@ SecurityChecks/
     ├── PROMPT-A-RADAR.md              # Radar diario (Sonnet 4.6)
     ├── PROMPT-B-AUDITOR.md            # Auditor semanal (Opus 4.6)
     ├── PROMPT-C-VETTING.md            # Vetting on-demand (Sonnet 4.6)
-    ├── KNOWLEDGE-BASE-SETUP.md        # Setup de la KB en Google Docs
+    ├── KNOWLEDGE-BASE-SETUP.md        # Guía de la Knowledge Base
+    ├── knowledge-base.md              # KB viva: amenazas, IOCs, decisiones
     ├── IMPROVEMENTS.md                # Roadmap de mejoras
+    ├── SELF-IMPROVEMENT.md            # Auto-mejora del sistema
     └── SCHEDULED-TASKS-SETUP.md       # Tareas programadas
 ```
 
@@ -38,8 +40,9 @@ SecurityChecks/
 ## Documentación
 
 - [Arquitectura del sistema](docs/README.md) — Diagrama, cadencia, navegación
-- [Knowledge Base Setup](docs/KNOWLEDGE-BASE-SETUP.md) — Cómo crear y usar la KB en Google Docs
+- [Knowledge Base Setup](docs/KNOWLEDGE-BASE-SETUP.md) — Estructura y mantenimiento de la KB
 - [Mejoras de seguridad](docs/IMPROVEMENTS.md) — Roadmap con 12 mejoras priorizadas
+- [Auto-mejora](docs/SELF-IMPROVEMENT.md) — Sugerencias de mejora generadas por los prompts
 - [Tareas programadas](docs/SCHEDULED-TASKS-SETUP.md) — Configuración de scheduled agents
 
 ## Hardening incluido
