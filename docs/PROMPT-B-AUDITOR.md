@@ -24,7 +24,7 @@ para encontrar vulnerabilidades concretas.
 
 ## PASO 0 — Consultar la Knowledge Base
 
-Consulta la Knowledge Base (Google Doc "Arkytech Security KB — 2026") para:
+Lee `docs/knowledge-base.md` en el repo SecurityChecks para:
 - Ver si el Radar (Prompt A) detectó algo que deba verificar
   específicamente
 - Conocer las dependencias bajo vigilancia
@@ -145,9 +145,23 @@ Para cada hallazgo Crítico y Alto:
 
 ## PASO 4 — Actualizar Knowledge Base
 
-Registrar en la Knowledge Base (Google Doc):
+Registrar en `docs/knowledge-base.md`:
 - Fecha de auditoría, proyecto, scorecard
 - Hallazgos críticos encontrados
 - Issues de Linear creados
 - Próxima auditoría programada
+
+---
+
+## PASO 5 — Auto-mejora del sistema
+
+Reflexiona brevemente:
+- ¿Hubo vulnerabilidades que buscaste pero tu checklist no cubría?
+- ¿Alguna categoría del checklist está obsoleta o incompleta?
+- ¿El scorecard refleja bien la postura de seguridad del proyecto?
+- ¿Necesitas acceso a herramientas o datos que no tienes?
+
+Si identificas algo, añade una entrada en la sección "Sugerencias pendientes"
+de `docs/SELF-IMPROVEMENT.md` siguiendo el formato establecido.
+No implementes cambios directamente — solo registra la sugerencia.
 ````
