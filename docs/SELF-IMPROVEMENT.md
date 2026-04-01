@@ -1,75 +1,75 @@
-# Auto-Mejora del Sistema de Seguridad
+# Security System Auto-Improvement
 
-> Este archivo es un registro vivo de sugerencias para mejorar el propio
-> sistema de seguridad (prompts, KB, checks, cobertura). Los Prompts A y B
-> escriben sugerencias aquí. Guillermo las revisa y aprueba los viernes.
-
----
-
-## Cómo funciona
-
-1. **Prompt A (Radar)** — Después de cada escaneo diario, evalúa si el sistema
-   de seguridad tiene gaps y registra sugerencias aquí
-2. **Prompt B (Auditor)** — Después de cada auditoría, evalúa si los checklists
-   de auditoría necesitan mejoras y registra sugerencias aquí
-3. **Viernes** — Guillermo revisa las sugerencias, aprueba las que tengan sentido,
-   y las implementa (o pide a Claude que las implemente)
+> This file is a living log of suggestions to improve the security system
+> itself (prompts, KB, checks, coverage). Prompts A and B write suggestions
+> here. Guillermo reviews and approves them on Fridays.
 
 ---
 
-## Categorías de mejora
+## How it works
 
-- **PROMPT** — Mejoras a los prompts (nuevas áreas de investigación, mejor formato, etc.)
-- **KB** — Nuevas secciones o campos para la Knowledge Base
-- **CHECK** — Nuevos checks para añadir al Prompt B (auditor)
-- **COVERAGE** — Áreas de seguridad no cubiertas actualmente
-- **PROCESS** — Mejoras al proceso o cadencia
-- **TOOLING** — Herramientas o integraciones a considerar
+1. **Prompt A (Radar)** — After each daily scan, evaluates if the security
+   system has gaps and logs suggestions here
+2. **Prompt B (Auditor)** — After each audit, evaluates if the audit
+   checklists need improvements and logs suggestions here
+3. **Friday** — Guillermo reviews suggestions, approves the ones that make
+   sense, and implements them (or asks Claude to implement them)
 
 ---
 
-## Sugerencias pendientes
+## Suggestion categories
 
-<!-- Formato:
-### [YYYY-MM-DD] [CATEGORÍA] Título corto
-- **Origen:** Prompt A / Prompt B / Manual
-- **Descripción:** Qué mejorar y por qué
-- **Impacto:** Alto / Medio / Bajo
-- **Esfuerzo:** Alto / Medio / Bajo
+- **PROMPT** — Improvements to the prompts (new research areas, better format, etc.)
+- **KB** — New sections or fields for the Knowledge Base
+- **CHECK** — New checks to add to Prompt B (auditor)
+- **COVERAGE** — Security areas not currently covered
+- **PROCESS** — Process or cadence improvements
+- **TOOLING** — Tools or integrations to consider
+
+---
+
+## Pending suggestions
+
+<!-- Format:
+### [YYYY-MM-DD] [CATEGORY] Short title
+- **Origin:** Prompt A / Prompt B / Manual
+- **Description:** What to improve and why
+- **Impact:** High / Medium / Low
+- **Effort:** High / Medium / Low
 -->
 
-_Sin sugerencias pendientes aún. Se irán añadiendo con cada ejecución de los prompts._
+_No pending suggestions yet. They will be added with each prompt execution._
 
 ---
 
-## Sugerencias implementadas
+## Implemented suggestions
 
-<!-- Mover aquí las sugerencias que se aprueben e implementen -->
+<!-- Move approved and implemented suggestions here -->
 
-| Fecha implementada | Categoría | Descripción | Origen |
+| Date implemented | Category | Description | Origin |
 |---|---|---|---|
 | | | | |
 
 ---
 
-## Instrucciones para los prompts
+## Instructions for prompts
 
-### Para Prompt A (añadir al final de cada ejecución):
-Después de completar el reporte diario, reflexiona brevemente:
-- ¿Hubo algún área de seguridad que no pudiste cubrir bien? ¿Por qué?
-- ¿El formato del reporte fue adecuado o algo podría mejorar?
-- ¿Hay fuentes de información que deberías consultar pero no están en tus instrucciones?
-- ¿La Knowledge Base tiene la estructura adecuada para lo que encontraste hoy?
+### For Prompt A (add at the end of each execution):
+After completing the daily report, reflect briefly:
+- Was there any security area you couldn't cover well? Why?
+- Was the report format adequate or could something improve?
+- Are there information sources you should check but aren't in your instructions?
+- Does the Knowledge Base have the right structure for what you found today?
 
-Si identificas algo, añade una entrada en la sección "Sugerencias pendientes"
-de `docs/SELF-IMPROVEMENT.md`.
+If you identify something, add an entry to the "Pending suggestions" section
+of `docs/SELF-IMPROVEMENT.md`.
 
-### Para Prompt B (añadir al final de cada ejecución):
-Después de completar la auditoría, reflexiona brevemente:
-- ¿Hubo vulnerabilidades que buscaste pero tu checklist no cubría?
-- ¿Alguna categoría del checklist está obsoleta o incompleta?
-- ¿El scorecard refleja bien la postura de seguridad del proyecto?
-- ¿Necesitas acceso a herramientas o datos que no tienes?
+### For Prompt B (add at the end of each execution):
+After completing the audit, reflect briefly:
+- Were there vulnerabilities you looked for but your checklist didn't cover?
+- Is any checklist category outdated or incomplete?
+- Does the scorecard accurately reflect the project's security posture?
+- Do you need access to tools or data you don't have?
 
-Si identificas algo, añade una entrada en la sección "Sugerencias pendientes"
-de `docs/SELF-IMPROVEMENT.md`.
+If you identify something, add an entry to the "Pending suggestions" section
+of `docs/SELF-IMPROVEMENT.md`.
