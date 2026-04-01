@@ -1,10 +1,23 @@
 # Prompt C — Dependency Vetting (Pre-Instalación)
 
-> **Frecuencia:** SIEMPRE antes de instalar algo nuevo.
-> **Especialmente crítico cuando la dependencia la sugirió una AI.**
+> **Modelo:** Claude Sonnet 4.6
+> **Frecuencia:** SIEMPRE antes de instalar algo nuevo
+> **Especialmente crítico cuando la dependencia la sugirió una AI**
 
 ---
 
+## Cómo usar este prompt
+
+1. **Antes** de ejecutar `npm install`, `pip install`, o similar
+2. Abrir Claude Code (modelo **Sonnet 4.6**)
+3. Pegar el prompt de abajo, rellenando los 4 campos entre corchetes
+4. Especialmente importante si la dependencia la sugirió Claude Code, Cursor, o cualquier AI
+
+---
+
+## Prompt
+
+````markdown
 Voy a instalar una nueva dependencia.
 
 **Paquete:** [NOMBRE]
@@ -14,9 +27,8 @@ Voy a instalar una nueva dependencia.
 
 ---
 
-Consulta la Knowledge Base (`docs/knowledge-base.md` en el repo
-SecurityChecks) para ver si este paquete ya fue evaluado o si está
-bajo vigilancia.
+Consulta la Knowledge Base (Google Doc "Arkytech Security KB — 2026")
+para ver si este paquete ya fue evaluado o si está bajo vigilancia.
 
 Luego busca en la web y evalúa:
 
@@ -53,3 +65,4 @@ Luego busca en la web y evalúa:
 
 Si se aprueba → Comando con versión exacta pinneada.
 Registrar evaluación en la Knowledge Base.
+````
