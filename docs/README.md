@@ -1,25 +1,24 @@
-# Arkytech Security System v2 — Documentacion
+# Arkytech Security System v2 — Documentation
 
-> Sistema modular de ciberseguridad para equipos de desarrollo
-> que trabajan con AI-assisted coding (vibe coding).
-> Diseñado para ser ejecutado por Claude.
+> Modular cybersecurity system for development teams working with
+> AI-assisted coding (vibe coding). Designed to be executed by Claude.
 
 ---
 
-## Arquitectura del Sistema
+## System Architecture
 
 ```
                     ┌─────────────────────────┐
                     │   KNOWLEDGE BASE        │
-                    │   (knowledge-base.md)    │
+                    │   (knowledge-base.md)   │
                     │                         │
-                    │  - Amenazas detectadas   │
-                    │  - IOCs acumulados       │
-                    │  - Historial de alertas  │
-                    │  - Decisiones tomadas    │
+                    │  - Detected threats      │
+                    │  - Accumulated IOCs      │
+                    │  - Alert history         │
+                    │  - Decisions made        │
                     └────────┬────────────────┘
                              │
-                    Lee antes │ Escribe después
+                    Reads before │ Writes after
                              │
               ┌──────────────┼──────────────┐
               │              │              │
@@ -27,45 +26,46 @@
         ┌──────────┐  ┌──────────┐  ┌──────────┐
         │ PROMPT A │  │ PROMPT B │  │ PROMPT C │
         │  RADAR   │  │ AUDITOR  │  │ VETTING  │
-        │  Diario  │  │ Semanal  │  │ On-demand│
+        │  Daily   │  │  Weekly  │  │ On-demand│
         └──────────┘  └──────────┘  └──────────┘
-         Investiga     Revisa tu     Evalúa antes
-         qué pasa      código        de instalar
-         afuera        real          algo nuevo
+         Scans what    Reviews      Evaluates
+         is happening  your actual  before
+         externally    code         installing
 
         Sonnet 4.6     Opus 4.6      Sonnet 4.6
 
         Trigger:       Trigger:      Trigger:
-        Cada mañana    A encuentra   npm/pip install
-                       algo que      o AI sugiere
-                       nos afecta    dependencia
+        Every morning  A finds       npm/pip install
+                       something     or AI suggests
+                       that affects  a dependency
+                       us
 ```
 
 ---
 
-## Cadencia
+## Cadence
 
-| Actividad | Modelo | Frecuencia | Quién | Duración |
+| Activity | Model | Frequency | Owner | Duration |
 |---|---|---|---|---|
-| **Prompt A** (Radar) | Sonnet 4.6 | Diario, por la mañana | Guillermo | 15-20 min |
-| **Prompt B** (Auditor) | Opus 4.6 | Semanal + cuando A lo pida | Guillermo/Daniel | 30-45 min |
-| **Prompt C** (Vetting) | Sonnet 4.6 | Cada nueva dependencia | Quien la instale | 5 min |
-| **Review KB + Auto-mejora** | — | Viernes (limpieza semanal) | Guillermo | 15 min |
-| **GitHub security tab** | — | Semanal | Daniel | 5 min |
-| **npm audit** | — | Automático en CI | CI/CD | Automático |
-| **Dependabot PRs** | — | Cuando lleguen | Daniel | Variable |
+| **Prompt A** (Radar) | Sonnet 4.6 | Daily, morning | Guillermo | 15-20 min |
+| **Prompt B** (Auditor) | Opus 4.6 | Weekly + when A triggers it | Guillermo/Daniel | 30-45 min |
+| **Prompt C** (Vetting) | Sonnet 4.6 | Every new dependency | Whoever installs it | 5 min |
+| **Review KB + Auto-improvement** | — | Friday (weekly cleanup) | Guillermo | 15 min |
+| **GitHub security tab** | — | Weekly | Daniel | 5 min |
+| **npm audit** | — | Automatic in CI | CI/CD | Automatic |
+| **Dependabot PRs** | — | When they arrive | Daniel | Variable |
 
 ---
 
-## Documentos
+## Documents
 
-| Documento | Descripción |
+| Document | Description |
 |---|---|
-| [PROMPT-A-RADAR.md](PROMPT-A-RADAR.md) | Escaneo diario de ciberseguridad (automatizado) |
-| [PROMPT-B-AUDITOR.md](PROMPT-B-AUDITOR.md) | Auditoría de código semanal (manual) |
-| [PROMPT-C-VETTING.md](PROMPT-C-VETTING.md) | Evaluación pre-instalación de dependencias (manual) |
-| [knowledge-base.md](knowledge-base.md) | Knowledge Base viva: amenazas, IOCs, decisiones |
-| [KNOWLEDGE-BASE-SETUP.md](KNOWLEDGE-BASE-SETUP.md) | Guía de estructura y mantenimiento de la KB |
-| [SELF-IMPROVEMENT.md](SELF-IMPROVEMENT.md) | Sugerencias de auto-mejora generadas por los prompts |
-| [IMPROVEMENTS.md](IMPROVEMENTS.md) | Roadmap de mejoras de seguridad |
-| [SCHEDULED-TASKS-SETUP.md](SCHEDULED-TASKS-SETUP.md) | Configuración de tareas programadas en Claude Code |
+| [PROMPT-A-RADAR.md](PROMPT-A-RADAR.md) | Daily cybersecurity scan (automated) |
+| [PROMPT-B-AUDITOR.md](PROMPT-B-AUDITOR.md) | Weekly code security audit (manual) |
+| [PROMPT-C-VETTING.md](PROMPT-C-VETTING.md) | Pre-install dependency evaluation (manual) |
+| [knowledge-base.md](knowledge-base.md) | Live Knowledge Base: threats, IOCs, decisions |
+| [KNOWLEDGE-BASE-SETUP.md](KNOWLEDGE-BASE-SETUP.md) | KB structure and maintenance guide |
+| [SELF-IMPROVEMENT.md](SELF-IMPROVEMENT.md) | Auto-improvement suggestions generated by prompts |
+| [IMPROVEMENTS.md](IMPROVEMENTS.md) | Security improvements roadmap |
+| [SCHEDULED-TASKS-SETUP.md](SCHEDULED-TASKS-SETUP.md) | Scheduled tasks configuration in Claude Code |

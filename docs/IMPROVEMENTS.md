@@ -1,61 +1,61 @@
-# Mejoras de Seguridad — Roadmap
+# Security Improvements — Roadmap
 
-Mejoras ordenadas por impacto/esfuerzo. Marcar cada una al completarla.
+Improvements ordered by impact/effort. Check off each one when completed.
 
 ---
 
-## Inmediato (esta semana)
+## Immediate (this week)
 
-- [x] **1. `.npmrc` en todos los proyectos**
+- [x] **1. `.npmrc` in all projects**
   ```ini
   ignore-scripts=true
   package-lock=true
   audit=true
   audit-level=high
   ```
-  Archivo base incluido en este repo. Copiar a cada proyecto.
+  Base file included in this repo. Copy to each project.
 
-- [ ] **2. GitHub: Activar features de seguridad gratuitos**
-  - **Dependabot alerts** → Se activa en Settings > Security
-  - **Secret scanning** → Detecta API keys commiteadas por accidente
-  - **Push protection** → Bloquea push si contiene un secreto detectado
-  - **Branch protection** en main → Require PR reviews
+- [ ] **2. GitHub: Enable free security features**
+  - **Dependabot alerts** → Enable in Settings > Security
+  - **Secret scanning** → Detects accidentally committed API keys
+  - **Push protection** → Blocks push if it contains a detected secret
+  - **Branch protection** on main → Require PR reviews
 
-- [x] **3. Pre-commit hook para secretos**
+- [x] **3. Pre-commit hook for secrets**
   ```bash
-  # Instalar gitleaks
+  # Install gitleaks
   brew install gitleaks  # macOS
   ```
-  Archivo `.pre-commit-config.yaml` incluido en este repo. Activar con `pre-commit install`.
+  `.pre-commit-config.yaml` file included in this repo. Activate with `pre-commit install`.
 
-- [ ] **4. npm audit en CI**
+- [ ] **4. npm audit in CI**
   ```yaml
-  # En GitHub Actions, añadir step:
+  # In GitHub Actions, add step:
   - name: Security audit
     run: npm audit --audit-level=high
   ```
 
 ---
 
-## Corto plazo (este mes)
+## Short term (this month)
 
-- [ ] **5. Socket.dev (gratis para open source)**
-  Monitorea tus dependencias y te alerta de paquetes comprometidos
-  en tiempo real. Tiene GitHub App que comenta en PRs.
+- [ ] **5. Socket.dev (free for open source)**
+  Monitors your dependencies and alerts you about compromised packages
+  in real time. Has a GitHub App that comments on PRs.
 
-- [ ] **6. Pinning de GitHub Actions por SHA**
+- [ ] **6. Pin GitHub Actions by SHA**
   ```yaml
-  # Inseguro (tag mutable, puede ser hijackeado)
+  # Insecure (mutable tag, can be hijacked)
   - uses: actions/checkout@v4
 
-  # Seguro (SHA inmutable)
+  # Secure (immutable SHA)
   - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
   ```
-  Herramienta para automatizar: StepSecurity `secure-repo`
+  Tool to automate: StepSecurity `secure-repo`
 
-- [ ] **7. Lockfile enforcement en CI**
+- [ ] **7. Lockfile enforcement in CI**
   ```yaml
-  # Usar npm ci en vez de npm install en CI
+  # Use npm ci instead of npm install in CI
   - name: Install dependencies
     run: npm ci --ignore-scripts
   ```
@@ -67,23 +67,23 @@ Mejoras ordenadas por impacto/esfuerzo. Marcar cada una al completarla.
 
 ---
 
-## Medio plazo (próximos 2-3 meses)
+## Medium term (next 2-3 months)
 
-- [ ] **9. Monitoreo de credenciales filtradas**
-  - Configurar alertas en HaveIBeenPwned para emails del equipo
+- [ ] **9. Leaked credentials monitoring**
+  - Set up HaveIBeenPwned alerts for team emails
   - GitHub secret scanning partner program
 
 - [ ] **10. Network-level protections**
-  - Bloquear dominios C2 conocidos a nivel de DNS (IOCs de la Knowledge Base)
-  - Considerar Cloudflare Gateway o similar para el equipo
+  - Block known C2 domains at DNS level (IOCs from the Knowledge Base)
+  - Consider Cloudflare Gateway or similar for the team
 
 - [ ] **11. MCP Server security**
-  Dado que conectáis varios MCP servers (Linear, Notion, Gmail, Calendar, Vercel, Gamma), revisar periódicamente:
-  - Qué permisos tiene cada uno
-  - Si alguno ha tenido incidentes de seguridad
-  - Si los tokens de conexión se rotan
+  Since you connect several MCP servers (Linear, Notion, Gmail, Calendar, Vercel, Gamma), periodically review:
+  - What permissions each one has
+  - Whether any have had security incidents
+  - Whether connection tokens are rotated
 
-- [ ] **12. Revisar configuración de Cursor / Claude Code**
-  - Verificar que los archivos .cursorrules y configs de AI tools en repos son legítimos
-  - No aceptar automáticamente rules files de repos clonados
-  - Revisar qué contexto se envía a los AI providers
+- [ ] **12. Review Cursor / Claude Code configuration**
+  - Verify that .cursorrules and AI tool configs in repos are legitimate
+  - Don't automatically accept rules files from cloned repos
+  - Review what context is sent to AI providers

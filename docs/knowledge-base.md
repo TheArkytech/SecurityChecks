@@ -1,70 +1,70 @@
 # Arkytech Security Knowledge Base — 2026
 
-## Índice
-- Registro de Amenazas
-- IOCs Acumulados
-- Dependencias Bajo Vigilancia
-- Decisiones de Seguridad
-- Historial de Auditorías (Prompt B)
+## Index
+- Threat Registry
+- Accumulated IOCs
+- Dependencies Under Surveillance
+- Security Decisions
+- Audit History (Prompt B)
 
 ---
 
-## Registro de Amenazas
+## Threat Registry
 
-<!-- Formato por entrada: -->
-<!-- Cada amenaza tiene un ID único para deduplicación -->
+<!-- Format per entry: -->
+<!-- Each threat has a unique ID for deduplication -->
 
 ### [THREAT-2026-0001] Axios npm supply chain compromise
-- **Fecha detectada:** 2026-04-01
-- **Estado:** 🔴 Activo
-- **Categoría:** Supply Chain > npm
-- **Afecta a Arkytech:** Potencialmente
-- **Resumen:** Cuenta del mantenedor principal comprometida, versiones
-  1.14.1 y 0.30.4 publicadas con RAT multiplataforma vía plain-crypto-js.
-  Atribuido a UNC1069 (actor norcoreano).
-- **Versiones afectadas:** axios@1.14.1, axios@0.30.4
-- **Versión segura:** axios@1.14.0 o anterior
+- **Date detected:** 2026-04-01
+- **Status:** 🔴 Active
+- **Category:** Supply Chain > npm
+- **Affects Arkytech:** Potentially
+- **Summary:** Main maintainer account compromised, versions 1.14.1 and
+  0.30.4 published with cross-platform RAT via plain-crypto-js. Attributed
+  to UNC1069 (North Korean actor).
+- **Affected versions:** axios@1.14.1, axios@0.30.4
+- **Safe version:** axios@1.14.0 or earlier
 - **IOCs:** sfrclak[.]com, 142.11.206.73
-- **Acción tomada:** Pendiente de verificar si usamos axios en algún proyecto
-- **Última actualización:** 2026-04-01
-- **Fuentes:** Pendiente de agregar enlaces
+- **Action taken:** Pending verification of whether we use axios in any project
+- **Last updated:** 2026-04-01
+- **Sources:** Pending
 
 ---
 
-## IOCs Acumulados
+## Accumulated IOCs
 
-| Fecha | Threat ID | Tipo | Indicador | Contexto |
-|-------|-----------|------|-----------|----------|
+| Date | Threat ID | Type | Indicator | Context |
+|------|-----------|------|-----------|---------|
 | 2026-04-01 | THREAT-2026-0001 | Domain | sfrclak[.]com | Axios C2 |
 | 2026-04-01 | THREAT-2026-0001 | IP | 142.11.206.73 | Axios C2 |
 | 2026-03-27 | THREAT-2026-0002 | Domain | models.litellm[.]cloud | TeamPCP C2 |
 
 ---
 
-## Dependencias Bajo Vigilancia
+## Dependencies Under Surveillance
 
-<!-- Paquetes que usamos o podríamos usar que han tenido problemas -->
+<!-- Packages we use or might use that have had issues -->
 
-| Paquete | Registry | Razón de vigilancia | Desde | Estado |
-|---------|----------|---------------------|-------|--------|
-| axios | npm | Comprometido 2026-03-31 | 2026-04-01 | Vigilar |
-| crypto-js | npm | Typosquat target | 2026-04-01 | Cuidado |
-
----
-
-## Decisiones de Seguridad
-
-<!-- Registro de qué decidimos y por qué -->
-
-| Fecha | Decisión | Contexto | Decidido por |
-|-------|----------|----------|-------------|
-| 2026-04-01 | Activar ignore-scripts en .npmrc | Post-axios | Guillermo |
-| 2026-04-01 | Implementar Arkytech Security System v2 | Protección proactiva | Guillermo |
+| Package | Registry | Reason | Since | Status |
+|---------|----------|--------|-------|--------|
+| axios | npm | Compromised 2026-03-31 | 2026-04-01 | Watch |
+| crypto-js | npm | Typosquat target | 2026-04-01 | Caution |
 
 ---
 
-## Historial de Auditorías (Prompt B)
+## Security Decisions
 
-| Fecha | Proyecto | Scorecard | Hallazgos críticos | Issues creados |
-|-------|----------|-----------|---------------------|----------------|
+<!-- Record of what we decided and why -->
+
+| Date | Decision | Context | Decided by |
+|------|----------|---------|------------|
+| 2026-04-01 | Enable ignore-scripts in .npmrc | Post-axios | Guillermo |
+| 2026-04-01 | Implement Arkytech Security System v2 | Proactive protection | Guillermo |
+
+---
+
+## Audit History (Prompt B)
+
+| Date | Project | Scorecard | Critical findings | Issues created |
+|------|---------|-----------|-------------------|----------------|
 | | | | | |

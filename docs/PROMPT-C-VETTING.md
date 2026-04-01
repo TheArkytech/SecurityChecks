@@ -1,69 +1,69 @@
-# Prompt C — Dependency Vetting (Pre-Instalación)
+# Prompt C — Dependency Vetting (Pre-Install)
 
-> **Modelo:** Claude Sonnet 4.6
-> **Frecuencia:** SIEMPRE antes de instalar algo nuevo
-> **Especialmente crítico cuando la dependencia la sugirió una AI**
+> **Model:** Claude Sonnet 4.6
+> **Frequency:** ALWAYS before installing something new
+> **Especially critical when the dependency was suggested by an AI**
 
 ---
 
-## Cómo usar este prompt
+## How to use this prompt
 
-1. **Antes** de ejecutar `npm install`, `pip install`, o similar
-2. Abrir Claude Code (modelo **Sonnet 4.6**)
-3. Pegar el prompt de abajo, rellenando los 4 campos entre corchetes
-4. Especialmente importante si la dependencia la sugirió Claude Code, Cursor, o cualquier AI
+1. **Before** running `npm install`, `pip install`, or similar
+2. Open Claude Code (model **Sonnet 4.6**)
+3. Paste the prompt below, filling in the 4 bracketed fields
+4. Especially important if the dependency was suggested by Claude Code, Cursor, or any AI
 
 ---
 
 ## Prompt
 
 ````markdown
-Voy a instalar una nueva dependencia.
+I'm about to install a new dependency.
 
-**Paquete:** [NOMBRE]
-**Registry:** [npm / PyPI / cargo / otro]
-**Proyecto destino:** [cuál]
-**¿Quién lo sugirió?:** [Yo / Claude Code / Cursor / Antigravity / Copilot]
+**Package:** [NAME]
+**Registry:** [npm / PyPI / cargo / other]
+**Target project:** [which]
+**Who suggested it?:** [Me / Claude Code / Cursor / Antigravity / Copilot]
 
 ---
 
-Consulta la Knowledge Base (`docs/knowledge-base.md` en el repo
-SecurityChecks) para ver si este paquete ya fue evaluado o si está
-bajo vigilancia.
+Check the Knowledge Base (`docs/knowledge-base.md` in the SecurityChecks
+repo) to see if this package has already been evaluated or is under
+surveillance.
 
-Luego busca en la web y evalúa:
+Then search the web and evaluate:
 
-### 1. ¿Existe realmente?
-- Verificar en el registry oficial (npmjs.com / pypi.org)
-- Si lo sugirió una AI: ¿podría ser una alucinación (slopsquat)?
-- ¿El nombre es exactamente correcto? ¿Hay typosquats?
+### 1. Does it actually exist?
+- Verify on the official registry (npmjs.com / pypi.org)
+- If an AI suggested it: could it be a hallucination (slopsquat)?
+- Is the name exactly correct? Are there typosquats?
 
-### 2. ¿Es confiable?
-- Mantenedor(es): ¿quién? ¿cuántos? ¿empresa o individuo?
-- Actividad: último release, último commit, issues abiertos
-- ¿Usa trusted publishing (OIDC) o tokens clásicos?
-- Downloads semanales y tendencia
+### 2. Is it trustworthy?
+- Maintainer(s): who? how many? company or individual?
+- Activity: last release, last commit, open issues
+- Does it use trusted publishing (OIDC) or classic tokens?
+- Weekly downloads and trend
 
-### 3. ¿Es seguro?
-- CVEs históricas
-- ¿Ha sido comprometido anteriormente?
+### 3. Is it safe?
+- Historical CVEs
+- Has it been compromised before?
 - GitHub Advisory Database
-- Socket.dev score si disponible
-- ¿Tiene postinstall scripts? ¿Qué hacen?
-- Número de dependencias transitivas
+- Socket.dev score if available
+- Does it have postinstall scripts? What do they do?
+- Number of transitive dependencies
 
-### 4. ¿Es necesario?
-- ¿Hay alternativa nativa o ya incluida en nuestro framework?
-- ¿Hay opción con menos dependencias?
-- ¿Podemos escribir la funcionalidad nosotros (~50 líneas)?
+### 4. Is it necessary?
+- Is there a native alternative or one already included in our framework?
+- Is there an option with fewer dependencies?
+- Can we write the functionality ourselves (~50 lines)?
 
-### 5. Veredicto
+### 5. Verdict
 
-- **INSTALAR** — Seguro, confiable, necesario
-- **INSTALAR CON PRECAUCIÓN** — [qué precauciones]
-- **BUSCAR ALTERNATIVA** — [por qué y cuáles]
-- **NO INSTALAR** — [razón concreta]
+- **INSTALL** — Safe, trustworthy, necessary
+- **INSTALL WITH CAUTION** — [what precautions]
+- **FIND ALTERNATIVE** — [why and which ones]
+- **DO NOT INSTALL** — [concrete reason]
 
-Si se aprueba → Comando con versión exacta pinneada.
-Registrar evaluación en la Knowledge Base.
+If approved → Command with exact pinned version.
+Record the evaluation in the Knowledge Base.
 ````
