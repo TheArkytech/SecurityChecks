@@ -1,37 +1,48 @@
 # SecurityChecks
 
 Sistema modular de ciberseguridad de Arkytech para equipos de desarrollo
-que trabajan con AI-assisted coding (vibe coding).
+que trabajan con AI-assisted coding (vibe coding). Diseñado para ser
+ejecutado por Claude.
+
+## Quick Start
+
+1. Copiar `.npmrc` a cada proyecto Node.js del equipo
+2. Instalar pre-commit hooks: `pre-commit install` (requiere [gitleaks](https://github.com/gitleaks/gitleaks))
+3. Crear la Knowledge Base en Google Docs siguiendo [KNOWLEDGE-BASE-SETUP.md](docs/KNOWLEDGE-BASE-SETUP.md)
 
 ## Estructura
 
 ```
 SecurityChecks/
-├── docs/
-│   ├── security-system.md    # Arquitectura completa + mejoras a implementar
-│   └── knowledge-base.md     # KB viva: amenazas, IOCs, decisiones
-├── prompts/
-│   ├── prompt-a-radar.md     # Escaneo diario de ciberseguridad (automatizado)
-│   ├── prompt-b-auditor.md   # Auditoría de código semanal (manual)
-│   └── prompt-c-vetting.md   # Evaluación pre-instalación de dependencias (manual)
-└── README.md
+├── README.md
+├── .npmrc                             # npm hardening
+├── .pre-commit-config.yaml            # gitleaks pre-commit hook
+└── docs/
+    ├── README.md                      # Arquitectura + cadencia
+    ├── PROMPT-A-RADAR.md              # Radar diario (Sonnet 4.6)
+    ├── PROMPT-B-AUDITOR.md            # Auditor semanal (Opus 4.6)
+    ├── PROMPT-C-VETTING.md            # Vetting on-demand (Sonnet 4.6)
+    ├── KNOWLEDGE-BASE-SETUP.md        # Setup de la KB en Google Docs
+    ├── IMPROVEMENTS.md                # Roadmap de mejoras
+    └── SCHEDULED-TASKS-SETUP.md       # Tareas programadas
 ```
 
-## Cómo usar
+## Componentes
 
-| Prompt | Modelo | Cuándo | Cómo |
-|--------|--------|--------|------|
-| **A - Radar** | Sonnet 4.6 | Cada mañana (automático) | Scheduled agent en Claude Code |
-| **B - Auditor** | Opus 4.6 | Semanal o cuando A lo pida | Abrir Claude Code en el proyecto a auditar y pegar el prompt |
-| **C - Vetting** | Sonnet 4.6 | Antes de instalar cualquier dependencia nueva | Pegar el prompt rellenando paquete, registry, proyecto y quién lo sugirió |
+| Componente | Archivo | Modelo | Frecuencia | Descripción |
+|---|---|---|---|---|
+| Radar | [PROMPT-A-RADAR.md](docs/PROMPT-A-RADAR.md) | Sonnet 4.6 | Diario (automatizado) | Escaneo de ciberseguridad global |
+| Auditor | [PROMPT-B-AUDITOR.md](docs/PROMPT-B-AUDITOR.md) | Opus 4.6 | Semanal / triggered | Auditoría de código fuente |
+| Vetting | [PROMPT-C-VETTING.md](docs/PROMPT-C-VETTING.md) | Sonnet 4.6 | On-demand | Evaluación pre-instalación de dependencias |
 
-## Knowledge Base
+## Documentación
 
-El archivo `docs/knowledge-base.md` es el cerebro del sistema. Los tres prompts
-lo leen antes de ejecutar y lo actualizan después. Contiene:
+- [Arquitectura del sistema](docs/README.md) — Diagrama, cadencia, navegación
+- [Knowledge Base Setup](docs/KNOWLEDGE-BASE-SETUP.md) — Cómo crear y usar la KB en Google Docs
+- [Mejoras de seguridad](docs/IMPROVEMENTS.md) — Roadmap con 12 mejoras priorizadas
+- [Tareas programadas](docs/SCHEDULED-TASKS-SETUP.md) — Configuración de scheduled agents
 
-- Registro de amenazas con IDs únicos (THREAT-2026-XXXX)
-- IOCs acumulados (dominios, IPs, hashes)
-- Dependencias bajo vigilancia
-- Decisiones de seguridad tomadas
-- Historial de auditorías
+## Hardening incluido
+
+- **`.npmrc`** — `ignore-scripts=true`, `audit=true`, `audit-level=high`
+- **`.pre-commit-config.yaml`** — Gitleaks v8.22.1 para detectar secretos antes del commit
