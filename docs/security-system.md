@@ -33,6 +33,8 @@
          qué pasa      código        de instalar
          afuera        real          algo nuevo
 
+        Sonnet 4.6     Opus 4.6      Sonnet 4.6
+
         Trigger:       Trigger:      Trigger:
         Cada mañana    A encuentra   npm/pip install
                        algo que      o AI sugiere

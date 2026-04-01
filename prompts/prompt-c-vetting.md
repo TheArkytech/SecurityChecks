@@ -1,5 +1,6 @@
 # Prompt C — Dependency Vetting (Pre-Instalación)
 
+> **Modelo:** Claude Sonnet 4.6 — Web research + structured evaluation. Fast for on-demand checks.
 > **Frecuencia:** SIEMPRE antes de instalar algo nuevo.
 > **Especialmente crítico cuando la dependencia la sugirió una AI.**
 

@@ -19,11 +19,11 @@ SecurityChecks/
 
 ## Cómo usar
 
-| Prompt | Cuándo | Cómo |
-|--------|--------|------|
-| **A - Radar** | Cada mañana (automático) | Scheduled agent en Claude Code |
-| **B - Auditor** | Semanal o cuando A lo pida | Abrir Claude Code en el proyecto a auditar y pegar el prompt |
-| **C - Vetting** | Antes de instalar cualquier dependencia nueva | Pegar el prompt rellenando paquete, registry, proyecto y quién lo sugirió |
+| Prompt | Modelo | Cuándo | Cómo |
+|--------|--------|--------|------|
+| **A - Radar** | Sonnet 4.6 | Cada mañana (automático) | Scheduled agent en Claude Code |
+| **B - Auditor** | Opus 4.6 | Semanal o cuando A lo pida | Abrir Claude Code en el proyecto a auditar y pegar el prompt |
+| **C - Vetting** | Sonnet 4.6 | Antes de instalar cualquier dependencia nueva | Pegar el prompt rellenando paquete, registry, proyecto y quién lo sugirió |
 
 ## Knowledge Base
 

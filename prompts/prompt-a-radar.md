@@ -1,5 +1,6 @@
 # Prompt A — Security Radar Diario
 
+> **Modelo:** Claude Sonnet 4.6 — Web research + summarization. Fast and cost-effective.
 > **Frecuencia:** Cada mañana (automatizado con Claude scheduled tasks).
 > **Duración:** ~15-20 min con deep research.
 > **Input:** Knowledge Base (docs/knowledge-base.md).

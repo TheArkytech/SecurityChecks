@@ -1,5 +1,6 @@
 # Prompt B — Codebase Auditor (Semanal / Triggered)
 
+> **Modelo:** Claude Opus 4.6 — Deep code analysis, cross-referencing vulnerabilities, nuanced security judgment.
 > **Frecuencia:** Semanal, o cuando el Prompt A lo recomiende.
 > **Necesita acceso al código del proyecto a auditar.**
 
