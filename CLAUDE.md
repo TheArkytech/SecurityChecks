@@ -10,6 +10,13 @@ hardening templates for development teams. It is NOT an application.
 - **Hardening templates**: `.npmrc`, `.pre-commit-config.yaml` — copy to projects
 - **Roadmap**: `docs/IMPROVEMENTS.md` — prioritized security improvements
 
+## Automated enforcement
+
+- **Dependency guard hook** (`.claude/hooks/dependency-guard.sh`): Blocks any
+  `npm install <pkg>`, `pnpm add`, `pip install <pkg>`, etc. before execution.
+  Claude must run the PROMPT-C-VETTING.md vetting process before installing
+  any new dependency. Configured in `.claude/settings.json`.
+
 ## Rules for working in this repo
 
 1. **Read `AGENTS.md` before any action.** It defines supply chain security rules.

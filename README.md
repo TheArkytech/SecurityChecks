@@ -19,6 +19,10 @@ SecurityChecks/
 ├── .gitignore                         # Prevents accidental secret commits
 ├── .npmrc                             # npm hardening
 ├── .pre-commit-config.yaml            # gitleaks pre-commit hook
+├── .claude/
+│   ├── settings.json                  # Hook configuration
+│   └── hooks/
+│       └── dependency-guard.sh        # Pre-install vetting gate
 └── docs/
     ├── README.md                      # Architecture + cadence
     ├── PROMPT-A-RADAR.md              # Daily radar (Sonnet 4.6)
@@ -54,3 +58,4 @@ SecurityChecks/
 - **`.gitignore`** — Blocks `.env`, `*.key`, `*.pem`, credentials from commits
 - **`.npmrc`** — `ignore-scripts=true`, `audit=true`, `audit-level=high`
 - **`.pre-commit-config.yaml`** — Gitleaks v8.22.1 to detect secrets before commit
+- **`.claude/hooks/dependency-guard.sh`** — Blocks package installs until PROMPT-C vetting is completed

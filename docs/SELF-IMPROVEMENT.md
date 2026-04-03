@@ -38,7 +38,23 @@
 - **Effort:** High / Medium / Low
 -->
 
-_No pending suggestions yet. They will be added with each prompt execution._
+### [2026-04-03] [CHECK] Add MCP server security audit to Prompt B
+- **Origin:** Prompt A
+- **Description:** The MCP ecosystem has 30+ CVEs in 60 days, with 82% of implementations vulnerable to path traversal. Prompt B's audit checklist (AGENTS.md rule #11) only says "review periodically." We should add a concrete MCP audit section to Prompt B that checks: server versions against CVE database, token scopes, whether servers use HTTPS, and input validation patterns.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-04-03] [PROMPT] Add Claude Code configuration audit to Prompt A
+- **Origin:** Prompt A
+- **Description:** The Claude Code source leak revealed configuration injection attacks (CVE-2026-21852) via malicious `.claude/` and `.claudecode/` files in repos. Prompt A should include a check for newly disclosed Claude Code / AI tool CVEs and advise on configuration file hygiene.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-04-03] [COVERAGE] Track GitHub Actions SHA pinning status
+- **Origin:** Prompt A
+- **Description:** TeamPCP's campaign exploited mutable GitHub Action tags to inject malicious code. We should track which of our projects have SHA-pinned Actions vs mutable tags, and flag any regressions. This could be a new section in the KB or a check in Prompt B.
+- **Impact:** High
+- **Effort:** Medium
 
 ---
 
