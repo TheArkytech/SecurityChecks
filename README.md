@@ -14,6 +14,9 @@ AI-assisted coding (vibe coding). Designed to be executed by Claude.
 ```
 SecurityChecks/
 ├── README.md
+├── AGENTS.md                          # AI agent security rules
+├── CLAUDE.md                          # Claude-specific repo instructions
+├── .gitignore                         # Prevents accidental secret commits
 ├── .npmrc                             # npm hardening
 ├── .pre-commit-config.yaml            # gitleaks pre-commit hook
 └── docs/
@@ -46,5 +49,8 @@ SecurityChecks/
 
 ## Hardening Included
 
+- **`AGENTS.md`** — Supply chain security rules for AI agents (12 rules)
+- **`CLAUDE.md`** — Repo-specific instructions for Claude
+- **`.gitignore`** — Blocks `.env`, `*.key`, `*.pem`, credentials from commits
 - **`.npmrc`** — `ignore-scripts=true`, `audit=true`, `audit-level=high`
 - **`.pre-commit-config.yaml`** — Gitleaks v8.22.1 to detect secrets before commit
