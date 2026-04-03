@@ -78,7 +78,7 @@ Improvements ordered by impact/effort. Check off each one when completed.
   - Consider Cloudflare Gateway or similar for the team
 
 - [ ] **11. MCP Server security**
-  Since you connect several MCP servers (Linear, Notion, Gmail, Calendar, Vercel, Gamma), periodically review:
+  For each connected MCP server, periodically review:
   - What permissions each one has
   - Whether any have had security incidents
   - Whether connection tokens are rotated
