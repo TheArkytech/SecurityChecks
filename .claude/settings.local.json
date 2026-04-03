@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Skill(schedule)"
+      "Skill(schedule)",
+      "Bash(bash .claude/hooks/dependency-guard.sh)",
+      "Bash(echo \"EXIT: $?\")",
+      "WebSearch"
     ]
   }
 }

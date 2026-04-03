@@ -44,7 +44,7 @@ The `knowledge-base.md` file has these sections:
 Each threat has a unique ID (`THREAT-2026-XXXX`) for deduplication.
 Fields per entry:
 - Date detected, status, category
-- Whether it affects Arkytech
+- Whether it affects us
 - Summary, affected versions, safe version
 - IOCs, action taken, sources
 

@@ -1,7 +1,7 @@
 # AGENTS.md — Security Rules for AI Agents
 
 This file defines mandatory rules for any AI agent (Claude, Cursor, Copilot,
-or similar) operating in Arkytech repositories.
+or similar) operating in your repositories.
 
 ---
 
