@@ -1,4 +1,4 @@
-# Arkytech Security System v2 — Documentation
+# Security System v2 — Documentation
 
 > Modular cybersecurity system for development teams working with
 > AI-assisted coding (vibe coding). Designed to be executed by Claude.

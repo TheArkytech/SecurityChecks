@@ -1,4 +1,4 @@
-# Arkytech Security Knowledge Base — 2026
+# Security Knowledge Base — 2026
 
 ## Index
 - Threat Registry
@@ -18,7 +18,7 @@
 - **Date detected:** 2026-04-01
 - **Status:** 🔴 Active
 - **Category:** Supply Chain > npm
-- **Affects Arkytech:** Potentially
+- **Affects us:** Potentially
 - **Summary:** Main maintainer account compromised, versions 1.14.1 and
   0.30.4 published with cross-platform RAT via plain-crypto-js. Attributed
   to UNC1069 (North Korean actor).
@@ -59,7 +59,7 @@
 | Date | Decision | Context | Decided by |
 |------|----------|---------|------------|
 | 2026-04-01 | Enable ignore-scripts in .npmrc | Post-axios | Guillermo |
-| 2026-04-01 | Implement Arkytech Security System v2 | Proactive protection | Guillermo |
+| 2026-04-01 | Implement Security System v2 | Proactive protection | Guillermo |
 
 ---
 

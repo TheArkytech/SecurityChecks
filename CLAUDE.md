@@ -1,7 +1,7 @@
 # SecurityChecks — Claude Instructions
 
 This is a meta-repository containing security prompts, documentation, and
-hardening templates for Arkytech's development team. It is NOT an application.
+hardening templates for development teams. It is NOT an application.
 
 ## What this repo contains
 

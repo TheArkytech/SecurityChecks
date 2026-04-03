@@ -23,7 +23,7 @@ Frequency is controlled from the web interface, not from the .md files.
 
 | Task | Prompt | Model | Schedule | Repo |
 |---|---|---|---|---|
-| Security Radar | [PROMPT-A-RADAR.md](PROMPT-A-RADAR.md) | Sonnet 4.6 | Daily 08:00 Europe/Paris | TheArkytech/SecurityChecks |
+| Security Radar | [PROMPT-A-RADAR.md](PROMPT-A-RADAR.md) | Sonnet 4.6 | Daily 08:00 Europe/Paris | your-org/SecurityChecks |
 
 ---
 
@@ -43,10 +43,10 @@ run scheduled tasks.
 ### Radar configuration (reference)
 
 ```
-Name: Arkytech Security Radar (Prompt A)
+Name: Security Radar (Prompt A)
 Cron: 0 6 * * * (6:00 UTC = 8:00 Europe/Paris in summer)
 Model: claude-sonnet-4-6
-Repo: https://github.com/TheArkytech/SecurityChecks
+Repo: https://github.com/your-org/SecurityChecks
 Tools: Bash, Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 ```
 
@@ -60,6 +60,6 @@ Tools: Bash, Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 
 > **Note on Prompt B:** Currently run manually because it requires
 > interaction (scoping questions). Could be automated with a prompt
-> that defines a default scope (e.g., audit ArkyHub every Monday).
+> that defines a default scope (e.g., audit the main app every Monday).
 
 > **Note on Prompt C:** It's on-demand by nature. Not scheduled.

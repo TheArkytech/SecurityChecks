@@ -1,6 +1,6 @@
 # SecurityChecks
 
-Modular cybersecurity system for Arkytech's development team working with
+Modular cybersecurity system for development teams working with
 AI-assisted coding (vibe coding). Designed to be executed by Claude.
 
 ## Quick Start
