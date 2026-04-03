@@ -74,7 +74,7 @@ or similar) operating in Arkytech repositories.
 ## MCP Servers & External Integrations
 
 11. **Review MCP server permissions periodically.**
-    - Each connected MCP server (Linear, Notion, Gmail, etc.) has access tokens.
+    - Each connected MCP server has access tokens.
     - Verify what scopes each token grants.
     - Rotate tokens if a server has a security incident.
 
