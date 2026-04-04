@@ -56,6 +56,18 @@
 - **Impact:** High
 - **Effort:** Medium
 
+### [2026-04-05] [CHECK] Add mcp.json and config file audit to Prompt B
+- **Origin:** Prompt A
+- **Description:** CVE-2026-21518 shows that malicious mcp.json files in repos can achieve RCE via VS Code. Combined with CVE-2026-21852 (Claude Code settings injection), we need Prompt B to explicitly check for malicious configuration files: mcp.json, .claude/, .claudecode/, .cursorrules, .cursor/ in any audited project. These files are a new attack surface that the current checklist doesn't cover.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-04-05] [COVERAGE] Add slopsquatting check to PROMPT-C vetting
+- **Origin:** Prompt A
+- **Description:** With ~20% of AI-recommended packages being hallucinated names, PROMPT-C's step 1 ("Does it actually exist?") should be strengthened. Add explicit checks: cross-reference the package name against known AI hallucination patterns, verify the package existed BEFORE the AI suggested it (check publish date), and flag packages with very low download counts that match common naming patterns.
+- **Impact:** High
+- **Effort:** Low
+
 ---
 
 ## Implemented suggestions
