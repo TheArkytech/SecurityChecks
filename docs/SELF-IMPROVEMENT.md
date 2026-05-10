@@ -62,6 +62,59 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-10] [CHECK] Add repo config file pre-inspection ritual to team onboarding and AGENTS.md
+- **Origin:** Prompt A
+- **Description:** TrustFall and Mini Shai-Hulud together prove that .mcp.json,
+  .claude/settings.json, .vscode/tasks.json, and .cursor/ files are now a primary
+  attack vector for anyone who clones a repo. Anthropic has explicitly declined to
+  patch TrustFall ("trust = consent"). The only defense is manual pre-inspection
+  before accepting any trust dialog. This should be a named checklist step in
+  AGENTS.md rule set and in Prompt B's audit checklist: "Before opening any
+  cloned repo in Claude Code or Cursor, run:
+  `grep -rn 'mcpServers\|SessionStart\|runOn' .mcp.json .claude/ .cursor/ .vscode/tasks.json 2>/dev/null`
+  and review any output." Consider adding this as a git clone alias or shell
+  function for the team.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-10] [COVERAGE] Add Linux kernel version tracking to security checklist
+- **Origin:** Prompt A
+- **Description:** CVE-2026-31431 (Copy Fail) revealed that the current host
+  OS (Linux 6.18.5) is below the patched kernel version (6.18.22). The Security
+  Radar has no mechanism to track kernel versions of our dev/CI infrastructure
+  and compare against CVE patch levels. Prompt B or a separate infrastructure
+  check should capture kernel versions and flag when they fall below known-safe
+  versions for active CVEs. Could be a simple `uname -r` in CI output compared
+  against a tracked minimum.
+- **Impact:** High
+- **Effort:** Medium
+
+### [2026-05-10] [PROMPT] Add OAuth third-party app compromise as a search area in Prompt A
+- **Origin:** Prompt A
+- **Description:** The Vercel breach originated from a compromised third-party
+  AI tool (Context.ai) that had been granted Google Workspace OAuth access by a
+  Vercel employee. This attack pattern (infostealer → OAuth token theft → MFA
+  bypass → lateral movement) is not currently in Prompt A's research areas.
+  Area 3 (Infrastructure) should explicitly include: "Attacks on SaaS platforms
+  via compromised OAuth integrations or third-party AI productivity tools."
+  Also worth tracking: which OAuth apps our team has authorized to access
+  GitHub, Google Workspace, and Vercel.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-10] [KB] Add "Attack Techniques" section to Knowledge Base
+- **Origin:** Prompt A
+- **Description:** Several findings today (TrustFall folder trust exploitation,
+  Mini Shai-Hulud worm propagation via AI agent config injection, Vercel OAuth
+  lateral movement via infostealer) represent reusable attack techniques rather
+  than single-incident threats. The current KB structure (Threat Registry + IOCs)
+  is good for tracking specific incidents but doesn't capture reusable TTPs.
+  Consider adding an "Attack Techniques / TTPs" section in the KB that maps
+  techniques to MITRE ATT&CK IDs and lists mitigations independently of
+  specific threat actors.
+- **Impact:** Medium
+- **Effort:** Medium
+
 ### [2026-04-05] [COVERAGE] Add slopsquatting check to PROMPT-C vetting
 - **Origin:** Prompt A
 - **Description:** With ~20% of AI-recommended packages being hallucinated names, PROMPT-C's step 1 ("Does it actually exist?") should be strengthened. Add explicit checks: cross-reference the package name against known AI hallucination patterns, verify the package existed BEFORE the AI suggested it (check publish date), and flag packages with very low download counts that match common naming patterns.
