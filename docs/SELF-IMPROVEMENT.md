@@ -68,6 +68,30 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-11] [CHECK] Add TrustFall CI workflow audit to Prompt B
+- **Origin:** Prompt A
+- **Description:** TrustFall (THREAT-2026-0012) shows that GitHub Actions workflows using the Anthropic claude-code action are exploitable via external contributor PRs with no user interaction. Prompt B should audit all CI/CD workflow files for: (1) use of claude-code action without fork PR gating, (2) presence of .mcp.json or .claude/settings.json in repo roots that could be malicious, (3) workflows that auto-trust external PRs. Specific check: grep for `anthropic/claude-code-action` and verify a maintainer approval gate (e.g., `if: contains(github.event.pull_request.labels.*.name, 'safe to run')`) exists.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-11] [PROMPT] Add 36-day gap detection to Prompt A cadence check
+- **Origin:** Prompt A
+- **Description:** Today's report covered a 36-day gap (last KB update 2026-04-05, today 2026-05-11). Several threats had significant developments (TeamPCP "Mini Shai-Hulud," TrustFall, Vercel breach, Linux kernel KEV) during the gap. Prompt A should detect when the last KB update was more than 7 days ago and explicitly flag the gap at the top of the report, noting which time windows may have been missed. This increases user awareness of coverage gaps and encourages more frequent scans.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-11] [COVERAGE] Monitor GitHub service account repos for TeamPCP-style exfil pattern
+- **Origin:** Prompt A
+- **Description:** TeamPCP's "Mini Shai-Hulud" exfiltrates stolen secrets to *public repos created on the victim's own account* (named "A Mini Shai-Hulud has Appeared") to evade egress-based detection. Prompt B and the KB should include a check: enumerate public repos created by any CI/CD service account or bot in the last 30 days and flag any unexpected ones. This is a one-call GitHub API check (`GET /user/repos?type=public&sort=created`) that can be added to Prompt B's CI/CD audit section.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-11] [KB] Add "Alert History" section tracking alert level trend over time
+- **Origin:** Prompt A
+- **Description:** The KB tracks individual threats well but has no time-series view of overall alert level. Adding a short "Alert History" table (date, level, dominant threat driver) would let Guillermo see whether the threat landscape is improving or worsening at a glance without reading every entry. Today's radar would log: 2026-05-11 | ORANGE | TrustFall + CVE-2026-31431 KEV deadline.
+- **Impact:** Medium
+- **Effort:** Low
+
 ---
 
 ## Implemented suggestions
