@@ -68,6 +68,46 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-13] [CHECK] Add TrustFall pre-flight check to all repo onboarding procedures
+- **Origin:** Prompt A
+- **Description:** TrustFall (THREAT-2026-0013) showed that .mcp.json and .claude/settings.json
+  in cloned repos can achieve one-click RCE via Claude Code's trust dialog. Anthropic declined
+  to patch. Prompt B (auditor) should add an explicit check for the presence of these files
+  in any project being audited, and flag any that contain `enableAllProjectMcpServers` or
+  remote MCP server URLs. Consider adding this as a git pre-commit hook check to AGENTS.md.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-13] [COVERAGE] Track SLSA provenance integrity separately from package integrity
+- **Origin:** Prompt A
+- **Description:** Mini Shai-Hulud (THREAT-2026-0012) achieved the first documented bypass of
+  valid SLSA Sigstore provenance by hijacking the legitimate build pipeline. The KB and Prompt
+  B currently treat SLSA provenance as a reliable integrity signal. We need a new section or
+  check that recognizes provenance as "build pipeline was trusted" not "package content is
+  safe" — and recommends runtime behavioral analysis (e.g., socket.dev, Socket CLI) in addition
+  to provenance checks, especially for CI/CD dependencies.
+- **Impact:** High
+- **Effort:** Medium
+
+### [2026-05-13] [PROMPT] Add Linux kernel version check to Radar's infrastructure area
+- **Origin:** Prompt A
+- **Description:** CVE-2026-31431 "Copy Fail" with a CISA KEV May 15 deadline was caught in
+  today's scan, but the Radar prompt's Infrastructure area doesn't explicitly mention Linux
+  kernel CVEs as a daily check. The prompt mentions "Zero-days in Node.js, Python, browsers,
+  operating systems" — this should be strengthened to explicitly name Linux kernel LPEs given
+  their high frequency and impact on CI/CD runners and dev machines.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-13] [KB] Add "Campaign timeline" field to Threat Actor entries
+- **Origin:** Prompt A
+- **Description:** THREAT-2026-0004 (TeamPCP) now spans 5 distinct phases over 2+ months.
+  The current KB format makes it hard to track campaign phases chronologically. Adding a
+  "Campaign timeline" table within threat actor entries (date, phase name, targets, outcome)
+  would make phase tracking clearer and avoid overloading the Summary field.
+- **Impact:** Medium
+- **Effort:** Low
+
 ---
 
 ## Implemented suggestions
