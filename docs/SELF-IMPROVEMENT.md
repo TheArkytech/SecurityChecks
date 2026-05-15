@@ -99,6 +99,30 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-15] [COVERAGE] Add infrastructure platform breach monitoring (Vercel, Netlify, Railway, Render)
+- **Origin:** Prompt A
+- **Description:** The Vercel April 2026 OAuth breach (THREAT-2026-0019) was missed in the April 5 and May 13 radar runs — it was disclosed April 19-20 and not caught until today. The Prompt A infrastructure area says "Vulnerabilities in Vercel, AWS, GitHub, Cloudflare" but this means security incidents/breaches at those platforms (not just CVEs) should be searched explicitly. Add a dedicated search for "Vercel breach", "Netlify security incident", "Railway incident", "Render breach" in each daily run to catch OAuth/supply chain pivots via SaaS platforms.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-15] [CHECK] Add Git hook inspection to Prompt B and onboarding checklist
+- **Origin:** Prompt A
+- **Description:** Three separate active threats (CVE-2026-26268, Lazarus Contagious Interview, Shai-Hulud) now use Git hooks as a primary attack vector. Prompt B's audit checklist has no mention of `.git/hooks/`, `.githooks/`, or `core.hooksPath`. Add an explicit check: (1) inspect `.git/hooks/` for unexpected executables; (2) verify `core.hooksPath` is not pointed to an external malicious path; (3) flag any repo-checked-in hook scripts that run network calls. Also recommend `git config --global core.hooksPath /dev/null` as a team-wide security baseline in AGENTS.md.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-15] [PROMPT] Monitor for open-sourcing of known attack frameworks
+- **Origin:** Prompt A
+- **Description:** TeamPCP open-sourcing Shai-Hulud (MIT license, 44 forks in hours) is a qualitative threat escalation — it democratizes sophisticated attack capabilities. The daily radar has no explicit search for "attack framework open-sourced" or "malware tool public release". Adding a search like "supply chain attack tool released GitHub 2026" or "malware framework open source" would help catch this category of escalation before copycat attacks materialize.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-15] [KB] Add "Patch/Fix Status" field to AI Dev tool vulnerability entries
+- **Origin:** Prompt A
+- **Description:** Today we have three AI tool vulnerabilities with different patch states: ClaudeBleed (partial fix, root cause open), CVE-2026-26268 Cursor (patched Feb 2026), CVE-2026-30615 Windsurf (patched). The current KB entry format shows status and action but doesn't make the patch state immediately scannable. A dedicated "Patch status: Fully patched / Partially patched / Unpatched" field in the entry header would help triage at a glance without reading the full summary.
+- **Impact:** Medium
+- **Effort:** Low
+
 ### [2026-05-13] [KB] Add "Campaign timeline" field to Threat Actor entries
 - **Origin:** Prompt A
 - **Description:** THREAT-2026-0004 (TeamPCP) now spans 5 distinct phases over 2+ months.
