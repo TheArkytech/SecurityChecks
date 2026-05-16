@@ -108,6 +108,48 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-16] [COVERAGE] Track Chrome extension security separately from IDE/tool security
+- **Origin:** Prompt A
+- **Description:** ClaudeBleed (THREAT-2026-0018) revealed that the Claude Chrome extension
+  is a distinct attack surface from Claude Code CLI. The Radar prompt groups "AI coding tools"
+  but doesn't explicitly include browser extensions in its search scope. Browser extensions for
+  AI tools (Claude, Cursor web, Copilot Chat) should be an explicit daily check area — they
+  have different permission models and attack vectors (cross-extension injection vs. MCP/config
+  file injection). Consider adding "AI tool browser extensions" as a sub-bullet in Area 2.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-16] [KB] Add "Vendor response" field to AI Dev threats
+- **Origin:** Prompt A
+- **Description:** TrustFall (Anthropic declined), ClaudeBleed (incomplete patch), CVE-2026-26268
+  (Cursor patched promptly), MCPoison (Check Point research, no CVE) show very different vendor
+  response patterns. The KB doesn't currently capture vendor response posture, which is critical
+  for deciding how urgently we need compensating controls. A "Vendor response" field (Patched /
+  Patched (incomplete) / Declined / Acknowledged/pending) would make prioritization easier.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-16] [PROMPT] Add "OAuth token hygiene" to Infrastructure search area
+- **Origin:** Prompt A
+- **Description:** The Vercel breach (THREAT-2026-0022) used OAuth tokens that bypassed MFA
+  entirely — a pattern also seen in the Trivy/Context.ai chain. The Radar's Infrastructure
+  area searches for platform vulnerabilities but doesn't explicitly search for OAuth supply
+  chain attacks or SSO bypass patterns. Adding "OAuth supply chain attacks" and "MFA bypass
+  via token reuse" as explicit search terms in Area 3 would catch these incidents earlier.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
+- **Origin:** Prompt A
+- **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous
+  mode in AI tools removes the last human approval layer and dramatically widens the attack
+  surface. Prompt B should add an explicit check: for each project, are any AI tools configured
+  with autonomous/privileged mode enabled? This includes Claude extension settings, Cursor
+  agent mode, and any MCP server configs with auto-approve flags. Should be a Prompt B
+  security hygiene question.
+- **Impact:** High
+- **Effort:** Low
+
 ---
 
 ## Implemented suggestions
