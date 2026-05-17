@@ -139,6 +139,54 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-17] [COVERAGE] Add retrospective Q1 2026 threat gap scan to KB initialization
+- **Origin:** Prompt A
+- **Description:** The Cline CLI "Clinejection" attack (February 17, 2026) established the
+  canonical AI-agent supply chain attack pattern (prompt injection → GitHub Actions → registry
+  publish) that TeamPCP later industrialized. This was not in our KB because it predates our
+  monitoring start (~April 1, 2026). A one-time retrospective scan of Q1 2026 (Jan–Mar) threats
+  should be performed to identify any other foundational incidents we missed. The Shai-Hulud
+  worm, Clinejection, and the Cline attack all form a clear evolutionary chain — missing the
+  first link means missing the pattern context. Consider adding a "Historical context" section
+  to the KB or running Prompt A in retrospective mode for Q1 2026.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-17] [COVERAGE] Track Linux kernel LPE clusters as campaign-level threats
+- **Origin:** Prompt A
+- **Description:** Three Linux kernel LPEs dropped in two weeks (Copy Fail, Dirty Frag,
+  Fragnesia). This is a known pattern: when a page-cache corruption primitive is published,
+  security researchers find sibling variants in related subsystems within days. The current
+  KB tracks each LPE as a separate THREAT ID with no cross-linkage. We should add a
+  "Related vulnerabilities" or "LPE cluster" field to kernel CVE entries so that when Copy Fail
+  was added, the KB would flag "watch for variants in related crypto/networking subsystems."
+  Prompt A's search terms should also explicitly include "Linux kernel LPE variant" and the
+  names of related kernel subsystems (XFRM, RxRPC, AF_ALG) when a kernel LPE drops.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-17] [PROMPT] Add "open-sourced malware / BreachForums contests" to Threat Actor area
+- **Origin:** Prompt A
+- **Description:** The Shai-Hulud open-source release + BreachForums contest is a new attack
+  democratization pattern that the Radar prompt's Threat Actor area doesn't explicitly search
+  for. The prompt asks about "campaigns" and "activities" but not about malware being
+  open-sourced or crowdsourced. A search for "malware open source GitHub" or "supply chain
+  contest BreachForums" would have surfaced this a day earlier. Recommend adding "open-sourced
+  malware / threat actor contest" as an explicit search sub-bullet in Area 4.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-17] [CHECK] Add "AI triage bot scope" to Prompt B workflow audit
+- **Origin:** Prompt A
+- **Description:** The Clinejection attack (THREAT-2026-0027) shows that AI triage bots reading
+  untrusted input (GitHub issue titles, PR descriptions) in workflows that share cache scope
+  with publish workflows are a concrete supply chain risk. Prompt B should add a check: do any
+  GitHub Actions workflows that read untrusted external input (issues, PRs, comments) share
+  cache scope or secrets with release/publish workflows? This is distinct from the existing
+  SHA-pinning check and TrustFall check, and applies to any repo using AI automation in CI/CD.
+- **Impact:** High
+- **Effort:** Low
+
 ### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
 - **Origin:** Prompt A
 - **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous

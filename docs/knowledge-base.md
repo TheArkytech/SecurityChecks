@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Escalating — Phase 5 fully documented; monitor for Phase 6
+- **Status:** 🔴 Escalating — Phase 6; worm source code public; copycat attacks expected imminently
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Potentially (GitHub Actions, npm, PyPI in our stack)
 - **Summary:** Month-long cascading campaign crossing 5 ecosystems: GitHub
@@ -84,11 +84,14 @@
   AST Plugin compromised May 9–10 using credentials stolen in March Trivy breach;
   (b) Mini Shai-Hulud worm May 11 — 172 packages, 403 malicious versions, first-ever
   SLSA provenance bypass, now CVE-2026-45321 (CVSS 9.6) (see THREAT-2026-0012).
-  NEW: Phase 5 malware includes geofenced destructive payload — 1-in-6 chance of
+  Phase 5 malware includes geofenced destructive payload — 1-in-6 chance of
   `rm -rf /` (not just `~/`) when infected system appears to be in Israel or Iran.
-  TeamPCP publicly defaced Checkmarx's repo, taunting with "Checkmarx fails to
-  rotate secrets again." Most sustained and technically sophisticated open-source
-  supply chain campaign on record.
+  **Phase 6 (May 12):** TeamPCP published full Shai-Hulud source code to GitHub
+  and launched $1,000 XMR BreachForums contest ("biggest supply chain attack").
+  Full TypeScript/Bun attack framework now publicly available — dramatically lowering
+  the barrier for copycat attacks. See THREAT-2026-0023 for Phase 6 details.
+  Most sustained and technically sophisticated open-source supply chain campaign
+  on record; now also the most democratized.
 - **Affected tools:** Trivy, Checkmarx AST (GH Actions), Checkmarx Jenkins AST plugin
   v2026.5.09, LiteLLM (PyPI), Telnyx (PyPI), 66+ npm packages, @bitwarden/cli,
   @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages
@@ -96,8 +99,8 @@
   GitHub repos created under victim accounts for credential exfiltration
 - **Action taken:** Audit GitHub Actions for SHA pinning; verify no use of compromised tools;
   rotate CI/CD credentials if any pipeline ran May 9–11; update Checkmarx Jenkins plugin
-- **Last updated:** 2026-05-16
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [GitGuardian](https://blog.gitguardian.com/trivys-march-supply-chain-attack-shows-where-secret-exposure-hurts-most/), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem)
+- **Last updated:** 2026-05-17
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [GitGuardian](https://blog.gitguardian.com/trivys-march-supply-chain-attack-shows-where-secret-exposure-hurts-most/), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [SecurityWeek Phase 6](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -200,7 +203,7 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6) assigned; geofenced payload confirmed
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6) assigned; worm source code now PUBLIC; copycat attacks imminent
 - **Category:** Supply Chain > npm/PyPI
 - **Affects us:** Potentially (ecosystem-level threat; verify @tanstack usage)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
@@ -223,7 +226,7 @@
 - **IOCs:** gh-token-monitor daemon (macOS LaunchAgent / Linux systemd); public GitHub repos
   created under victim accounts for credential exfiltration
 - **Action taken:** Run `npm audit` and verify @tanstack versions across all projects; check for gh-token-monitor process/service
-- **Last updated:** 2026-05-16
+- **Last updated:** 2026-05-17
 - **Sources:** [Wiz Blog](https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-worm-compromises.html), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [Aikido](https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised), [Socket.dev](https://socket.dev/blog/tanstack-npm-packages-compromised-mini-shai-hulud-supply-chain-attack)
 
 ### [THREAT-2026-0013] TrustFall — one-click RCE via MCP trust prompt in Claude Code, Cursor, Gemini CLI, Copilot
@@ -250,7 +253,7 @@
 
 ### [THREAT-2026-0014] CVE-2026-31431 "Copy Fail" — Linux kernel local privilege escalation (CISA KEV)
 - **Date detected:** 2026-05-13 (added to CISA KEV 2026-05-01)
-- **Status:** 🔴 Post-deadline — CISA deadline May 15 has PASSED; verify all systems patched
+- **Status:** 🔴 Post-deadline — CISA deadline May 15 PASSED; active exploitation confirmed; co-active with Dirty Frag + Fragnesia
 - **Category:** CVE > Infrastructure
 - **Affects us:** Yes (all Linux dev machines, CI/CD runners, servers)
 - **Summary:** Logic bug in the Linux kernel's `authencesn` cryptographic template (AF_ALG
@@ -265,8 +268,8 @@
   environment is running Linux 6.18.5 — BELOW safe threshold of 6.18.22.
 - **Affected versions:** Linux kernels 2017–present (unpatched)
 - **Safe version:** Kernel ≥ 6.18.22, ≥ 6.19.12, or ≥ 7.0
-- **Action taken:** CISA deadline passed — verify kernel version on all systems NOW; apply live-patch if reboot not possible
-- **Last updated:** 2026-05-16
+- **Action taken:** CISA deadline passed — verify kernel version on all systems NOW; apply live-patch if reboot not possible; note three Linux LPEs now co-active: also patch for Dirty Frag (THREAT-2026-0025) and Fragnesia (THREAT-2026-0026)
+- **Last updated:** 2026-05-17
 - **Sources:** [Microsoft Security Blog](https://www.microsoft.com/en-us/security/blog/2026/05/01/cve-2026-31431-copy-fail-vulnerability-enables-linux-root-privilege-escalation/), [Unit42](https://unit42.paloaltonetworks.com/cve-2026-31431-copy-fail/), [Ubuntu](https://ubuntu.com/blog/copy-fail-vulnerability-fixes-available), [Tenable](https://www.tenable.com/blog/copy-fail-cve-2026-31431-frequently-asked-questions-about-linux-kernel-privilege-escalation)
 
 ### [THREAT-2026-0015] CVE-2026-3854 — GitHub.com/GHES RCE via git push (CVSS 8.7)
@@ -362,7 +365,7 @@
 
 ### [THREAT-2026-0021] CVE-2026-20182 — Cisco Catalyst SD-WAN auth bypass (CVSS 10.0)
 - **Date detected:** 2026-05-16 (patched 2026-05-15; CISA KEV deadline 2026-05-17)
-- **Status:** 🔴 Active exploitation — Patch available; CISA deadline May 17
+- **Status:** 🔴 CISA deadline TODAY (May 17) — Patch available; apply NOW; attribution confirmed to UAT-8616
 - **Category:** CVE > Infrastructure > Network
 - **Affects us:** Low risk (only if using Cisco Catalyst SD-WAN)
 - **Summary:** CVSS 10.0 authentication bypass in Cisco Catalyst SD-WAN Controller and Manager.
@@ -374,8 +377,8 @@
 - **Affected versions:** Cisco Catalyst SD-WAN Controller and Manager (multiple versions)
 - **Safe version:** Apply Cisco Security Advisory cisco-sa-sdwan-rpa2-v69WY2SW
 - **IOCs:** N/A
-- **Action taken:** Apply patch if using Cisco SD-WAN; block UDP 12346 at perimeter as interim measure
-- **Last updated:** 2026-05-16
+- **Action taken:** CISA deadline TODAY — apply patch cisco-sa-sdwan-rpa2-v69WY2SW; block UDP 12346 at perimeter as interim measure; attribution to UAT-8616 (nation-state) confirmed
+- **Last updated:** 2026-05-17
 - **Sources:** [Help Net Security](https://www.helpnetsecurity.com/2026/05/15/cisco-sd-wan-zero-day-cve-2026-20182/), [Rapid7](https://www.rapid7.com/blog/post/ve-cve-2026-20182-critical-authentication-bypass-cisco-catalyst-sd-wan-controller-fixed/), [SecurityWeek](https://www.securityweek.com/cisco-patches-another-sd-wan-zero-day-the-sixth-exploited-in-2026/)
 
 ### [THREAT-2026-0022] Vercel April 2026 breach — OAuth supply chain, env var exposure
@@ -394,6 +397,105 @@
 - **Action taken:** Rotate ALL Vercel environment variables regardless of sensitivity; review GitHub token scopes; check cloud access logs Feb–April 2026
 - **Last updated:** 2026-05-16
 - **Sources:** [Vercel KB](https://vercel.com/kb/bulletin/vercel-april-2026-security-incident), [Trend Micro](https://www.trendmicro.com/en_us/research/26/d/vercel-breach-oauth-supply-chain.html), [The Hacker News](https://thehackernews.com/2026/04/vercel-breach-tied-to-context-ai-hack.html)
+
+### [THREAT-2026-0023] TeamPCP Shai-Hulud worm open-sourced; BreachForums contest active
+- **Date detected:** 2026-05-17 (open-sourced 2026-05-12; contest announced 2026-05-12)
+- **Status:** 🔴 Escalating — Phase 6; worm source code public; copycat attacks expected imminently
+- **Category:** Threat Actor > Supply Chain
+- **Affects us:** Yes (npm/PyPI ecosystem; we use GitHub Actions)
+- **Summary:** On May 12, TeamPCP published the full Shai-Hulud attack framework source code to
+  GitHub under compromised accounts — a modular TypeScript/Bun toolkit covering credential
+  harvesting, GitHub Actions cache-poisoning, OIDC token extraction from /proc/<pid>/mem, and
+  encrypted exfiltration via attacker-controlled public repos. Simultaneously, TeamPCP partnered
+  with BreachForums to launch a $1,000 XMR ("biggest supply chain attack") contest explicitly
+  encouraging other actors to use the code. This is Phase 6 of the TeamPCP campaign and the
+  most significant escalation to date: the attack surface expands from a single sophisticated
+  group to any threat actor with basic TypeScript skills. The three-step attack chain (pull_request_target
+  + cache poisoning + OIDC memory extraction) is now fully documented and weaponized.
+- **IOCs:** GitHub repos published under compromised accounts containing the Shai-Hulud framework
+- **Action taken:** Audit all GitHub Actions workflows for the three-step chain; run StepSecurity
+  harden-runner; consider blocking external fork PRs from triggering release workflows
+- **Last updated:** 2026-05-17
+- **Sources:** [SecurityWeek](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/), [The Register](https://www.theregister.com/security/2026/05/13/malware-crew-teampcp-open-sources-its-shai-hulud-worm-on-github/5239319), [OX Security](https://www.ox.security/blog/shai-hulud-open-source-malware-github/), [Socket.dev](https://socket.dev/blog/teampcp-supply-chain-attack-contest)
+
+### [THREAT-2026-0024] CVE-2026-44578 — Next.js WebSocket SSRF (CVSS 8.6)
+- **Date detected:** 2026-05-17 (published 2026-05-11)
+- **Status:** 🟠 Active — Patch available; public exploit scanner live; ~79K exposed hosts
+- **Category:** CVE > React/Next.js
+- **Affects us:** Potentially (if any project self-hosts Next.js)
+- **Summary:** Unauthenticated attacker sends a crafted HTTP request with Upgrade: websocket
+  headers and an absolute-form URL. Next.js's WebSocket upgrade handler proxies it to any host
+  reachable on port 80, bypassing the routing safety checks enforced on regular HTTP requests.
+  Enables access to AWS IMDSv1, GCP metadata, Azure IMDS, internal admin dashboards. Affects
+  all self-hosted Next.js 13.4.13+, 14.x, 15.x < 15.5.16, 16.0.0 < 16.2.5. Vercel-hosted
+  apps are NOT affected. ~79,000 hosts exposed on Shodan. Public exploit scanner (nextssrf)
+  already available on GitHub. Framed as particularly dangerous for vibe-coded apps with
+  default self-hosted configs (VibeAudits.com).
+- **Affected versions:** Next.js 13.4.13+, 14.x, 15.x < 15.5.16, 16.0.0 < 16.2.5 (self-hosted)
+- **Safe version:** Next.js ≥ 15.5.16 or ≥ 16.2.5
+- **Action taken:** Run `npm list next` across all projects; upgrade immediately
+- **Last updated:** 2026-05-17
+- **Sources:** [Hadrian](https://hadrian.io/blog/next-js-websocket-ssrf-unauthenticated-access-to-internal-resources-cve-2026-44578-2), [Tenable](https://www.tenable.com/cve/CVE-2026-44578), [GitLab Advisory](https://advisories.gitlab.com/npm/next/CVE-2026-44578/)
+
+### [THREAT-2026-0025] CVE-2026-43284 / CVE-2026-43500 — "Dirty Frag" Linux kernel LPE chain
+- **Date detected:** 2026-05-17 (disclosed 2026-05-08; active exploitation confirmed 2026-05-11)
+- **Status:** 🔴 Active exploitation — CVE-2026-43284 patched; CVE-2026-43500 patch pending
+- **Category:** CVE > Infrastructure > Linux Kernel
+- **Affects us:** Yes (all Linux dev machines, CI/CD runners — same scope as Copy Fail)
+- **Summary:** Two-vulnerability chain in the Linux kernel's IPsec ESP subsystem (esp4/esp6,
+  CVE-2026-43284, introduced Jan 2017) and RxRPC (CVE-2026-43500, introduced Jun 2023). Both
+  use a page-cache write primitive enabling race-free escalation from unprivileged user to root.
+  Exploits user/network namespaces (enabled by default) to acquire CAP_NET_ADMIN without host
+  privileges. Microsoft Defender confirmed limited in-the-wild exploitation as of May 11, 2026.
+  This is the SECOND Linux kernel LPE in two weeks after Copy Fail (CVE-2026-31431). Live-patches
+  available from KernelCare and TuxCare. CVE-2026-43500 patch not yet published in NVD.
+- **Affected versions:** Linux kernels containing esp4/esp6 (since 2017) and rxrpc (since 2023),
+  unpatched as of 2026-05-08. This includes Linux 6.18.5 running in this environment.
+- **Safe version:** Kernel with CVE-2026-43284 patch (released 2026-05-08); await CVE-2026-43500
+- **IOCs:** Privilege escalation via `su` observed by Microsoft Defender
+- **Action taken:** Apply kernel updates; interim: blacklist esp4, esp6, rxrpc modules
+- **Last updated:** 2026-05-17
+- **Sources:** [Microsoft Security Blog](https://www.microsoft.com/en-us/security/blog/2026/05/08/active-attack-dirty-frag-linux-vulnerability-expands-post-compromise-risk/), [Wiz Blog](https://www.wiz.io/blog/dirty-frag-linux-kernel-local-privilege-escalation-via-esp-and-rxrpc), [Help Net Security](https://www.helpnetsecurity.com/2026/05/08/dirty-frag-linux-vulnerability-cve-2026-43284-cve-2026-43500/), [TuxCare](https://tuxcare.com/blog/dirty-frag-cve-2026-43284-cve-2026-43500-kernelcare-live-patches-released/)
+
+### [THREAT-2026-0026] CVE-2026-46300 — "Fragnesia" Linux kernel LPE (spawned by Dirty Frag patch)
+- **Date detected:** 2026-05-17 (disclosed 2026-05-14)
+- **Status:** 🟠 Active — PoC public; no confirmed in-the-wild exploitation; patches available
+- **Category:** CVE > Infrastructure > Linux Kernel
+- **Affects us:** Yes (all Linux systems — same scope as Copy Fail and Dirty Frag)
+- **Summary:** The THIRD Linux kernel LPE in two weeks (discovered by William Bowling, V12
+  Security). Fragnesia is a variant in the XFRM ESP-in-TCP subsystem introduced by an
+  incomplete patch for Dirty Frag. Identical page-cache corruption primitive targets /usr/bin/su:
+  attacker overwrites the cached in-memory copy so the next invocation of `su` executes
+  attacker-controlled code as root. No race conditions required. Exploit uses user/network
+  namespaces (default-enabled). Public PoC available. Patches issued by AlmaLinux, Amazon Linux,
+  Debian, Red Hat, SUSE, Ubuntu. CVSS 7.8. Fragnesia may require a SEPARATE kernel update from
+  Dirty Frag patches (check distro advisories). Linux 6.18.5 in this environment is affected.
+- **Affected versions:** Linux kernels before 2026-05-13 patches (distro-specific)
+- **Safe version:** Apply distro CVE-2026-46300 advisory kernel update
+- **Action taken:** Apply latest kernel update addressing CVE-2026-46300; same module blacklist
+  (esp4, esp6, rxrpc) applies as interim measure
+- **Last updated:** 2026-05-17
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/new-fragnesia-linux-kernel-lpe-grants.html), [Help Net Security](https://www.helpnetsecurity.com/2026/05/14/fragnesia-cve-2026-46300-linux-lpe-vulnerability/), [Tenable](https://www.tenable.com/blog/fragnesia-cve-2026-46300-faq-about-new-linux-kernel-xfrm-esp-in-tcp-priv-esc), [BleepingComputer](https://www.bleepingcomputer.com/news/security/new-fragnesia-linux-flaw-lets-attackers-gain-root-privileges/)
+
+### [THREAT-2026-0027] Cline CLI 2.3.0 "Clinejection" — prompt injection → GitHub Actions → npm publish
+- **Date detected:** 2026-05-17 (attack occurred 2026-02-17; missed in initial KB setup)
+- **Status:** ⚪ Resolved — Historical; establishes canonical AI-agent supply chain attack pattern
+- **Category:** Supply Chain > npm > AI Dev Tool
+- **Affects us:** Indirectly (attack pattern now replicated by TeamPCP at scale)
+- **Summary:** On February 17, 2026, an attacker injected a malicious instruction into a GitHub
+  issue title. Cline's AI triage bot read it, interpreted it as an instruction, and used shared
+  GitHub Actions cache scope to exfiltrate NPM_RELEASE_TOKEN, VS Code Marketplace, and OpenVSX
+  credentials. Published cline@2.3.0 with a postinstall installing openclaw (persistent C2 daemon
+  with remote command capability). 4,000 developer machines compromised in 8 hours. This attack
+  established the "prompt injection via issue title → GitHub Actions cache poisoning → registry
+  publish" pattern that TeamPCP later industrialized in Mini Shai-Hulud. Clean version (2.4.0)
+  published same day. Logging as historical context because the pattern is now being replicated.
+- **Affected versions:** cline@2.3.0 only
+- **IOCs:** openclaw npm package (global install); ~/.openclaw/ credentials directory
+- **Action taken:** Confirmed historical; ensure AI bots in repos have read-only scopes and
+  cannot trigger release workflows; ensure PR and release workflows have separate cache scopes
+- **Last updated:** 2026-05-17
+- **Sources:** [Cremit](https://www.cremit.io/blog/ai-supply-chain-attack-clinejection), [Snyk](https://snyk.io/blog/cline-supply-chain-attack-prompt-injection-github-actions/), [The Hacker News](https://thehackernews.com/2026/02/cline-cli-230-supply-chain-attack.html), [GitHub Advisory](https://github.com/cline/cline/security/advisories/GHSA-9ppg-jx86-fqw7)
 
 ### [THREAT-2026-0016] Bitwarden CLI npm compromise — TeamPCP "Butlerian Jihad" phase
 - **Date detected:** 2026-05-13 (attack occurred 2026-04-22)
@@ -430,6 +532,11 @@
 | 2026-05-09 | THREAT-2026-0004 | Jenkins plugin | checkmarx-ast-scanner@2026.5.09 | TeamPCP Phase 5; stolen creds from March Trivy breach |
 | 2026-05-11 | THREAT-2026-0012 | Process/daemon | gh-token-monitor | Mini Shai-Hulud persistent daemon (macOS LaunchAgent / Linux systemd); also triggers rm -rf / in Israel/Iran geo |
 | 2026-05-11 | THREAT-2026-0012 | CVE | CVE-2026-45321 (CVSS 9.6) | Mini Shai-Hulud — GitHub Actions chain + SLSA provenance bypass |
+| 2026-05-12 | THREAT-2026-0023 | GitHub repos | Shai-Hulud source on GitHub (compromised accounts) | TeamPCP open-sourced full attack framework; BreachForums $1K contest active |
+| 2026-05-11 | THREAT-2026-0024 | CVE | CVE-2026-44578 (CVSS 8.6) | Next.js WebSocket SSRF; public exploit scanner live |
+| 2026-05-08 | THREAT-2026-0025 | CVE | CVE-2026-43284 / CVE-2026-43500 | Dirty Frag Linux kernel LPE; limited in-wild exploitation; module blacklist: esp4 esp6 rxrpc |
+| 2026-05-14 | THREAT-2026-0026 | CVE | CVE-2026-46300 (CVSS 7.8) | Fragnesia Linux kernel LPE; PoC public; XFRM ESP-in-TCP subsystem |
+| 2026-02-17 | THREAT-2026-0027 | npm package | cline@2.3.0 | Clinejection — prompt injection → GitHub Actions → OpenClaw C2 daemon |
 
 ---
 
@@ -453,6 +560,9 @@
 | checkmarx-ast-scanner | Jenkins Marketplace | TeamPCP Phase 5 compromise (2026-05-09) | 2026-05-16 | Upgrade to ≥ 2.0.13-848 |
 | cursor (IDE) | Desktop app | CVE-2026-26268 zero-click RCE via Git hooks | 2026-05-16 | Safe if ≥ 2.5 |
 | claude-chrome-extension | Chrome Web Store | ClaudeBleed — incomplete patch; privileged mode vulnerable | 2026-05-16 | Safe if ≥ 1.0.70 AND privileged mode disabled |
+| next | npm | CVE-2026-44578 SSRF via WebSocket upgrade handler | 2026-05-17 | Safe if ≥ 15.5.16 or ≥ 16.2.5 (self-hosted only) |
+| linux-kernel | System | Dirty Frag (CVE-2026-43284/-43500) + Fragnesia (CVE-2026-46300) LPE cluster | 2026-05-17 | Patch per distro advisory; interim: blacklist esp4 esp6 rxrpc |
+| cline | npm | Clinejection (Feb 2026) — prompt injection supply chain attack | 2026-05-17 | Safe if ≠ 2.3.0 (clean version 2.4.0+) |
 
 ---
 
