@@ -91,16 +91,26 @@
   Full TypeScript/Bun attack framework now publicly available — dramatically lowering
   the barrier for copycat attacks. See THREAT-2026-0023 for Phase 6 details.
   Most sustained and technically sophisticated open-source supply chain campaign
-  on record; now also the most democratized.
+  on record; now also the most democratized. **May 18 update:** Copycat attacks
+  using the open-sourced Shai-Hulud framework are NOW CONFIRMED ACTIVE in the wild
+  (Datadog Security Labs published static analysis of the open-sourced code; multiple
+  forks already weaponized). Newly surfaced detail: SAP npm packages were also
+  compromised in late April 2026 (between Phase 4 Bitwarden and Phase 5 Mini
+  Shai-Hulud — this is an additional phase not previously documented). TeamPCP is
+  now also claiming to be selling stolen Mistral AI source repositories on BreachForums.
+  Latest copycat variants add an evolved dead-man's switch: destructive payload now
+  triggers specifically when incident responders rotate stolen tokens, meaning
+  uncoordinated token rotation during incident response is itself a trigger.
 - **Affected tools:** Trivy, Checkmarx AST (GH Actions), Checkmarx Jenkins AST plugin
   v2026.5.09, LiteLLM (PyPI), Telnyx (PyPI), 66+ npm packages, @bitwarden/cli,
-  @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages
+  @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages,
+  SAP npm packages (late April 2026), elementary-data (PyPI/GHCR, April 24)
 - **IOCs:** models.litellm[.]cloud; gh-token-monitor daemon (THREAT-2026-0012); public
   GitHub repos created under victim accounts for credential exfiltration
 - **Action taken:** Audit GitHub Actions for SHA pinning; verify no use of compromised tools;
   rotate CI/CD credentials if any pipeline ran May 9–11; update Checkmarx Jenkins plugin
-- **Last updated:** 2026-05-17
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [GitGuardian](https://blog.gitguardian.com/trivys-march-supply-chain-attack-shows-where-secret-exposure-hurts-most/), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [SecurityWeek Phase 6](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/)
+- **Last updated:** 2026-05-18
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [GitGuardian](https://blog.gitguardian.com/trivys-march-supply-chain-attack-shows-where-secret-exposure-hurts-most/), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [SecurityWeek Phase 6](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/), [Trend Micro KICS](https://www.trendmicro.com/en_us/research/26/e/analyzing-teampcp-supply-chain-attacks.html), [HackRead Mistral](https://hackread.com/teampcp-mistral-ai-repositories-mini-shai-hulud-attack/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -365,7 +375,7 @@
 
 ### [THREAT-2026-0021] CVE-2026-20182 — Cisco Catalyst SD-WAN auth bypass (CVSS 10.0)
 - **Date detected:** 2026-05-16 (patched 2026-05-15; CISA KEV deadline 2026-05-17)
-- **Status:** 🔴 CISA deadline TODAY (May 17) — Patch available; apply NOW; attribution confirmed to UAT-8616
+- **Status:** 🔴 Post-deadline — CISA deadline (May 17) PASSED; patch immediately if not done; UAT-8616 (nation-state) confirmed
 - **Category:** CVE > Infrastructure > Network
 - **Affects us:** Low risk (only if using Cisco Catalyst SD-WAN)
 - **Summary:** CVSS 10.0 authentication bypass in Cisco Catalyst SD-WAN Controller and Manager.
@@ -377,8 +387,8 @@
 - **Affected versions:** Cisco Catalyst SD-WAN Controller and Manager (multiple versions)
 - **Safe version:** Apply Cisco Security Advisory cisco-sa-sdwan-rpa2-v69WY2SW
 - **IOCs:** N/A
-- **Action taken:** CISA deadline TODAY — apply patch cisco-sa-sdwan-rpa2-v69WY2SW; block UDP 12346 at perimeter as interim measure; attribution to UAT-8616 (nation-state) confirmed
-- **Last updated:** 2026-05-17
+- **Action taken:** CISA deadline PASSED (May 17) — apply patch cisco-sa-sdwan-rpa2-v69WY2SW immediately; block UDP 12346 at perimeter as interim measure; attribution to UAT-8616 (nation-state) confirmed; 6th Cisco SD-WAN zero-day exploited in 2026
+- **Last updated:** 2026-05-18
 - **Sources:** [Help Net Security](https://www.helpnetsecurity.com/2026/05/15/cisco-sd-wan-zero-day-cve-2026-20182/), [Rapid7](https://www.rapid7.com/blog/post/ve-cve-2026-20182-critical-authentication-bypass-cisco-catalyst-sd-wan-controller-fixed/), [SecurityWeek](https://www.securityweek.com/cisco-patches-another-sd-wan-zero-day-the-sixth-exploited-in-2026/)
 
 ### [THREAT-2026-0022] Vercel April 2026 breach — OAuth supply chain, env var exposure
@@ -400,7 +410,7 @@
 
 ### [THREAT-2026-0023] TeamPCP Shai-Hulud worm open-sourced; BreachForums contest active
 - **Date detected:** 2026-05-17 (open-sourced 2026-05-12; contest announced 2026-05-12)
-- **Status:** 🔴 Escalating — Phase 6; worm source code public; copycat attacks expected imminently
+- **Status:** 🔴 Active — Copycat attacks CONFIRMED in the wild; evolved dead-man's switch targeting incident responders
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (npm/PyPI ecosystem; we use GitHub Actions)
 - **Summary:** On May 12, TeamPCP published the full Shai-Hulud attack framework source code to
@@ -410,12 +420,18 @@
   with BreachForums to launch a $1,000 XMR ("biggest supply chain attack") contest explicitly
   encouraging other actors to use the code. This is Phase 6 of the TeamPCP campaign and the
   most significant escalation to date: the attack surface expands from a single sophisticated
-  group to any threat actor with basic TypeScript skills. The three-step attack chain (pull_request_target
-  + cache poisoning + OIDC memory extraction) is now fully documented and weaponized.
+  group to any threat actor with basic TypeScript skills. **May 18 update:** Copycat attacks
+  now CONFIRMED active (not just anticipated). Datadog Security Labs published static analysis
+  of the open-sourced codebase. Multiple forks have been weaponized. Evolved destructive
+  trigger: latest copycat variants fire the rm -rf payload when incident responders ROTATE
+  stolen credentials (not just revoke them) — uncoordinated token rotation during an active
+  incident can trigger the destructive payload. Coordinate all credential rotations
+  simultaneously.
 - **IOCs:** GitHub repos published under compromised accounts containing the Shai-Hulud framework
 - **Action taken:** Audit all GitHub Actions workflows for the three-step chain; run StepSecurity
-  harden-runner; consider blocking external fork PRs from triggering release workflows
-- **Last updated:** 2026-05-17
+  harden-runner; consider blocking external fork PRs from triggering release workflows;
+  if incident response is needed, rotate ALL credentials simultaneously — not sequentially
+- **Last updated:** 2026-05-18
 - **Sources:** [SecurityWeek](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/), [The Register](https://www.theregister.com/security/2026/05/13/malware-crew-teampcp-open-sources-its-shai-hulud-worm-on-github/5239319), [OX Security](https://www.ox.security/blog/shai-hulud-open-source-malware-github/), [Socket.dev](https://socket.dev/blog/teampcp-supply-chain-attack-contest)
 
 ### [THREAT-2026-0024] CVE-2026-44578 — Next.js WebSocket SSRF (CVSS 8.6)
@@ -497,6 +513,96 @@
 - **Last updated:** 2026-05-17
 - **Sources:** [Cremit](https://www.cremit.io/blog/ai-supply-chain-attack-clinejection), [Snyk](https://snyk.io/blog/cline-supply-chain-attack-prompt-injection-github-actions/), [The Hacker News](https://thehackernews.com/2026/02/cline-cli-230-supply-chain-attack.html), [GitHub Advisory](https://github.com/cline/cline/security/advisories/GHSA-9ppg-jx86-fqw7)
 
+### [THREAT-2026-0028] UNC1069 "Contagious Interview" — 1,700+ DPRK packages across npm, PyPI, Go, Rust, PHP
+- **Date detected:** 2026-05-18 (campaign active since Jan 2025; peaked April 2026)
+- **Status:** 🟠 Active — Ongoing campaign; wide ecosystem coverage; consistent monthly activity
+- **Category:** Supply Chain > npm/PyPI/Go/Rust/PHP > Threat Actor
+- **Affects us:** Potentially (npm/PyPI ecosystem; developer targeting via fake Zoom/Teams)
+- **Summary:** North Korea-linked UNC1069 (BlueNoroff / Sapphire Sleet / Stardust Chollima /
+  Contagious Interview) has published 1,700+ malicious packages across npm, PyPI, Go, Rust,
+  and PHP since January 2025, with activity peaking in April 2026 (116 events in Jan, 101 in
+  Feb, 121 in Mar 2026). Packages impersonate legitimate developer tooling and serve as
+  malware loaders that fetch platform-specific second-stage payloads — infostealer + RAT
+  (WAVESHAPER.V2). This is SEPARATE from and parallel to the Axios UNC1069 attack
+  (THREAT-2026-0001). Social engineering delivery: fake Zoom/Teams meeting invites via
+  typosquatted domains, Calendly calendar invites, and compromised Telegram/LinkedIn/Slack
+  accounts. SEAL blocked 164 UNC1069-linked domains impersonating Microsoft Teams and Zoom
+  (Feb 6–Apr 7, 2026). The combination of cross-ecosystem package poisoning + social
+  engineering lures targeting developers makes this one of the most persistent active threats
+  to developer machines.
+- **IOCs:** UNC1069-linked domains impersonating Teams/Zoom (feed via SEAL); typosquatted
+  developer tool package names; fake Calendly invites from unknown contacts
+- **Action taken:** Run npm audit and pip-audit with UNC1069 IOC lists; treat unsolicited
+  Zoom/Teams invites as phishing — verify via independent channel; check Socket.dev
+  or Snyk for flagged packages before installing
+- **Last updated:** 2026-05-18
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/04/n-korean-hackers-spread-1700-malicious.html), [Arctic Wolf](https://arcticwolf.com/resources/blog/bluenoroff-uses-clickfix-fileless-powershell-and-ai-generated-zoom-meetings-to-target-web3-sector/), [Google Cloud (UNC1069)](https://cloud.google.com/blog/topics/threat-intelligence/unc1069-targets-cryptocurrency-ai-social-engineering)
+
+### [THREAT-2026-0029] vm2 Node.js sandbox escape cluster — 12 CVEs including CVSS 10.0 (CVE-2026-43997, CVE-2026-44006)
+- **Date detected:** 2026-05-18 (advisories published 2026-05-01)
+- **Status:** 🔴 Active — CVSS 10.0; public PoC for 4+ CVEs circulating; patched in v3.11.2
+- **Category:** CVE > Node.js
+- **Affects us:** Potentially (if any project uses vm2 for sandboxing — especially AI agent pipelines)
+- **Summary:** On May 1, 2026, vm2 maintainers released v3.11.0 alongside 13 security advisories.
+  CVE-2026-43997 and CVE-2026-44006 (both CVSS 10.0) allow an attacker to obtain the host Object
+  from inside the vm2 sandbox and escape to execute arbitrary code on the host with the Node.js
+  process's privileges. CVE-2026-44006 uses the "BaseHandler.getPrototypeOf" proxy handler as
+  the escape primitive. All vm2 versions ≤ 3.10.5 are affected. Public PoC exploit code for
+  at least 4 of the 12 CVEs is already circulating on GitHub. Kodem Security notes this is
+  particularly dangerous for AI agent pipelines that use vm2 to sandbox LLM-generated code —
+  a compromised sandbox allows the AI-generated code to reach the host system.
+- **Affected versions:** vm2 ≤ 3.10.5
+- **Safe version:** vm2 ≥ 3.11.2
+- **IOCs:** N/A
+- **Action taken:** Run `npm ls vm2` across all projects; upgrade to vm2@3.11.2 immediately;
+  for transitive dependencies, identify the top-level package pulling vm2 in and escalate
+- **Last updated:** 2026-05-18
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/vm2-nodejs-library-vulnerabilities.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/critical-vm2-sandbox-bug-lets-attackers-execute-code-on-hosts/), [Semgrep](https://semgrep.dev/blog/2026/calling-back-to-vm2-and-escaping-sandbox/), [GitLab Advisory](https://advisories.gitlab.com/npm/vm2/CVE-2026-44006/)
+
+### [THREAT-2026-0030] CVE-2026-32202 — Windows Shell NTLM hash coercion (APT28, CISA KEV deadline passed)
+- **Date detected:** 2026-05-18 (exploited since Dec 2025; CISA KEV added Apr 28; deadline May 12)
+- **Status:** 🔴 Post-deadline — CISA deadline (May 12) PASSED; APT28 exploiting since Dec 2025
+- **Category:** CVE > Infrastructure > Windows
+- **Affects us:** Potentially (all Windows dev machines and CI runners)
+- **Summary:** Zero-click Windows Shell spoofing vulnerability exploited by APT28 (Fancy Bear /
+  Forest Blizzard / STRONTIUM) in campaigns targeting Ukraine and EU nations since December
+  2025 — nearly 5 months before public disclosure. Crafted .LNK shortcut files auto-trigger
+  NTLM authentication handshakes to attacker-controlled SMB servers when a folder is opened
+  in Windows Explorer. No user interaction beyond browsing the folder. Net-NTLMv2 hashes are
+  harvested and can be cracked offline or relayed to authenticate against domain controllers,
+  file servers, and internal applications (instant relay when SMB signing is not enforced).
+  Stems from an incomplete patch for CVE-2026-21510 (also APT28). CVSS 4.3 — misleadingly
+  low; the real risk is lateral movement via NTLM relay. CISA KEV deadline: May 12 (PASSED).
+- **Affected versions:** Windows (all versions before April 2026 Patch Tuesday)
+- **Safe version:** Apply April 2026 Patch Tuesday updates (CVE-2026-32202 patch)
+- **IOCs:** N/A (attribution to APT28 / Forest Blizzard)
+- **Action taken:** Apply April 2026 Windows patches; enforce SMB signing via Group Policy;
+  disable NTLMv1 and enforce NTLMv2 minimum; enable Windows Defender Credential Guard
+- **Last updated:** 2026-05-18
+- **Sources:** [Help Net Security](https://www.helpnetsecurity.com/2026/04/29/windows-cve-2026-32202-exploited/), [BleepingComputer](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-windows-flaw-exploited-in-zero-day-attacks/), [Ciphers Security](https://cipherssecurity.com/cve-2026-32202-windows-shell-apt28/), [Kiteworks](https://www.kiteworks.com/cybersecurity-risk-management/ntlm-credential-theft-cve-2026-32202/)
+
+### [THREAT-2026-0031] ShinySp1d3r RaaS — ShinyHunters × LAPSUS$ × Scattered Spider convergence + Canvas/Instructure breach
+- **Date detected:** 2026-05-18 (RaaS announced Nov 2025; Canvas breach May 7, 2026)
+- **Status:** 🟡 Monitoring — Not directly targeting dev teams; but ShinyHunters/LAPSUS$ overlap with TeamPCP ecosystem
+- **Category:** Threat Actor / Data Breach
+- **Affects us:** Low (unless using Instructure/Canvas integrations or working at a telco/cloud provider)
+- **Summary:** Two related developments forming an expanding extortion ecosystem: (1) Scattered
+  Spider, LAPSUS$, and ShinyHunters launched "ShinySp1d3r" — a new modular Ransomware-as-a-
+  Service platform with Windows encryptor (Linux/ESXi variants in development). Features:
+  hooks EtwEventWrite to evade Windows Event Viewer, terminates file-locking processes before
+  encrypting, insider recruitment model for corporate access. Targets: telcos, cloud providers,
+  software vendors, SaaS platforms >$500M revenue. (2) In parallel, ShinyHunters breached
+  Instructure (Canvas LMS) in May 2026, exfiltrating 3.65TB including ~275 million student
+  records across 9,000 organizations. Instructure paid ransom after May 7 second-wave attack
+  and May 12 deadline. LAPSUS$ is already a confirmed TeamPCP partner — the convergence of
+  LAPSUS$ + ShinyHunters + Scattered Spider expanding their RaaS capability raises the threat
+  level for cloud-hosted developer platforms generally.
+- **IOCs:** N/A
+- **Action taken:** If using Canvas/Instructure OAuth integrations, treat tokens as potentially
+  compromised and rotate. Monitor BreachForums for credential dumps from ShinySp1d3r targets.
+- **Last updated:** 2026-05-18
+- **Sources:** [BleepingComputer](https://www.bleepingcomputer.com/news/security/meet-shinysp1d3r-new-ransomware-as-a-service-created-by-shinyhunters/), [The Hacker News](https://thehackernews.com/2026/05/instructure-reaches-ransom-agreement.html), [ZeroFox](https://www.zerofox.com/intelligence/flash-report-powerful-new-raas-from-scattered-lapsus-hunters/), [CybersecurityNews](https://cybersecuritynews.com/scattered-lapsus-hunters-resurface-with-new-raas-platform/)
+
 ### [THREAT-2026-0016] Bitwarden CLI npm compromise — TeamPCP "Butlerian Jihad" phase
 - **Date detected:** 2026-05-13 (attack occurred 2026-04-22)
 - **Status:** 🟡 Contained (clean version 2026.4.1 published by Bitwarden same day)
@@ -537,6 +643,9 @@
 | 2026-05-08 | THREAT-2026-0025 | CVE | CVE-2026-43284 / CVE-2026-43500 | Dirty Frag Linux kernel LPE; limited in-wild exploitation; module blacklist: esp4 esp6 rxrpc |
 | 2026-05-14 | THREAT-2026-0026 | CVE | CVE-2026-46300 (CVSS 7.8) | Fragnesia Linux kernel LPE; PoC public; XFRM ESP-in-TCP subsystem |
 | 2026-02-17 | THREAT-2026-0027 | npm package | cline@2.3.0 | Clinejection — prompt injection → GitHub Actions → OpenClaw C2 daemon |
+| 2026-04-08 | THREAT-2026-0028 | Domain feed | UNC1069 Teams/Zoom typosquats | 164 domains blocked by SEAL Feb–Apr 2026; see SEAL threat feed |
+| 2026-05-01 | THREAT-2026-0029 | CVE | CVE-2026-43997 / CVE-2026-44006 (CVSS 10.0) | vm2 Node.js sandbox escape; public PoC circulating; patch to v3.11.2 |
+| 2026-04-28 | THREAT-2026-0030 | CVE | CVE-2026-32202 (Windows Shell NTLM coercion) | APT28 exploiting since Dec 2025; CISA KEV deadline May 12 PASSED |
 
 ---
 
@@ -563,6 +672,7 @@
 | next | npm | CVE-2026-44578 SSRF via WebSocket upgrade handler | 2026-05-17 | Safe if ≥ 15.5.16 or ≥ 16.2.5 (self-hosted only) |
 | linux-kernel | System | Dirty Frag (CVE-2026-43284/-43500) + Fragnesia (CVE-2026-46300) LPE cluster | 2026-05-17 | Patch per distro advisory; interim: blacklist esp4 esp6 rxrpc |
 | cline | npm | Clinejection (Feb 2026) — prompt injection supply chain attack | 2026-05-17 | Safe if ≠ 2.3.0 (clean version 2.4.0+) |
+| vm2 | npm | 12 CVEs (CVSS 10.0) — sandbox escape allows host RCE | 2026-05-18 | Upgrade to ≥ 3.11.2 immediately; public PoC available |
 
 ---
 
