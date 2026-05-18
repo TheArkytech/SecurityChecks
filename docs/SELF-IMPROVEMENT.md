@@ -187,6 +187,90 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-18] [COVERAGE] Add cross-ecosystem DPRK package tracking to daily Supply Chain scan
+- **Origin:** Prompt A
+- **Description:** The UNC1069/Contagious Interview campaign (THREAT-2026-0028) was running
+  since January 2025 and peaked in April 2026 with 1,700+ packages across npm, PyPI, Go, Rust,
+  and PHP — yet it was not in our KB until today (May 18). The Radar's Supply Chain area searches
+  for "compromised packages" but doesn't explicitly include DPRK/nation-state attribution as a
+  search filter, nor does it cross-reference against curated threat actor package feeds (SEAL,
+  Socket.dev, Snyk) daily. Adding "DPRK supply chain packages", "Contagious Interview", and
+  "UNC1069 packages" as explicit daily search terms in Area 1 would have caught this months ago.
+  Also recommend adding the SEAL threat feed and Socket.dev package intelligence as explicit
+  daily data sources in the Radar prompt.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-18] [COVERAGE] Add Windows/macOS kernel CVEs to Infrastructure daily scan
+- **Origin:** Prompt A
+- **Description:** CVE-2026-32202 (Windows Shell NTLM, APT28, CISA deadline May 12) was
+  detected today — 6 days after the CISA deadline. The Radar covers Linux kernel CVEs explicitly
+  (following the May 13 suggestion) but the infrastructure area doesn't equally prioritize
+  Windows zero-days. APT28 had been exploiting CVE-2026-32202 since December 2025. Adding
+  "Windows zero-day APT28", "Windows NTLM vulnerability", and "macOS kernel exploit" as
+  explicit sub-bullets in Area 3 would improve coverage of OS-level threats on all platforms
+  used by dev teams.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-18] [KB] Add "Detection age" field to Threat Registry entries
+- **Origin:** Prompt A
+- **Description:** THREAT-2026-0028 (UNC1069 1,700 packages) was active since January 2025
+  and peaked April 2026, but wasn't added to our KB until May 18. THREAT-2026-0030
+  (CVE-2026-32202) was exploited since December 2025 but our KB detected it on May 18,
+  6 days past CISA deadline. Adding a "Detection lag" field (date first exploited vs.
+  date added to KB) would help audit our detection coverage gaps and identify which threat
+  categories we're consistently slow to pick up. This would also help prioritize which
+  Radar search areas need strengthening.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-18] [PROMPT] Add "AI agent sandboxing" as an explicit vm2/sandbox search term
+- **Origin:** Prompt A
+- **Description:** The vm2 CVSS 10.0 cluster (THREAT-2026-0029) is especially dangerous for
+  AI agent pipelines using vm2 to sandbox LLM-generated code (as noted by Kodem Security).
+  The Radar's AI/Vibe Coding area (Area 2) searches for vulnerabilities in Claude Code, Cursor,
+  etc., but doesn't search for vulnerabilities in the runtime libraries those agents use to
+  sandbox AI-generated code. Adding "AI agent sandbox escape", "vm2 vulnerability", and
+  "LLM code execution sandbox" as explicit sub-bullets in Area 2 would catch this class of
+  threat earlier.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-18] [COVERAGE] Track threat-actor convergence (LAPSUS$ × TeamPCP × ShinyHunters ecosystem)
+- **Origin:** Prompt A
+- **Description:** THREAT-2026-0031 reveals that LAPSUS$ (confirmed TeamPCP partner) is now
+  also merging with ShinyHunters and Scattered Spider via the ShinySp1d3r RaaS platform. The
+  KB currently tracks each threat actor in individual threat entries without a "threat actor
+  relationship map." When LAPSUS$ escalates (ShinySp1d3r), it should automatically flag
+  relevance to TeamPCP (since they're confirmed partners). Consider adding a "Related actors"
+  field to Threat Actor entries, or a separate "Threat Actor Network" section in the KB that
+  maps known partnerships and overlaps. This would help prioritize new threats based on
+  existing actor relationships.
+- **Impact:** Medium
+- **Effort:** Medium
+
+### [2026-05-18] [CHECK] Add "AI agent vm2 sandbox" check to Prompt B
+- **Origin:** Prompt A
+- **Description:** Any project using vm2 for AI-generated code sandboxing is exposed to a
+  CVSS 10.0 cluster with public PoC code (THREAT-2026-0029). Prompt B's audit checklist
+  doesn't currently check for vm2 usage. Add an explicit check: does the project import or
+  depend on vm2? If yes, what version? This should be flagged as Critical if ≤ 3.10.5.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-18] [PROCESS] Add CISA KEV deadline tracker to KB
+- **Origin:** Prompt A
+- **Description:** CVE-2026-32202 (CISA deadline May 12) and CVE-2026-20182 (CISA deadline
+  May 17) both had their deadlines pass without an active "deadline today" alert in the KB.
+  THREAT-2026-0021 correctly flagged "deadline TODAY" on May 17, but CVE-2026-32202 was not
+  even in the KB until May 18. The KB should have a "CISA KEV Deadlines" section listing
+  upcoming remediation deadlines sorted by date, updated daily. When a deadline passes,
+  the status should automatically be updated to "Post-deadline." This would prevent missed
+  federal remediation windows from going unnoticed in the daily radar.
+- **Impact:** High
+- **Effort:** Medium
+
 ### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
 - **Origin:** Prompt A
 - **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous
