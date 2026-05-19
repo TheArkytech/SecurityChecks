@@ -187,6 +187,64 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-19] [COVERAGE] Track active extortion groups targeting developer infrastructure
+- **Origin:** Prompt A
+- **Description:** CoinbaseCartel (THREAT-2026-0028) is an extortion group that emerged Sept 2025,
+  assessed as ShinyHunters/Scattered Spider/LAPSUS$ offshoot. They breached Grafana using the
+  same pull_request_target attack vector as TeamPCP, then demanded a ransom. The Radar prompt
+  has a "Threat Actors" area that covers supply chain campaigns but doesn't explicitly track
+  data extortion crews who target developer infrastructure (source code, GitHub repos). These
+  groups are growing rapidly (ShinyHunters, CoinbaseCartel, Lapsus$) and are specifically
+  hunting GitHub tokens and CI/CD secrets. Consider adding "data extortion crews targeting
+  developers" as an explicit sub-bullet under Area 4 (Threat Actors & Campaigns).
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-19] [CHECK] Add GitHub Actions "Pwn Request" pattern check to Prompt B
+- **Origin:** Prompt A
+- **Description:** The Grafana breach (THREAT-2026-0028) and Mini Shai-Hulud (THREAT-2026-0012)
+  both exploited the pull_request_target + write permissions pattern ("Pwn Request"). Two
+  independent actor groups are actively scanning for and exploiting this pattern simultaneously
+  as of May 2026. Prompt B's audit checklist should add an explicit check: `grep -r
+  "pull_request_target" .github/workflows/` and flag any result that also holds write permissions
+  or access to secrets. This is a one-command audit that should be run on every project.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-19] [COVERAGE] Track worm-on-worm / ecosystem fragmentation dynamics
+- **Origin:** Prompt A
+- **Description:** PCPJack (THREAT-2026-0029) is a worm that removes TeamPCP artifacts and
+  replaces them. This "worm-on-worm" dynamic is new and the Radar prompt has no framework for
+  tracking it. When multiple threat actors compete over the same compromised infrastructure,
+  the blast radius expands unpredictably — victims may be infected by both actors and never
+  know. The KB should have a way to link "competing" or "ecosystem" actors, and the Radar
+  prompt should search for "worm cleans competitor" or "dual infection" patterns when a major
+  supply chain campaign is active.
+- **Impact:** Medium
+- **Effort:** Medium
+
+### [2026-05-19] [TOOLING] Add canary token seeding to team security hygiene
+- **Origin:** Prompt A
+- **Description:** Grafana's canary token network (planted fake credentials that alert on first
+  use) was the ONLY reason the breach was detected quickly. This is a free, low-effort detection
+  technique at canarytokens.org. AGENTS.md or the security hardening templates should recommend
+  seeding canary tokens in: .env.example files, internal documentation, README credential
+  templates, and CI/CD config samples. This is not a "pending suggestion" to log and forget —
+  it should be a concrete addition to our pre-commit-config or hardening templates.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-19] [CHECK] Add "Anthropic/OpenAI API key exposure check" to Prompt B
+- **Origin:** Prompt A
+- **Description:** PCPJack (THREAT-2026-0029) explicitly targets Anthropic API keys and OpenAI
+  API keys as high-value credentials. Since our team uses Claude Code (which requires Anthropic
+  API keys), these keys are present on developer machines and may appear in .env files, shell
+  history, IDE settings, or git history. Prompt B should add a check: scan repo git history for
+  accidental Anthropic/OpenAI API key commits (pattern: `sk-ant-`, `sk-proj-`), verify no API
+  keys are hardcoded in config files, and confirm .gitignore includes .env and similar files.
+- **Impact:** High
+- **Effort:** Low
+
 ### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
 - **Origin:** Prompt A
 - **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous
