@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Escalating — Phase 6; worm source code public; copycat attacks expected imminently
+- **Status:** 🔴 Escalating — Phase 6 + ecosystem fragmentation; PCPJack rival worm now active; copycat attacks ongoing
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Potentially (GitHub Actions, npm, PyPI in our stack)
 - **Summary:** Month-long cascading campaign crossing 5 ecosystems: GitHub
@@ -99,7 +99,7 @@
   GitHub repos created under victim accounts for credential exfiltration
 - **Action taken:** Audit GitHub Actions for SHA pinning; verify no use of compromised tools;
   rotate CI/CD credentials if any pipeline ran May 9–11; update Checkmarx Jenkins plugin
-- **Last updated:** 2026-05-17
+- **Last updated:** 2026-05-19
 - **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [GitGuardian](https://blog.gitguardian.com/trivys-march-supply-chain-attack-shows-where-secret-exposure-hurts-most/), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [SecurityWeek Phase 6](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
@@ -119,9 +119,14 @@
   Pinot MCP — potential full takeover of internet-exposed instances. Also: CVE-2026-20205
   (Splunk MCP Server < 1.0.3) exposes session and authorization tokens in cleartext logs.
   Adversa AI published "Top MCP Security Resources — May 2026" tracking digest.
+  **May 19 2026 update:** CVE-2026-26118 (Azure MCP Server SSRF, CVSS 8.8) not previously
+  logged. Distinct from CVE-2026-32211. Allows low-privileged attacker to exfiltrate Azure
+  managed identity tokens via SSRF to the Azure metadata service (169.254.169.254). Patched
+  in March 2026 Patch Tuesday. Total known MCP CVEs now exceeds 52.
 - **Action taken:** Review all connected MCP servers; rotate tokens; update VS Code; avoid
-  running public MCP servers without explicit sandboxing; upgrade Splunk MCP Server to ≥1.0.3
-- **Last updated:** 2026-05-16
+  running public MCP servers without explicit sandboxing; upgrade Splunk MCP Server to ≥1.0.3;
+  verify Azure MCP Server has March 2026 Patch Tuesday applied (CVE-2026-26118)
+- **Last updated:** 2026-05-19
 - **Sources:** [Dark Reading](https://www.darkreading.com/application-security/microsoft-anthropic-mcp-servers-risk-takeovers), [OX Security](https://www.ox.security/blog/the-mother-of-all-ai-supply-chains-critical-systemic-vulnerability-at-the-core-of-the-mcp/), [The Register](https://www.theregister.com/2026/04/16/anthropic_mcp_design_flaw/), [vulnerablemcp.info](https://vulnerablemcp.info/)
 
 ### [THREAT-2026-0006] CVE-2026-23864 — React/Next.js DoS via memory exhaustion
@@ -226,7 +231,11 @@
 - **IOCs:** gh-token-monitor daemon (macOS LaunchAgent / Linux systemd); public GitHub repos
   created under victim accounts for credential exfiltration
 - **Action taken:** Run `npm audit` and verify @tanstack versions across all projects; check for gh-token-monitor process/service
-- **Last updated:** 2026-05-17
+- **Last updated:** 2026-05-19
+- **Notes (May 19):** opensearch-project/opensearch-js (1.3M weekly npm downloads) confirmed
+  additionally compromised in May 11 wave. OpenAI two employee devices + code-signing certs
+  compromised as downstream victims (see THREAT-2026-0030). Total cumulative downloads across
+  affected packages: 518M+. Malicious versions removed from registries; cleanup confirmed.
 - **Sources:** [Wiz Blog](https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-worm-compromises.html), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [Aikido](https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised), [Socket.dev](https://socket.dev/blog/tanstack-npm-packages-compromised-mini-shai-hulud-supply-chain-attack)
 
 ### [THREAT-2026-0013] TrustFall — one-click RCE via MCP trust prompt in Claude Code, Cursor, Gemini CLI, Copilot
@@ -497,6 +506,65 @@
 - **Last updated:** 2026-05-17
 - **Sources:** [Cremit](https://www.cremit.io/blog/ai-supply-chain-attack-clinejection), [Snyk](https://snyk.io/blog/cline-supply-chain-attack-prompt-injection-github-actions/), [The Hacker News](https://thehackernews.com/2026/02/cline-cli-230-supply-chain-attack.html), [GitHub Advisory](https://github.com/cline/cline/security/advisories/GHSA-9ppg-jx86-fqw7)
 
+### [THREAT-2026-0028] Grafana GitHub codebase breach — CoinbaseCartel "Pwn Request"
+- **Date detected:** 2026-05-19 (incident 2026-05-16; disclosed 2026-05-16)
+- **Status:** 🟠 Contained — codebase stolen; no customer data; extortion refused; same attack vector as Mini Shai-Hulud
+- **Category:** Breach > Infrastructure > GitHub / Supply Chain
+- **Affects us:** Potentially (identical attack vector — pull_request_target misconfiguration in GitHub Actions)
+- **Summary:** On May 16, 2026, CoinbaseCartel (assessed as ShinyHunters/Scattered Spider/LAPSUS$ offshoot, active
+  since Sept 2025) exploited a "Pwn Request" misconfiguration in a freshly-enabled Grafana GitHub Action. The
+  workflow triggered on pull_request_target events, granting external fork PRs access to production secrets.
+  Attacker forked a Grafana repo, injected malicious curl-based env-var exfiltration code, stole a privileged
+  GitHub token, downloaded the full codebase from five private repos, then deleted the fork to cover tracks.
+  Detected by Grafana's canary token network. Extortion demand refused. No customer data or systems affected.
+  CRITICAL CONTEXT: pull_request_target misconfiguration is IDENTICAL to the GitHub Actions attack vector used
+  in Mini Shai-Hulud (CVE-2026-45321). Two independent actor groups are actively exploiting this pattern
+  simultaneously as of May 2026.
+- **IOCs:** CoinbaseCartel extortion communications; canary token trigger as detection method
+- **Action taken:** Audit all GitHub Actions for pull_request_target + secrets/write permissions; implement
+  canary tokens in all repos
+- **Last updated:** 2026-05-19
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/grafana-github-token-breach-led-to.html), [SecurityWeek](https://www.securityweek.com/grafana-confirms-breach-after-hackers-claim-they-stole-data/), [BleepingComputer](https://www.bleepingcomputer.com/news/security/grafana-says-stolen-github-token-let-hackers-steal-codebase/), [The Register](https://www.theregister.com/cyber-crime/2026/05/18/grafana-labs-admits-attackers-downloaded-its-codebase-from-github/5241686)
+
+### [THREAT-2026-0029] PCPJack — cloud worm targeting Anthropic/OpenAI API keys, competing with TeamPCP
+- **Date detected:** 2026-05-19 (discovered 2026-04-28 by SentinelLABS; published 2026-05-07)
+- **Status:** 🔴 Active — worm-spreading across exposed cloud infrastructure; explicitly targets Anthropic API keys
+- **Category:** Threat Actor > Cloud Worm / Credential Theft
+- **Affects us:** Yes (explicitly targets Anthropic API keys, Claude integrations, cloud credentials, Slack tokens)
+- **Summary:** Discovered April 28, 2026 by SentinelLABS via Kubernetes-focused VirusTotal hunting rule. PCPJack
+  is a credential-theft worm that actively removes TeamPCP artifacts from compromised systems before deploying its
+  own stealer — suggesting a rival actor or TeamPCP splinter operator with deep familiarity with the original 2025
+  TTPs. Exploits 5 CVEs to spread worm-like across exposed cloud infrastructure (Docker, Kubernetes, misconfigured
+  cloud management APIs). High-value credential targets: AWS/Azure/GCP keys, SSH keys, Slack tokens, Discord,
+  **Anthropic API keys**, OpenAI API keys, database credentials, DigitalOcean tokens, WordPress configs, and
+  cryptocurrency wallets. Exfiltrates to attacker-controlled Telegram channels encrypted with X25519 ECDH +
+  ChaCha20-Poly1305, split into 2800-byte chunks. Attribution: possibly former TeamPCP operator who left before
+  the 2026 high-visibility campaigns.
+- **IOCs:** See SentinelOne IOC list; PCPJack persistence artifacts; Telegram channels for C2
+- **Action taken:** Audit Anthropic API key usage logs; check cloud infra for unauthorized Docker containers;
+  verify no API keys exposed in repo history; see SentinelOne lab report for YARA/detection rules
+- **Last updated:** 2026-05-19
+- **Sources:** [SentinelOne Labs](https://www.sentinelone.com/labs/cloud-worm-evicts-teampcp-and-steals-credentials-at-scale/), [SecurityWeek](https://www.securityweek.com/pcpjack-worm-removes-teampcp-infections-steals-credentials/), [BleepingComputer](https://www.bleepingcomputer.com/news/security/new-pcpjack-worm-steals-credentials-cleans-teampcp-infections/), [Dark Reading](https://www.darkreading.com/cloud-security/teampcp-malware-pcpjack-steals-cloud-secrets), [The Hacker News](https://thehackernews.com/2026/05/pcpjack-credential-stealer-exploits-5-cves-to-spread-worm-like-across-cloud-systems.html)
+
+### [THREAT-2026-0030] OpenAI Mini Shai-Hulud exposure — code-signing certificates compromised
+- **Date detected:** 2026-05-19 (confirmed 2026-05-18; incident 2026-05-11)
+- **Status:** 🟡 Contained — certificate rotation underway; macOS users must update before 2026-06-12
+- **Category:** Breach > AI Infrastructure / Supply Chain Downstream
+- **Affects us:** Low (only if team uses OpenAI macOS desktop apps; establishes precedent for AI vendor cert risk)
+- **Summary:** OpenAI confirmed that two employee devices were compromised as downstream victims of the Mini
+  Shai-Hulud / TanStack supply chain attack (May 11). Attackers exfiltrated "limited credential material" from
+  internal repositories accessible to the affected employees, including code-signing certificates used to validate
+  OpenAI macOS desktop applications. OpenAI is rotating those certificates; macOS users must update all OpenAI
+  apps before June 12, 2026 (certificates revoked after that date). No customer data, production systems, or
+  intellectual property affected. Establishes a supply chain worm → employee dev machine → code-signing cert
+  compromise → forced user-side update precedent for the AI tooling ecosystem.
+- **Affected versions:** OpenAI macOS apps signed with pre-rotation certificates (all versions before June 12 update)
+- **IOCs:** N/A
+- **Action taken:** Update OpenAI macOS apps before June 12; monitor for similar cert revocations from other
+  AI vendors (Anthropic, Mistral) whose employees may have been affected
+- **Last updated:** 2026-05-19
+- **Sources:** [OpenAI](https://openai.com/index/our-response-to-the-tanstack-npm-supply-chain-attack/), [The Hacker News](https://thehackernews.com/2026/05/tanstack-supply-chain-attack-hits-two.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/openai-confirms-security-breach-in-tanstack-supply-chain-attack/)
+
 ### [THREAT-2026-0016] Bitwarden CLI npm compromise — TeamPCP "Butlerian Jihad" phase
 - **Date detected:** 2026-05-13 (attack occurred 2026-04-22)
 - **Status:** 🟡 Contained (clean version 2026.4.1 published by Bitwarden same day)
@@ -537,6 +605,9 @@
 | 2026-05-08 | THREAT-2026-0025 | CVE | CVE-2026-43284 / CVE-2026-43500 | Dirty Frag Linux kernel LPE; limited in-wild exploitation; module blacklist: esp4 esp6 rxrpc |
 | 2026-05-14 | THREAT-2026-0026 | CVE | CVE-2026-46300 (CVSS 7.8) | Fragnesia Linux kernel LPE; PoC public; XFRM ESP-in-TCP subsystem |
 | 2026-02-17 | THREAT-2026-0027 | npm package | cline@2.3.0 | Clinejection — prompt injection → GitHub Actions → OpenClaw C2 daemon |
+| 2026-05-16 | THREAT-2026-0028 | GitHub Actions misconfiguration | pull_request_target + write/secrets | Grafana "Pwn Request" breach (CoinbaseCartel); identical to Mini Shai-Hulud vector |
+| 2026-05-19 | THREAT-2026-0029 | Worm/stealer | PCPJack artifacts (see SentinelOne IOC list) | Cloud worm targeting Anthropic/OpenAI API keys; X25519+ChaCha20 Telegram exfil |
+| 2026-05-19 | THREAT-2026-0029 | API key target | Anthropic API keys / OpenAI API keys | PCPJack explicitly harvests these from dev environments |
 
 ---
 
@@ -563,6 +634,8 @@
 | next | npm | CVE-2026-44578 SSRF via WebSocket upgrade handler | 2026-05-17 | Safe if ≥ 15.5.16 or ≥ 16.2.5 (self-hosted only) |
 | linux-kernel | System | Dirty Frag (CVE-2026-43284/-43500) + Fragnesia (CVE-2026-46300) LPE cluster | 2026-05-17 | Patch per distro advisory; interim: blacklist esp4 esp6 rxrpc |
 | cline | npm | Clinejection (Feb 2026) — prompt injection supply chain attack | 2026-05-17 | Safe if ≠ 2.3.0 (clean version 2.4.0+) |
+| opensearch-js | npm | Mini Shai-Hulud May 11 wave — 1.3M weekly downloads | 2026-05-19 | Caution — verify version not from May 11 window |
+| GitHub Actions (pull_request_target) | GitHub | Pwn Request pattern — Grafana + TeamPCP both exploiting | 2026-05-19 | Audit all workflows immediately |
 
 ---
 
