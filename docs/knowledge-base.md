@@ -70,37 +70,40 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Escalating — Phase 6; worm source code public; copycat attacks expected imminently
+- **Status:** 🔴 Phase 7 active (May 19–20) — AntV/durabletask attacks ongoing; TeamPCP claiming GitHub internal breach TODAY
 - **Category:** Threat Actor > Supply Chain
-- **Affects us:** Potentially (GitHub Actions, npm, PyPI in our stack)
-- **Summary:** Month-long cascading campaign crossing 5 ecosystems: GitHub
-  Actions, Docker Hub, npm, OpenVSX, PyPI. Started from single incompletely-
-  rotated GitHub PAT. Compromised: Trivy (GitHub Actions + Docker Hub images
-  v0.69.5/v0.69.6/latest), Checkmarx AST (GitHub Actions), LiteLLM (PyPI),
-  Telnyx (PyPI), 66+ npm packages, 2 VS Code extensions. European Commission
-  breached via Trivy (340GB stolen). Now partnering with Vect ransomware group.
-  Assigned CVE-2026-33634 (CVSS 9.4). **Phase 4 (April 22):** Bitwarden CLI npm
-  compromise (see THREAT-2026-0016). **Phase 5 (May 9–11):** (a) Checkmarx Jenkins
-  AST Plugin compromised May 9–10 using credentials stolen in March Trivy breach;
-  (b) Mini Shai-Hulud worm May 11 — 172 packages, 403 malicious versions, first-ever
-  SLSA provenance bypass, now CVE-2026-45321 (CVSS 9.6) (see THREAT-2026-0012).
-  Phase 5 malware includes geofenced destructive payload — 1-in-6 chance of
-  `rm -rf /` (not just `~/`) when infected system appears to be in Israel or Iran.
-  **Phase 6 (May 12):** TeamPCP published full Shai-Hulud source code to GitHub
-  and launched $1,000 XMR BreachForums contest ("biggest supply chain attack").
-  Full TypeScript/Bun attack framework now publicly available — dramatically lowering
-  the barrier for copycat attacks. See THREAT-2026-0023 for Phase 6 details.
-  Most sustained and technically sophisticated open-source supply chain campaign
-  on record; now also the most democratized.
+- **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
+- **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
+  designated **UNC6780** by Google Threat Intelligence Group. Started from single
+  incompletely-rotated GitHub PAT. Compromised: Trivy (GitHub Actions + Docker Hub),
+  Checkmarx AST (GH Actions), LiteLLM (PyPI), Telnyx (PyPI), 66+ npm packages,
+  2 VS Code extensions. European Commission breached (340GB). CVE-2026-33634
+  (CVSS 9.4). **Phase 4 (Apr 22):** Bitwarden CLI (see THREAT-2026-0016). **Phase 5
+  (May 9–11):** Checkmarx Jenkins AST Plugin + Mini Shai-Hulud worm (172 packages,
+  CVE-2026-45321 CVSS 9.6, see THREAT-2026-0012). **Phase 5b (Apr 29):** SAP CAP/MBT
+  npm packages compromised — 4 packages with preinstall credential stealer + Claude Code
+  SessionStart hook abuse (first documented supply chain attack to target AI coding
+  agent configs as a persistence vector). **Phase 6 (May 12):** Full Shai-Hulud source
+  code open-sourced + BreachForums $1K contest (see THREAT-2026-0023). **Phase 7
+  (May 19):** (a) @antv/* ecosystem — 300+ malicious versions, 323 packages, ~16M
+  weekly downloads, 22-minute burst; (b) Microsoft durabletask PyPI SDK — versions
+  1.4.1/1.4.2/1.4.3, 400K monthly downloads; Claude Code SessionStart hook / VS Code
+  tasks weaponized as persistence (survives package removal); (c) TeamPCP now claiming
+  breach of ~4,000 GitHub internal repositories via malicious VS Code extension
+  (GitHub investigation ongoing as of May 20 — see THREAT-2026-0029).
 - **Affected tools:** Trivy, Checkmarx AST (GH Actions), Checkmarx Jenkins AST plugin
   v2026.5.09, LiteLLM (PyPI), Telnyx (PyPI), 66+ npm packages, @bitwarden/cli,
-  @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages
-- **IOCs:** models.litellm[.]cloud; gh-token-monitor daemon (THREAT-2026-0012); public
-  GitHub repos created under victim accounts for credential exfiltration
-- **Action taken:** Audit GitHub Actions for SHA pinning; verify no use of compromised tools;
-  rotate CI/CD credentials if any pipeline ran May 9–11; update Checkmarx Jenkins plugin
-- **Last updated:** 2026-05-17
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [GitGuardian](https://blog.gitguardian.com/trivys-march-supply-chain-attack-shows-where-secret-exposure-hurts-most/), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [SecurityWeek Phase 6](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/)
+  @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages,
+  SAP CAP/MBT npm packages (April 29), @antv/* (May 19), durabletask PyPI 1.4.1–1.4.3
+- **IOCs:** models.litellm[.]cloud; gh-token-monitor daemon (macOS LaunchAgent / Linux
+  systemd); public GitHub repos under victim accounts for credential exfiltration;
+  unexpected entries in ~/.claude/settings.json hooks section; Claude Code SessionStart
+  hook pointing to external script
+- **Action taken:** Audit GitHub Actions for SHA pinning; verify no use of compromised
+  tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
+  HOOKS on all developer machines; verify @antv/* and durabletask versions
+- **Last updated:** 2026-05-20
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [Incident Timeline](https://ramimac.me/teampcp/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -203,9 +206,9 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6) assigned; worm source code now PUBLIC; copycat attacks imminent
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised
 - **Category:** Supply Chain > npm/PyPI
-- **Affects us:** Potentially (ecosystem-level threat; verify @tanstack usage)
+- **Affects us:** Yes (ecosystem-level threat; Claude Code hooks weaponized)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
   Actions attack (pull_request_target + cache poisoning + OIDC token memory extraction from
   `/proc/<pid>/mem`) to publish 403 malicious versions across 172 npm and PyPI packages —
@@ -213,20 +216,23 @@
   packages, and guardrails-ai. Historic milestone: first documented supply chain worm to carry
   VALID SLSA Sigstore provenance, defeating this integrity control. Malware steals GitHub/npm/
   SSH/cloud credentials and installs a persistent `gh-token-monitor` daemon that runs
-  `rm -rf ~/` if the stolen token is later revoked. True worm: after stealing credentials,
-  enumerates and infects all other packages the victim maintainer controls. **May 2026 update:**
-  CVE-2026-45321 formally assigned (CVSS 9.6). Geofenced destructive payload confirmed: 1-in-6
-  probability of running `rm -rf /` (full filesystem) when infected system appears to be in
-  Israel or Iran — TeamPCP's first use of geofenced destructive logic. NHS England Digital
-  issued advisory CC-4781. @squawk/* (87 packages) confirmed affected in addition to previously
-  known namespaces.
-- **Affected versions:** @tanstack/* versions published 19:20–19:26 UTC on May 11, 2026;
+  `rm -rf ~/` if the stolen token is later revoked. True worm: enumerates and infects all other
+  packages the victim maintainer controls. CVE-2026-45321 (CVSS 9.6). Geofenced destructive
+  payload: 1-in-6 probability of `rm -rf /` for Israel/Iran systems. NHS England CC-4781.
+  @squawk/* (87 packages) confirmed affected. **May 13–14:** OpenAI confirmed two employee
+  devices compromised via @tanstack packages; code-signing certificates for ChatGPT Desktop,
+  Codex App, Codex CLI, and Atlas stolen. macOS users of these apps MUST update before
+  **June 12, 2026** (certificate revocation deadline). No user data affected. **May 19 update:**
+  Later Phase 7 malware now modifies Claude Code's SessionStart hook and VS Code tasks as a
+  persistence mechanism — survives package removal; see THREAT-2026-0028.
+- **Affected versions:** @tanstack/* published 19:20–19:26 UTC May 11, 2026;
   @mistralai/mistralai, guardrails-ai, UiPath packages, @squawk/* in same window
-- **Safe version:** Any @tanstack/* version NOT published in that 6-minute window
+- **Safe version:** Any @tanstack/* version NOT from that 6-minute window
 - **IOCs:** gh-token-monitor daemon (macOS LaunchAgent / Linux systemd); public GitHub repos
-  created under victim accounts for credential exfiltration
-- **Action taken:** Run `npm audit` and verify @tanstack versions across all projects; check for gh-token-monitor process/service
-- **Last updated:** 2026-05-17
+  under victim accounts for exfiltration; unexpected Claude Code hooks in ~/.claude/settings.json
+- **Action taken:** Run `npm audit` and verify @tanstack versions; check for gh-token-monitor
+  process/service; verify Claude Code hooks; macOS OpenAI apps must update before June 12
+- **Last updated:** 2026-05-20
 - **Sources:** [Wiz Blog](https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-worm-compromises.html), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [Aikido](https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised), [Socket.dev](https://socket.dev/blog/tanstack-npm-packages-compromised-mini-shai-hulud-supply-chain-attack)
 
 ### [THREAT-2026-0013] TrustFall — one-click RCE via MCP trust prompt in Claude Code, Cursor, Gemini CLI, Copilot
@@ -418,24 +424,26 @@
 - **Last updated:** 2026-05-17
 - **Sources:** [SecurityWeek](https://www.securityweek.com/teampcp-ups-the-game-releases-shai-hulud-worms-source-code/), [The Register](https://www.theregister.com/security/2026/05/13/malware-crew-teampcp-open-sources-its-shai-hulud-worm-on-github/5239319), [OX Security](https://www.ox.security/blog/shai-hulud-open-source-malware-github/), [Socket.dev](https://socket.dev/blog/teampcp-supply-chain-attack-contest)
 
-### [THREAT-2026-0024] CVE-2026-44578 — Next.js WebSocket SSRF (CVSS 8.6)
-- **Date detected:** 2026-05-17 (published 2026-05-11)
-- **Status:** 🟠 Active — Patch available; public exploit scanner live; ~79K exposed hosts
+### [THREAT-2026-0024] Next.js May 2026 security release — 13 CVEs including SSRF + auth bypass
+- **Date detected:** 2026-05-17 (SSRF published 2026-05-11; full 13-CVE release 2026-05-15)
+- **Status:** 🟠 Active — Safe versions updated to 15.5.18 / 16.2.6; previous 15.5.16/16.2.5 insufficient
 - **Category:** CVE > React/Next.js
-- **Affects us:** Potentially (if any project self-hosts Next.js)
-- **Summary:** Unauthenticated attacker sends a crafted HTTP request with Upgrade: websocket
-  headers and an absolute-form URL. Next.js's WebSocket upgrade handler proxies it to any host
-  reachable on port 80, bypassing the routing safety checks enforced on regular HTTP requests.
-  Enables access to AWS IMDSv1, GCP metadata, Azure IMDS, internal admin dashboards. Affects
-  all self-hosted Next.js 13.4.13+, 14.x, 15.x < 15.5.16, 16.0.0 < 16.2.5. Vercel-hosted
-  apps are NOT affected. ~79,000 hosts exposed on Shodan. Public exploit scanner (nextssrf)
-  already available on GitHub. Framed as particularly dangerous for vibe-coded apps with
-  default self-hosted configs (VibeAudits.com).
-- **Affected versions:** Next.js 13.4.13+, 14.x, 15.x < 15.5.16, 16.0.0 < 16.2.5 (self-hosted)
-- **Safe version:** Next.js ≥ 15.5.16 or ≥ 16.2.5
-- **Action taken:** Run `npm list next` across all projects; upgrade immediately
-- **Last updated:** 2026-05-17
-- **Sources:** [Hadrian](https://hadrian.io/blog/next-js-websocket-ssrf-unauthenticated-access-to-internal-resources-cve-2026-44578-2), [Tenable](https://www.tenable.com/cve/CVE-2026-44578), [GitLab Advisory](https://advisories.gitlab.com/npm/next/CVE-2026-44578/)
+- **Affects us:** Potentially (if any project self-hosts Next.js with middleware for auth)
+- **Summary:** The original CVE-2026-44578 (CVSS 8.6, WebSocket SSRF, ~79K exposed hosts,
+  public exploit scanner live) has been superseded by the May 2026 security release shipping
+  13 CVEs. Key additions beyond the SSRF: **4 middleware / auth bypass vulnerabilities**
+  (including CVE-2026-45109) where crafted `.rsc` and segment-prefetch URLs bypass
+  middleware.ts authorization — making any app using middleware for RBAC or auth fully
+  compromised on unpatched versions. Also: DoS via React Server Components (CVE-2026-23870),
+  XSS via CSP nonces, cache poisoning. Vercel-hosted apps NOT affected by SSRF; self-hosted
+  apps affected by all 13 CVEs. The 4 auth bypass CVEs are the most dangerous for
+  applications using Next.js middleware as an access control gate.
+- **Affected versions:** Next.js 13.4.13+, 14.x, 15.x < 15.5.18, 16.0.0 < 16.2.6 (self-hosted)
+- **Safe version:** Next.js ≥ 15.5.18 or ≥ 16.2.6 (upgraded from previous 15.5.16 / 16.2.5)
+- **Action taken:** Run `npm list next` across all projects; upgrade to 15.5.18 or 16.2.6;
+  WAF rules are NOT sufficient — full upgrade required
+- **Last updated:** 2026-05-20
+- **Sources:** [Vercel changelog](https://vercel.com/changelog/next-js-may-2026-security-release), [Netlify](https://www.netlify.com/changelog/2026-05-08-react-nextjs-security-vulnerabilities/), [Hadrian](https://hadrian.io/blog/next-js-websocket-ssrf-unauthenticated-access-to-internal-resources-cve-2026-44578-2), [SentinelOne CVE-2026-45109](https://www.sentinelone.com/vulnerability-database/cve-2026-45109/), [DevOps Daily](https://devops-daily.com/posts/nextjs-16-2-6-15-5-18-security-release)
 
 ### [THREAT-2026-0025] CVE-2026-43284 / CVE-2026-43500 — "Dirty Frag" Linux kernel LPE chain
 - **Date detected:** 2026-05-17 (disclosed 2026-05-08; active exploitation confirmed 2026-05-11)
@@ -516,6 +524,79 @@
 - **Last updated:** 2026-05-13
 - **Sources:** [BleepingComputer](https://www.bleepingcomputer.com/news/security/bitwarden-cli-npm-package-compromised-to-steal-developer-credentials/), [SOCRadar](https://socradar.io/blog/bitwarden-cli-hijacked-npm-supply-chain-teampcp/), [SecurityWeek](https://www.securityweek.com/bitwarden-npm-package-hit-in-supply-chain-attack/)
 
+### [THREAT-2026-0028] TeamPCP Phase 7 — AntV npm + Microsoft durabletask PyPI + Claude Code hook persistence
+- **Date detected:** 2026-05-20 (attack occurred 2026-05-19)
+- **Status:** 🔴 Active — Attacks from yesterday; Claude Code hook persistence requires immediate inspection
+- **Category:** Supply Chain > npm/PyPI | Threat Actor
+- **Affects us:** Yes (Claude Code users; npm/PyPI ecosystem)
+- **Summary:** On May 19, 2026, TeamPCP published 300+ malicious npm package versions across
+  the @antv/* Alibaba data visualization ecosystem (323 packages, ~16 million combined weekly
+  downloads) in a 22-minute automated burst via a compromised maintainer account. Simultaneously,
+  three malicious versions of Microsoft's official durabletask Python SDK (1.4.1, 1.4.2, 1.4.3
+  — 400,000 monthly downloads) appeared on PyPI within 35 minutes. The 28 KB credential-stealing
+  payload targets AWS, Azure, GCP, Kubernetes, password managers, and 90+ developer tool
+  configs. **Critical new TTP:** malware modifies Claude Code's `SessionStart` hook in
+  `~/.claude/settings.json` and injects VS Code tasks — enabling malware reinstallation with
+  full LLM privileges even after the infected npm/PyPI package is removed. Malware also injects
+  itself into every GitHub repository accessible to the compromised developer. Geofenced rm-rf
+  logic (Israel/Iran) present.
+- **Affected versions:** @antv/* packages published May 19, 2026 in ~22-minute window;
+  durabletask==1.4.1, 1.4.2, 1.4.3
+- **Safe version:** @antv/* any version NOT from May 19 burst; durabletask ≤ 1.4.0
+- **IOCs:** Unexpected entries in `~/.claude/settings.json` hooks section pointing to external
+  scripts; unexpected VS Code tasks in `.vscode/tasks.json`; gh-token-monitor daemon (inherited)
+- **Action taken:** (1) Inspect ~/.claude/settings.json for unexpected hooks; (2) Check
+  durabletask version in all Python environments; (3) Check @antv/* npm packages installed today;
+  (4) Rotate all cloud credentials if either package was present
+- **Last updated:** 2026-05-20
+- **Sources:** [Wiz Blog @antv](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz Blog durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [Snyk](https://snyk.io/blog/mini-shai-hulud-antv-npm-supply-chain-attack/), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-pushes-malicious-antv.html), [Cybernews](https://cybernews.com/security/shai-hulud-strikes-again-massive-npm-compromise/)
+
+### [THREAT-2026-0029] GitHub internal repository breach — TeamPCP via malicious VS Code extension (BREAKING)
+- **Date detected:** 2026-05-20 (ongoing investigation)
+- **Status:** 🔴 Active / Breaking — GitHub investigation open; no customer data confirmed affected yet
+- **Category:** Breach > Infrastructure > GitHub | Threat Actor
+- **Affects us:** Yes (we host code on GitHub; GitHub is investigating now)
+- **Summary:** TeamPCP (UNC6780) posted ~4,000 GitHub internal repositories for sale on a
+  cybercrime forum on or around May 20, 2026. GitHub confirmed it is actively investigating
+  unauthorized access to internal repositories. Entry vector: a malicious VS Code extension
+  compromised a GitHub employee device, which yielded access to internal GitHub secrets and
+  from there to internal repositories. GitHub's investigation places the figure at ~3,800 repos
+  (consistent with attacker claims). GitHub confirmed no evidence of impact to customer
+  repositories, enterprises, organizations, or stored data outside their internal systems.
+  GitHub is rotating critical credentials and monitoring for follow-on exploitation. If internal
+  GitHub source code is in attacker hands, researchers may surface new GitHub platform
+  zero-days in coming days/weeks.
+- **Affected scope:** GitHub internal repositories only (not customer repos); employee devices
+- **IOCs:** Malicious VS Code extension (identity TBD); GitHub audit log anomalies
+- **Action taken:** Rotate GitHub PATs; audit VS Code extensions for unauthorized installs;
+  watch GitHub security advisories and status page closely this week
+- **Last updated:** 2026-05-20
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-investigating-teampcp-claimed.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/github-investigates-internal-repositories-breach-claimed-by-teampcp/), [piunikaweb](https://piunikaweb.com/2026/05/20/github-internal-repository-breach-investigation/)
+
+### [THREAT-2026-0030] Grafana Labs codebase stolen — CoinbaseCartel Pwn Request (May 16–18)
+- **Date detected:** 2026-05-20 (disclosed 2026-05-16; reported 2026-05-18)
+- **Status:** 🟠 Contained — Codebase stolen; extortion rejected; no customer data affected
+- **Category:** Breach > Supply Chain > GitHub Actions
+- **Affects us:** 🟠 Could affect us (Grafana is widely used OSS; attack TTP identical to
+  TeamPCP; demonstrates Pwn Request attacks proliferating beyond TeamPCP to new actors)
+- **Summary:** On May 16, 2026, Grafana Labs disclosed that an unauthorized actor obtained a
+  GitHub Actions token by exploiting a pull_request_target "Pwn Request" misconfiguration —
+  the same technique used by TeamPCP at scale. The attacker forked a Grafana repository,
+  injected malicious code via a curl command, dumped CI environment variables encrypted with
+  a private key, deleted the fork to cover tracks, then used the stolen GitHub token to clone
+  Grafana's entire private codebase across multiple repositories. Grafana's canary token system
+  triggered the alert. The attacker demanded ransom; Grafana refused (per FBI guidance). No
+  customer data or operational systems affected. Attribution: **CoinbaseCartel**, an extortion
+  crew that emerged September 2025, assessed as an offshoot of the ShinyHunters / Scattered
+  Spider / LAPSUS$ ecosystem. Significance: The Pwn Request TTP is now confirmed being used
+  by multiple independent threat actors. Grafana is the second major OSS infrastructure tool
+  breached this month (after TeamPCP Phase 5–7).
+- **IOCs:** CoinbaseCartel infrastructure (see Halcyon threat-intel feed)
+- **Action taken:** Audit all repos for pull_request_target workflows that checkout fork code;
+  restrict secrets access to trusted contributors; revoke broad CI tokens
+- **Last updated:** 2026-05-20
+- **Sources:** [TechCrunch](https://techcrunch.com/2026/05/18/open-source-tool-maker-grafana-labs-says-hackers-stole-its-code-refuses-to-pay-ransom/), [Help Net Security](https://www.helpnetsecurity.com/2026/05/18/attackers-accessed-downloaded-code-from-grafana-labs-github/), [The Hacker News](https://thehackernews.com/2026/05/grafana-github-token-breach-led-to.html), [SecurityWeek](https://www.securityweek.com/grafana-confirms-breach-after-hackers-claim-they-stole-data/), [The Register](https://www.theregister.com/cyber-crime/2026/05/18/grafana-labs-admits-attackers-downloaded-its-codebase-from-github/5241686), [BleepingComputer](https://www.bleepingcomputer.com/news/security/grafana-says-stolen-github-token-let-hackers-steal-codebase/)
+
 ---
 
 ## Accumulated IOCs
@@ -537,6 +618,10 @@
 | 2026-05-08 | THREAT-2026-0025 | CVE | CVE-2026-43284 / CVE-2026-43500 | Dirty Frag Linux kernel LPE; limited in-wild exploitation; module blacklist: esp4 esp6 rxrpc |
 | 2026-05-14 | THREAT-2026-0026 | CVE | CVE-2026-46300 (CVSS 7.8) | Fragnesia Linux kernel LPE; PoC public; XFRM ESP-in-TCP subsystem |
 | 2026-02-17 | THREAT-2026-0027 | npm package | cline@2.3.0 | Clinejection — prompt injection → GitHub Actions → OpenClaw C2 daemon |
+| 2026-05-19 | THREAT-2026-0028 | npm packages | @antv/* (May 19 burst, ~22 min window) | TeamPCP Phase 7 — 300+ malicious versions, 16M weekly downloads |
+| 2026-05-19 | THREAT-2026-0028 | PyPI package | durabletask==1.4.1, 1.4.2, 1.4.3 | TeamPCP Phase 7 — Microsoft Azure Python SDK; 400K monthly downloads |
+| 2026-05-19 | THREAT-2026-0028 | Config file | ~/.claude/settings.json hooks section | TeamPCP Phase 7 persistence — unexpected hooks entries reinstall malware |
+| 2026-05-20 | THREAT-2026-0029 | GitHub repos | ~4,000 GitHub internal repos (claimed by UNC6780) | TeamPCP GitHub internal breach — investigation ongoing |
 
 ---
 
@@ -560,9 +645,12 @@
 | checkmarx-ast-scanner | Jenkins Marketplace | TeamPCP Phase 5 compromise (2026-05-09) | 2026-05-16 | Upgrade to ≥ 2.0.13-848 |
 | cursor (IDE) | Desktop app | CVE-2026-26268 zero-click RCE via Git hooks | 2026-05-16 | Safe if ≥ 2.5 |
 | claude-chrome-extension | Chrome Web Store | ClaudeBleed — incomplete patch; privileged mode vulnerable | 2026-05-16 | Safe if ≥ 1.0.70 AND privileged mode disabled |
-| next | npm | CVE-2026-44578 SSRF via WebSocket upgrade handler | 2026-05-17 | Safe if ≥ 15.5.16 or ≥ 16.2.5 (self-hosted only) |
+| next | npm | 13 CVEs: SSRF + 4 auth bypass + DoS + XSS + cache poisoning (May 2026 release) | 2026-05-17 | Safe if ≥ 15.5.18 or ≥ 16.2.6 (self-hosted only) — UPDATED |
 | linux-kernel | System | Dirty Frag (CVE-2026-43284/-43500) + Fragnesia (CVE-2026-46300) LPE cluster | 2026-05-17 | Patch per distro advisory; interim: blacklist esp4 esp6 rxrpc |
 | cline | npm | Clinejection (Feb 2026) — prompt injection supply chain attack | 2026-05-17 | Safe if ≠ 2.3.0 (clean version 2.4.0+) |
+| @antv/* | npm | TeamPCP Phase 7 — entire ecosystem compromised May 19 | 2026-05-20 | Avoid any @antv/* version published May 19, 2026 |
+| durabletask | PyPI | TeamPCP Phase 7 — Microsoft Azure Python SDK; 3 malicious versions | 2026-05-20 | Safe if ≤ 1.4.0; do NOT install 1.4.1/1.4.2/1.4.3 |
+| ~/.claude/settings.json | Config | TeamPCP Phase 7 persistence target — hooks used to reinstall malware | 2026-05-20 | Inspect hooks section after any npm/pip install |
 
 ---
 

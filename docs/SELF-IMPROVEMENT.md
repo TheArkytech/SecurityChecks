@@ -187,6 +187,79 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-20] [COVERAGE] Add Claude Code hooks and VS Code tasks as explicit daily audit targets
+- **Origin:** Prompt A
+- **Description:** TeamPCP Phase 7 (THREAT-2026-0028) established that ~/.claude/settings.json
+  hooks and VS Code tasks are now active malware persistence targets. The Radar prompt's Area 2
+  (AI/Vibe Coding) doesn't explicitly mention checking local AI tool configuration files for
+  tampering as a daily hygiene item. The prompt should add: "Check for unexpected modifications
+  to ~/.claude/settings.json (hooks section) and .vscode/tasks.json — these are now confirmed
+  malware persistence vectors that survive package removal." This should also be added as a
+  machine hygiene check separate from the repo-level TrustFall check.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-20] [COVERAGE] Track "Pwn Request proliferation" as a separate threat category
+- **Origin:** Prompt A
+- **Description:** Both TeamPCP and CoinbaseCartel used the pull_request_target "Pwn Request"
+  technique this week (Grafana Labs breach via CoinbaseCartel is the clearest example). The
+  Radar prompt currently searches for "GitHub Actions marketplace compromises" but not
+  specifically for the pull_request_target misconfiguration pattern. This pattern is now being
+  exploited by at least two independent threat actor families. Recommend adding
+  "pull_request_target Pwn Request" and "GitHub Actions external fork secrets" as explicit
+  daily search terms in Area 1 (Supply Chain). Also consider adding a standing weekly check:
+  any new pull_request_target exploit disclosures or CVEs.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-20] [PROMPT] Add "threat actor Google TI / MITRE designation updates" to Area 4
+- **Origin:** Prompt A
+- **Description:** TeamPCP was formally designated UNC6780 by Google Threat Intelligence Group
+  this week. This kind of formal designation is a signal that a threat actor has crossed a
+  threshold of attribution confidence, which changes how organizations should respond (e.g.,
+  more likely to receive government advisories, more likely to be tracked by IR vendors). The
+  Radar's Area 4 (Threat Actors) searches for activity but not for new formal designations
+  or attribution changes. Adding "threat actor designation OR attribution OR UNC OR APT
+  [current month]" as a search term would catch these signals earlier.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-20] [CHECK] Add "check VS Code extension list" to Prompt B baseline hygiene
+- **Origin:** Prompt A
+- **Description:** The GitHub internal breach (THREAT-2026-0029) used a malicious VS Code
+  extension as its entry vector. This is the second time a VS Code extension has been the
+  attack vector in a major incident (after CVE-2026-21518). Prompt B's audit checklist should
+  add: for every project being audited, review the list of VS Code extensions used by
+  contributors — flag any with low download counts, recent publication dates, or unusual
+  permissions (filesystem access, network access). A simple `code --list-extensions` combined
+  with a lookup against the Open VSX or Marketplace abuse database would surface this.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-20] [KB] Add "macOS app update deadlines" field to supply chain threats affecting end-user software
+- **Origin:** Prompt A
+- **Description:** The OpenAI certificate revocation deadline (June 12, 2026) is a time-bounded
+  action that could break macOS apps for team members. The KB currently has no field for
+  "deadline" or "user action expiry" on supply chain threats. Adding a "Deadline" field to
+  relevant KB entries (especially where certificate revocations, forced updates, or CISA
+  deadlines are involved) would make these time-sensitive actions more visible. The existing
+  THREAT-2026-0014 (CISA Copy Fail deadline May 15) already passed unnoticed in the KB status.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-20] [COVERAGE] Track extortion-focused threat actors (CoinbaseCartel, LAPSUS$ offshoots) separately
+- **Origin:** Prompt A
+- **Description:** CoinbaseCartel (THREAT-2026-0030) represents a distinct threat actor class:
+  data-theft extortion gangs targeting developer infrastructure (GitHub codebase theft,
+  ransom demand). These actors don't deploy ransomware but steal code and threaten public
+  disclosure. The KB currently tracks ransomware groups and supply chain actors but has no
+  standing entry for CoinbaseCartel / ShinyHunters / Scattered Spider ecosystem activity.
+  Given their increasing focus on dev tooling (Grafana this week), recommend adding a KB entry
+  for this actor cluster and monitoring their BreachForums DLS for new developer-targeted
+  victims weekly.
+- **Impact:** Medium
+- **Effort:** Low
+
 ### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
 - **Origin:** Prompt A
 - **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous
