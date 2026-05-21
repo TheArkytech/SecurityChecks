@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Phase 7 active (May 19–20) — AntV/durabletask attacks ongoing; TeamPCP claiming GitHub internal breach TODAY
+- **Status:** 🔴 Phase 7 COMPLETE — GitHub internal breach CONFIRMED (Nx Console v18.95.0); 3,800 repos exfiltrated; new platform zero-days possible
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -406,7 +406,7 @@
 
 ### [THREAT-2026-0023] TeamPCP Shai-Hulud worm open-sourced; BreachForums contest active
 - **Date detected:** 2026-05-17 (open-sourced 2026-05-12; contest announced 2026-05-12)
-- **Status:** 🔴 Escalating — Phase 6; worm source code public; copycat attacks expected imminently
+- **Status:** 🔴 Copycat attacks CONFIRMED — Multiple distinct actors now deploying adapted versions (see THREAT-2026-0032)
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (npm/PyPI ecosystem; we use GitHub Actions)
 - **Summary:** On May 12, TeamPCP published the full Shai-Hulud attack framework source code to
@@ -551,27 +551,120 @@
 - **Last updated:** 2026-05-20
 - **Sources:** [Wiz Blog @antv](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz Blog durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [Snyk](https://snyk.io/blog/mini-shai-hulud-antv-npm-supply-chain-attack/), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-pushes-malicious-antv.html), [Cybernews](https://cybernews.com/security/shai-hulud-strikes-again-massive-npm-compromise/)
 
-### [THREAT-2026-0029] GitHub internal repository breach — TeamPCP via malicious VS Code extension (BREAKING)
-- **Date detected:** 2026-05-20 (ongoing investigation)
-- **Status:** 🔴 Active / Breaking — GitHub investigation open; no customer data confirmed affected yet
+### [THREAT-2026-0029] GitHub internal repository breach — TeamPCP via poisoned Nx Console VS Code extension
+- **Date detected:** 2026-05-20 (confirmed 2026-05-20; vector identified 2026-05-21)
+- **Status:** 🔴 Confirmed breach — Nx Console v18.95.0 identified; 3,800 repos exfiltrated; $95K asking price; new platform zero-days possible
 - **Category:** Breach > Infrastructure > GitHub | Threat Actor
-- **Affects us:** Yes (we host code on GitHub; GitHub is investigating now)
-- **Summary:** TeamPCP (UNC6780) posted ~4,000 GitHub internal repositories for sale on a
-  cybercrime forum on or around May 20, 2026. GitHub confirmed it is actively investigating
-  unauthorized access to internal repositories. Entry vector: a malicious VS Code extension
-  compromised a GitHub employee device, which yielded access to internal GitHub secrets and
-  from there to internal repositories. GitHub's investigation places the figure at ~3,800 repos
-  (consistent with attacker claims). GitHub confirmed no evidence of impact to customer
-  repositories, enterprises, organizations, or stored data outside their internal systems.
-  GitHub is rotating critical credentials and monitoring for follow-on exploitation. If internal
-  GitHub source code is in attacker hands, researchers may surface new GitHub platform
-  zero-days in coming days/weeks.
-- **Affected scope:** GitHub internal repositories only (not customer repos); employee devices
-- **IOCs:** Malicious VS Code extension (identity TBD); GitHub audit log anomalies
-- **Action taken:** Rotate GitHub PATs; audit VS Code extensions for unauthorized installs;
-  watch GitHub security advisories and status page closely this week
-- **Last updated:** 2026-05-20
-- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-investigating-teampcp-claimed.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/github-investigates-internal-repositories-breach-claimed-by-teampcp/), [piunikaweb](https://piunikaweb.com/2026/05/20/github-internal-repository-breach-investigation/)
+- **Affects us:** Yes (we host code on GitHub; potential for new platform-level zero-days from stolen source code)
+- **Summary:** GitHub confirmed exfiltration of ~3,800 internal repositories after a GitHub
+  employee installed Nx Console (nrwl.angular-console) v18.95.0 — a poisoned VS Code
+  extension published to the VS Code Marketplace on May 18, 2026, live for approximately
+  11 minutes before removal. The extension has 2.2M+ legitimate installs, making it an
+  extremely high-trust target. The 498 KB obfuscated payload silently activated on workspace
+  open and harvested GitHub, npm, AWS, 1Password, and Claude Code configuration secrets.
+  TeamPCP (UNC6780) is selling the stolen material on underground forums for $95,000+.
+  GitHub has confirmed no customer repo impact but investigation remains ongoing.
+  CRITICAL RISK: with GitHub's internal source code in attacker hands, researchers (or
+  TeamPCP) may surface new GitHub platform zero-days in the coming days/weeks.
+- **Affected scope:** GitHub internal repositories only (not customer repos); GitHub employee devices
+- **IOCs:** Nx Console (nrwl.angular-console) v18.95.0 (poisoned); GitHub audit log anomalies
+- **Action taken:** Rotate GitHub PATs; run `code --list-extensions` on all dev machines;
+  check Nx Console version; watch GitHub security advisories closely for new CVEs this week
+- **Last updated:** 2026-05-21
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-internal-repositories-breached.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/github-confirms-breach-of-3-800-repos-via-malicious-vscode-extension/), [StepSecurity](https://www.stepsecurity.io/blog/nx-console-vs-code-extension-compromised), [Help Net Security](https://www.helpnetsecurity.com/2026/05/20/github-breached-teampcp/), [Aikido](https://www.aikido.dev/blog/vs-code-extension-github-breach)
+
+### [THREAT-2026-0031] Claude Code deeplink RCE via claude-cli:// handler
+- **Date detected:** 2026-05-21 (disclosed 2026-05-12; patched 2026-05-12)
+- **Status:** 🔴 Patched — Upgrade to ≥ 2.1.118 required; no CVE assigned yet
+- **Category:** AI Dev > Claude Code / CVE
+- **Affects us:** Yes (we use Claude Code daily)
+- **Summary:** Disclosed May 12, 2026 by researcher Joernchen (0day.click). Flaw in
+  `eagerParseCliFlag` in main.tsx parsed `--settings=` flags before full initialization.
+  By embedding a malicious `--settings` payload in the `q` parameter of a `claude-cli://`
+  deeplink and setting `repo` to a locally-trusted repo, an attacker achieves arbitrary
+  command execution at session start — no warnings, no prompts. One click is sufficient.
+  Anthropic patched silently in v2.1.118. No CVE assigned at time of disclosure; CVE-2026-39861
+  may be assigned retroactively.
+- **Affected versions:** Claude Code < 2.1.118
+- **Safe version:** Claude Code ≥ 2.1.118
+- **IOCs:** Crafted `claude-cli://` deeplinks with `?q=` and `&repo=` parameters
+- **Action taken:** Verify Claude Code ≥ 2.1.118 on all dev machines; treat unsolicited `claude-cli://` links as malicious
+- **Last updated:** 2026-05-21
+- **Sources:** [0day.click](https://0day.click/recipe/2026-05-12-cc-rce/), [CybersecurityNews](https://cybersecuritynews.com/claude-code-rce-flaw/), [GBHackers](https://gbhackers.com/claude-code-vulnerability/), [InfoSecBulletin](https://infosecbulletin.com/claude-code-rce-vulnerability-allows-attackers-execute-commands-via-deeplinks/)
+
+### [THREAT-2026-0032] Shai-Hulud copycat worm — confirmed third-party npm attacks
+- **Date detected:** 2026-05-21 (attacks began ~2026-05-17)
+- **Status:** 🔴 Active — Copycat attacks ongoing; 639 malicious package versions identified
+- **Category:** Supply Chain > npm / Threat Actor (copycats using open-sourced framework)
+- **Affects us:** Potentially (typosquatting popular packages; ecosystem-level risk)
+- **Summary:** Within 5 days of TeamPCP open-sourcing the Shai-Hulud worm (May 12,
+  BreachForums contest), independent copycat actors began deploying adapted versions.
+  Confirmed malicious packages include chalk-tempalte (typosquats chalk-template),
+  @deadcode09284814/axios-util, axois-utils, and color-style-utils. Socket.dev flagged
+  639 compromised package versions across 323 unique packages (median detection time: 6.7
+  minutes). Payload harvests 20+ credential types: AWS, GCP, Azure, GitHub, npm, SSH,
+  Kubernetes, Vault, Stripe, and database connection strings. These attacks are from
+  third-party actors, distinct from TeamPCP Phase 7 — the BreachForums contest is working.
+- **Affected packages:** chalk-tempalte, @deadcode09284814/axios-util, axois-utils, color-style-utils (confirmed)
+- **IOCs:** chalk-tempalte (npm); axois-utils (npm typo); color-style-utils (npm)
+- **Action taken:** Add confirmed packages to npm deny-list; run `npm audit`; verify chalk-template spelling in all lockfiles
+- **Last updated:** 2026-05-21
+- **Sources:** [The Register](https://www.theregister.com/cyber-crime/2026/05/18/shai-hulud-copycat-hits-another-npm-package/5242180), [SecurityAffairs](https://securityaffairs.com/192366/malware/shai-hulud-worm-copycats-emerge-after-source-code-leak.html), [CybersecurityNews](https://cybersecuritynews.com/600-npm-packages-compromised/), [Cybernews](https://cybernews.com/security/shai-hulud-supply-chain-attack-competition/)
+
+### [THREAT-2026-0033] CISA GitHub credentials leak — 844 MB plaintext secrets exposed
+- **Date detected:** 2026-05-21 (discovered 2026-05-14; exposed since 2025-11-13)
+- **Status:** 🟡 Contained — Repo pulled May 15; 6-month exposure window; CISA investigating
+- **Category:** Breach > Infrastructure > Government
+- **Affects us:** ⚪ General informational (does not directly affect us; instructive for hygiene)
+- **Summary:** GitGuardian discovered May 14 that a CISA administrator had pushed 844 MB
+  of sensitive material to a public GitHub repo named "Private-CISA" — live since November
+  2025 (6+ months). Contents: plaintext AWS GovCloud credentials, Entra ID SAML certificates,
+  Kubernetes manifests, ArgoCD configs, GitHub Actions workflows, and a file named
+  "importantAWStokens" containing admin credentials for three AWS GovCloud accounts. Some
+  credentials were still valid at discovery. The admin had disabled GitHub's default
+  secret-push protection. CISA pulled the repo within 26 hours of GitGuardian's alert.
+  Congressional inquiry underway. Lesson: even the US government's cyber-defense agency
+  fails at basic secret hygiene.
+- **Action taken:** Instructive for our own hygiene; verify GitHub secret scanning + push protection enabled
+- **Last updated:** 2026-05-21
+- **Sources:** [Krebs on Security](https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/), [GitGuardian](https://blog.gitguardian.com/how-we-got-a-cisa-github-leak-taken-down-in-26-hours/), [Cybernews](https://cybernews.com/security/cisa-844-mb-plaintext-passwords-aws-tokens-github/), [The Register](https://www.theregister.com/security/2026/05/19/americas-top-cyber-defense-agency-left-a-github-repo-open-with-passwords-keys-tokens-and-incredibly-obvious-filenames/5242915)
+
+### [THREAT-2026-0034] CVE-2026-32202 — Windows NTLM zero-click hash theft (APT28)
+- **Date detected:** 2026-05-21 (CISA KEV 2026-04-28; exploited since 2025-12; federal deadline 2026-05-12)
+- **Status:** 🟡 Post-deadline — CISA deadline May 12 passed; patch available; Windows users must apply
+- **Category:** CVE > Infrastructure > Windows
+- **Affects us:** Low risk (affects Windows users; general informational if our stack is Linux/Mac)
+- **Summary:** Zero-click NTLM hash leak in Windows Shell via malicious LNK shortcuts. When
+  Windows Explorer renders a folder containing a crafted LNK file, it auto-resolves the
+  embedded UNC path and sends the victim's NTLMv2 hash to an attacker's SMB server — merely
+  browsing the download folder is sufficient, no file open needed. This is a remnant of an
+  incomplete February 2026 patch for CVE-2026-21510. Exploited by APT28 (Fancy Bear) since
+  at least December 2025. Can be chained with pass-the-hash for domain admin escalation.
+  CISA KEV deadline May 12, 2026 (now passed). No PoC complexity — a folder with a crafted
+  LNK is the entire exploit.
+- **Affected versions:** Windows (all versions without the latest cumulative update)
+- **Safe version:** Apply latest Microsoft Patch Tuesday cumulative update
+- **Action taken:** Windows users on team must apply latest cumulative update; enforce NTLM restrictions via Group Policy
+- **Last updated:** 2026-05-21
+- **Sources:** [Akamai](https://www.akamai.com/blog/security-research/incomplete-patch-apt28s-zero-day-cve-2026-32202), [Help Net Security](https://www.helpnetsecurity.com/2026/04/29/windows-cve-2026-32202-exploited/), [BleepingComputer](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-windows-flaw-exploited-in-zero-day-attacks/)
+
+### [THREAT-2026-0035] BlueNoroff ClickFix/deepfake Zoom campaign targeting Web3 & tech founders
+- **Date detected:** 2026-05-21 (campaign active since 2026-01-23; Arctic Wolf disclosure 2026-05)
+- **Status:** 🟠 Active — 100+ victims in 20+ countries; technique is sector-agnostic
+- **Category:** Threat Actor > BlueNoroff (Lazarus Group) / Social Engineering
+- **Affects us:** Could affect us (tech founders/CEOs are a common target; ClickFix is sector-agnostic)
+- **Summary:** Arctic Wolf documented a BlueNoroff/Lazarus campaign beginning January 23,
+  2026. Attack chain: spear-phish via manipulated Calendly invite → typosquatted Zoom link
+  → fake meeting interface (exfiltrates victim webcam) → ClickFix clipboard injection →
+  fileless PowerShell malware. Entire sequence: click to full compromise in under 5 minutes.
+  The threat actor's media server hosts a self-sustaining deepfake pipeline using stolen
+  webcam footage to generate fake meeting content for new victims. 100+ confirmed victims
+  in 20+ countries. Targets: 80% crypto/Web3/blockchain, CEOs/founders = 45% of target set.
+  However, ClickFix as a technique is now widely documented and used beyond this specific campaign.
+- **IOCs:** Typosquatted Zoom domains; fake Calendly invites; ClickFix-style "paste to fix" prompts
+- **Action taken:** Warn team about ClickFix attacks; never paste terminal content from a browser; verify Zoom links go to genuine zoom.us
+- **Last updated:** 2026-05-21
+- **Sources:** [Arctic Wolf](https://arcticwolf.com/resources/blog/bluenoroff-uses-clickfix-fileless-powershell-and-ai-generated-zoom-meetings-to-target-web3-sector/), [Dark Reading](https://www.darkreading.com/cyberattacks-data-breaches/bluenoroff-turns-victims-into-new-attack-lures), [Infosecurity Magazine](https://www.infosecurity-magazine.com/news/bluenoroff-dprk-hackers-target/), [The Hacker News](https://thehackernews.com/2026/02/lazarus-campaign-plants-malicious.html)
 
 ### [THREAT-2026-0030] Grafana Labs codebase stolen — CoinbaseCartel Pwn Request (May 16–18)
 - **Date detected:** 2026-05-20 (disclosed 2026-05-16; reported 2026-05-18)
@@ -621,7 +714,11 @@
 | 2026-05-19 | THREAT-2026-0028 | npm packages | @antv/* (May 19 burst, ~22 min window) | TeamPCP Phase 7 — 300+ malicious versions, 16M weekly downloads |
 | 2026-05-19 | THREAT-2026-0028 | PyPI package | durabletask==1.4.1, 1.4.2, 1.4.3 | TeamPCP Phase 7 — Microsoft Azure Python SDK; 400K monthly downloads |
 | 2026-05-19 | THREAT-2026-0028 | Config file | ~/.claude/settings.json hooks section | TeamPCP Phase 7 persistence — unexpected hooks entries reinstall malware |
-| 2026-05-20 | THREAT-2026-0029 | GitHub repos | ~4,000 GitHub internal repos (claimed by UNC6780) | TeamPCP GitHub internal breach — investigation ongoing |
+| 2026-05-20 | THREAT-2026-0029 | GitHub repos | ~3,800 GitHub internal repos (confirmed by GitHub) | TeamPCP GitHub internal breach confirmed — Nx Console v18.95.0 vector; $95K asking price |
+| 2026-05-18 | THREAT-2026-0029 | VS Code extension | nrwl.angular-console v18.95.0 (Nx Console) | TeamPCP poisoned VS Code extension — 2.2M installs; live ~11 min; credential stealer |
+| 2026-05-17 | THREAT-2026-0032 | npm package | chalk-tempalte | Shai-Hulud copycat — typosquats chalk-template; credential stealer |
+| 2026-05-17 | THREAT-2026-0032 | npm package | @deadcode09284814/axios-util, axois-utils, color-style-utils | Shai-Hulud copycat — credential stealers |
+| 2026-04-28 | THREAT-2026-0034 | CVE | CVE-2026-32202 | Windows NTLM zero-click hash theft; APT28; CISA KEV; LNK shortcut UNC path coercion |
 
 ---
 
@@ -651,6 +748,9 @@
 | @antv/* | npm | TeamPCP Phase 7 — entire ecosystem compromised May 19 | 2026-05-20 | Avoid any @antv/* version published May 19, 2026 |
 | durabletask | PyPI | TeamPCP Phase 7 — Microsoft Azure Python SDK; 3 malicious versions | 2026-05-20 | Safe if ≤ 1.4.0; do NOT install 1.4.1/1.4.2/1.4.3 |
 | ~/.claude/settings.json | Config | TeamPCP Phase 7 persistence target — hooks used to reinstall malware | 2026-05-20 | Inspect hooks section after any npm/pip install |
+| claude-code (CLI) | npm / Desktop | Deeplink RCE via claude-cli:// handler — THREAT-2026-0031 | 2026-05-21 | Safe if ≥ 2.1.118; run `claude --version` |
+| nx-console (VS Code ext.) | VS Code Marketplace | Poisoned v18.95.0 — GitHub internal breach vector — THREAT-2026-0029 | 2026-05-21 | Safe if ≠ v18.95.0; verify via `code --list-extensions` |
+| chalk-tempalte | npm | Shai-Hulud copycat typosquatting chalk-template — THREAT-2026-0032 | 2026-05-21 | BLOCK — do not install |
 
 ---
 

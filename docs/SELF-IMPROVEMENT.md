@@ -247,6 +247,56 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-21] [COVERAGE] Add VS Code Marketplace as a daily monitoring source
+- **Origin:** Prompt A
+- **Description:** The Nx Console v18.95.0 supply chain attack (THREAT-2026-0029) — which
+  caused the GitHub internal breach — was live for only ~11 minutes on the Marketplace.
+  The Radar prompt's Area 2 (AI/Vibe Coding) and Area 1 (Supply Chain) both cover supply
+  chain attacks but don't explicitly include the VS Code Marketplace as a daily search
+  target. Given that the Marketplace has now been used as an attack vector in two
+  major incidents (CVE-2026-21518 mcp.json and Nx Console), it should be an explicit
+  daily search area: "VS Code Marketplace compromised extension [current date]".
+  Tools like Open VSX or the Extension Marketplace abuse tracker could be integrated.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-21] [KB] Add "Asking price / threat actor monetization" field to breach entries
+- **Origin:** Prompt A
+- **Description:** TeamPCP is selling the GitHub breach data for $95,000+. CoinbaseCartel
+  demanded ransom from Grafana. These monetization signals are useful for threat
+  prioritization (a threat actor actively selling data is more likely to dump it or use
+  it for follow-on attacks than one who exfiltrated silently). The KB currently has no
+  field for this. Adding an optional "Monetization" or "Threat actor asking price" field
+  to Breach-category entries would allow faster escalation decisions when stolen data
+  is actively for sale vs. silently held.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-21] [PROMPT] Add ClickFix / clipboard injection as explicit daily search in AI Dev area
+- **Origin:** Prompt A
+- **Description:** The BlueNoroff ClickFix campaign (THREAT-2026-0035) uses clipboard
+  injection as its primary social engineering vector — the "paste this to fix it" trick.
+  This technique is increasingly common and is now being used by multiple threat actor
+  families (not just North Korea). The Radar prompt's Area 2 (AI/Vibe Coding) covers
+  prompt injection but not ClickFix / clipboard injection targeting developers. Adding
+  "ClickFix clipboard injection developer" as an explicit daily search term in Area 4
+  (Threat Actors) or Area 2 would catch these campaigns earlier.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-21] [COVERAGE] Track "stolen source code → new CVEs" as a distinct post-breach risk
+- **Origin:** Prompt A
+- **Description:** The GitHub internal breach creates a unique follow-on risk: TeamPCP
+  now has ~3,800 internal GitHub repositories that may contain vulnerability information,
+  internal security research, and implementation details that could enable new
+  platform-level zero-days. This "stolen source code → new CVEs" post-breach risk
+  pattern exists for any major platform breach (GitHub, GitLab, etc.) but the Radar
+  currently has no standing search to monitor for CVEs or disclosures that cite stolen
+  source code as their discovery vector. Recommend adding a weekly check: are any new
+  GitHub CVEs being attributed to knowledge derived from the May 2026 breach?
+- **Impact:** High
+- **Effort:** Low
+
 ### [2026-05-20] [COVERAGE] Track extortion-focused threat actors (CoinbaseCartel, LAPSUS$ offshoots) separately
 - **Origin:** Prompt A
 - **Description:** CoinbaseCartel (THREAT-2026-0030) represents a distinct threat actor class:
