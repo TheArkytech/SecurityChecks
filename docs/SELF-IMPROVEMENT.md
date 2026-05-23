@@ -247,7 +247,41 @@
 - **Impact:** Medium
 - **Effort:** Low
 
-### [2026-05-20] [COVERAGE] Track extortion-focused threat actors (CoinbaseCartel, LAPSUS$ offshoots) separately
+### [2026-05-23] [COVERAGE] Ensure GitHub Actions marketplace attacks are caught same-day
+- **Origin:** Prompt A
+- **Description:** The actions-cool/issues-helper GitHub Action compromise occurred on May 18,
+  2026 and was publicly disclosed on May 19, yet it was not captured in the May 20 KB update.
+  The Radar prompt's Area 1 does mention "GitHub Actions marketplace compromises" but only as
+  a bullet among many. Given that TeamPCP has now attacked the GitHub Actions marketplace
+  directly (not just npm/PyPI), this attack surface deserves its own dedicated daily search
+  query. Recommend adding "GitHub Actions compromised action tag redirect" and
+  "GitHub Action imposter commit" as explicit daily search terms in Area 1, and checking
+  StepSecurity's blog directly as a daily source (they were first to disclose this incident).
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-23] [PROMPT] Add StepSecurity blog as a named daily source in Area 1
+- **Origin:** Prompt A
+- **Description:** StepSecurity was first to detect and disclose both the actions-cool attack
+  (May 18) and the Mini Shai-Hulud worm (May 11). They also maintain the harden-runner tool
+  and GitHub Actions security monitoring. The Radar prompt does not name them as a source.
+  Recommend adding "stepsecurity.io/blog" as an explicit daily check in Area 1 alongside the
+  existing source references, similar to how we reference Socket.dev and Wiz.io for npm/PyPI.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-23] [KB] Add "CISA Deadline" field to CVE entries that have KEV deadlines
+- **Origin:** Prompt A
+- **Description:** Today we have two CISA KEV deadlines (June 3 for Defender, June 4 for
+  Langflow/Apex One). The KB entries don't have a dedicated "CISA Deadline" field, which means
+  these deadlines are buried in the Action taken text and easy to miss. Adding a top-level
+  "CISA Deadline" field to CVE entries would make them visually scannable and easier to
+  prioritize. The Copy Fail deadline (May 15) already passed and was only noted in the Status
+  field. A dedicated field would prevent future misses.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-23] [COVERAGE] Track extortion-focused threat actors (CoinbaseCartel, LAPSUS$ offshoots) separately
 - **Origin:** Prompt A
 - **Description:** CoinbaseCartel (THREAT-2026-0030) represents a distinct threat actor class:
   data-theft extortion gangs targeting developer infrastructure (GitHub codebase theft,

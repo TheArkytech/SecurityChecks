@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Phase 7 active (May 19–20) — AntV/durabletask attacks ongoing; TeamPCP claiming GitHub internal breach TODAY
+- **Status:** 🔴 Phase 7b active (May 18–23) — actions-cool GitHub Actions marketplace attack; GitHub breach ongoing; shared exfiltration domain confirms campaign live
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -88,22 +88,28 @@
   (May 19):** (a) @antv/* ecosystem — 300+ malicious versions, 323 packages, ~16M
   weekly downloads, 22-minute burst; (b) Microsoft durabletask PyPI SDK — versions
   1.4.1/1.4.2/1.4.3, 400K monthly downloads; Claude Code SessionStart hook / VS Code
-  tasks weaponized as persistence (survives package removal); (c) TeamPCP now claiming
+  tasks weaponized as persistence (survives package removal); (c) TeamPCP claimed
   breach of ~4,000 GitHub internal repositories via malicious VS Code extension
-  (GitHub investigation ongoing as of May 20 — see THREAT-2026-0029).
+  (Nx Console v18.95.0, confirmed — see THREAT-2026-0029). **Phase 7b (May 18):**
+  actions-cool/issues-helper and actions-cool/maintain-one-comment GitHub Actions
+  compromised via imposter commit tag redirect — all tags moved to credential-stealing
+  Bun payload; exfiltration via t.m-kosche[.]com (same infra as Phase 7 npm burst —
+  see THREAT-2026-0031).
 - **Affected tools:** Trivy, Checkmarx AST (GH Actions), Checkmarx Jenkins AST plugin
   v2026.5.09, LiteLLM (PyPI), Telnyx (PyPI), 66+ npm packages, @bitwarden/cli,
   @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages,
-  SAP CAP/MBT npm packages (April 29), @antv/* (May 19), durabletask PyPI 1.4.1–1.4.3
+  SAP CAP/MBT npm packages (April 29), @antv/* (May 19), durabletask PyPI 1.4.1–1.4.3,
+  Nx Console VS Code extension v18.95.0 (May 18), actions-cool/issues-helper + actions-cool/maintain-one-comment (May 18)
 - **IOCs:** models.litellm[.]cloud; gh-token-monitor daemon (macOS LaunchAgent / Linux
   systemd); public GitHub repos under victim accounts for credential exfiltration;
   unexpected entries in ~/.claude/settings.json hooks section; Claude Code SessionStart
-  hook pointing to external script
+  hook pointing to external script; t.m-kosche[.]com (Phase 7/7b exfiltration endpoint)
 - **Action taken:** Audit GitHub Actions for SHA pinning; verify no use of compromised
   tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
-  HOOKS on all developer machines; verify @antv/* and durabletask versions
-- **Last updated:** 2026-05-20
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [Incident Timeline](https://ramimac.me/teampcp/)
+  HOOKS on all developer machines; verify @antv/* and durabletask versions; audit for
+  actions-cool usage; add t.m-kosche[.]com to network blocklist
+- **Last updated:** 2026-05-23
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -551,27 +557,27 @@
 - **Last updated:** 2026-05-20
 - **Sources:** [Wiz Blog @antv](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz Blog durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [Snyk](https://snyk.io/blog/mini-shai-hulud-antv-npm-supply-chain-attack/), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-pushes-malicious-antv.html), [Cybernews](https://cybernews.com/security/shai-hulud-strikes-again-massive-npm-compromise/)
 
-### [THREAT-2026-0029] GitHub internal repository breach — TeamPCP via malicious VS Code extension (BREAKING)
+### [THREAT-2026-0029] GitHub internal repository breach — TeamPCP via malicious VS Code extension
 - **Date detected:** 2026-05-20 (ongoing investigation)
-- **Status:** 🔴 Active / Breaking — GitHub investigation open; no customer data confirmed affected yet
+- **Status:** 🔴 Active — VS Code extension identified (Nx Console v18.95.0); stolen data listed for sale at $50K; zero-days from stolen source code remain a watch item
 - **Category:** Breach > Infrastructure > GitHub | Threat Actor
-- **Affects us:** Yes (we host code on GitHub; GitHub is investigating now)
-- **Summary:** TeamPCP (UNC6780) posted ~4,000 GitHub internal repositories for sale on a
-  cybercrime forum on or around May 20, 2026. GitHub confirmed it is actively investigating
-  unauthorized access to internal repositories. Entry vector: a malicious VS Code extension
-  compromised a GitHub employee device, which yielded access to internal GitHub secrets and
-  from there to internal repositories. GitHub's investigation places the figure at ~3,800 repos
-  (consistent with attacker claims). GitHub confirmed no evidence of impact to customer
-  repositories, enterprises, organizations, or stored data outside their internal systems.
-  GitHub is rotating critical credentials and monitoring for follow-on exploitation. If internal
-  GitHub source code is in attacker hands, researchers may surface new GitHub platform
-  zero-days in coming days/weeks.
-- **Affected scope:** GitHub internal repositories only (not customer repos); employee devices
-- **IOCs:** Malicious VS Code extension (identity TBD); GitHub audit log anomalies
-- **Action taken:** Rotate GitHub PATs; audit VS Code extensions for unauthorized installs;
-  watch GitHub security advisories and status page closely this week
-- **Last updated:** 2026-05-20
-- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-investigating-teampcp-claimed.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/github-investigates-internal-repositories-breach-claimed-by-teampcp/), [piunikaweb](https://piunikaweb.com/2026/05/20/github-internal-repository-breach-investigation/)
+- **Affects us:** Yes (we host code on GitHub; potential zero-days from stolen source)
+- **Summary:** TeamPCP (UNC6780) posted ~3,800 GitHub internal repositories for sale on a
+  cybercrime forum (~$50,000 USD). GitHub confirmed unauthorized access via a GitHub employee
+  installing a trojanized VS Code extension: **Nx Console (nrwl.angular-console) v18.95.0**,
+  published to the VS Code Marketplace on May 18, 2026 and live for roughly 11 minutes before
+  removal. The extension yielded access to internal GitHub secrets and from there to internal
+  repositories. GitHub isolated the compromised endpoint, rotated high-impact internal secrets,
+  and confirmed no impact to customer repositories, enterprises, or user data. Attacker
+  continues to taunt GitHub publicly. If internal GitHub source is in attacker hands,
+  researchers may surface new GitHub platform zero-days in coming weeks.
+- **Affected scope:** GitHub internal repositories only (not customer repos); ~3,800 repos
+- **IOCs:** nrwl.angular-console v18.95.0 (malicious VS Code extension, now removed); GitHub audit log anomalies
+- **Action taken:** Rotate GitHub PATs; audit VS Code extensions for nrwl.angular-console and
+  any other low-install-count extensions; watch GitHub security advisories this week;
+  DO NOT install Nx Console unless from the official Nx publisher page and verified
+- **Last updated:** 2026-05-23
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-investigating-teampcp-claimed.html), [Help Net Security](https://www.helpnetsecurity.com/2026/05/20/github-breached-teampcp/), [StepSecurity](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [The Next Web](https://thenextweb.com/news/github-confirms-hackers-stole-thousands-of-internal-code-repositories-after-employee-installed-a-poisoned-vs-code-extension)
 
 ### [THREAT-2026-0030] Grafana Labs codebase stolen — CoinbaseCartel Pwn Request (May 16–18)
 - **Date detected:** 2026-05-20 (disclosed 2026-05-16; reported 2026-05-18)
@@ -596,6 +602,97 @@
   restrict secrets access to trusted contributors; revoke broad CI tokens
 - **Last updated:** 2026-05-20
 - **Sources:** [TechCrunch](https://techcrunch.com/2026/05/18/open-source-tool-maker-grafana-labs-says-hackers-stole-its-code-refuses-to-pay-ransom/), [Help Net Security](https://www.helpnetsecurity.com/2026/05/18/attackers-accessed-downloaded-code-from-grafana-labs-github/), [The Hacker News](https://thehackernews.com/2026/05/grafana-github-token-breach-led-to.html), [SecurityWeek](https://www.securityweek.com/grafana-confirms-breach-after-hackers-claim-they-stole-data/), [The Register](https://www.theregister.com/cyber-crime/2026/05/18/grafana-labs-admits-attackers-downloaded-its-codebase-from-github/5241686), [BleepingComputer](https://www.bleepingcomputer.com/news/security/grafana-says-stolen-github-token-let-hackers-steal-codebase/)
+
+### [THREAT-2026-0031] actions-cool GitHub Actions marketplace supply chain attack (TeamPCP Phase 7b)
+- **Date detected:** 2026-05-23 (attack occurred 2026-05-18; disclosed 2026-05-19)
+- **Status:** 🔴 Active — All tags still affected unless explicitly re-pinned; any un-pinned workflow referencing these actions is compromised
+- **Category:** Supply Chain > GitHub Actions
+- **Affects us:** Yes (we use GitHub Actions)
+- **Summary:** On May 18, 2026 between 19:10–19:13 UTC, all 53 tags of the widely-used GitHub
+  Action `actions-cool/issues-helper` were force-moved to a single imposter commit created in a
+  3-minute 16-second burst. `actions-cool/maintain-one-comment` had 15 tags compromised
+  identically. The malicious commit downloads the Bun JavaScript runtime, reads the Runner.Worker
+  process memory (which holds decrypted in-flight workflow secrets), and exfiltrates CI/CD
+  credentials via HTTPS to t.m-kosche[.]com — the same domain used in TeamPCP's Phase 7 npm
+  attack. This is the first confirmed Shai-Hulud attack directly targeting the GitHub Actions
+  marketplace. Only workflows pinned to a known-good full commit SHA are safe. Attribution:
+  TeamPCP (UNC6780) via shared infrastructure.
+- **Affected tools:** actions-cool/issues-helper (all tags), actions-cool/maintain-one-comment (all tags)
+- **IOCs:** t.m-kosche[.]com (exfiltration domain, shared with Phase 7 npm attack)
+- **Action taken:** `grep -r "actions-cool/issues-helper\|actions-cool/maintain-one-comment" .github/workflows/`
+  across all repos — if found: rotate CI secrets and replace with SHA-pinned reference immediately;
+  block t.m-kosche[.]com at network perimeter
+- **Last updated:** 2026-05-23
+- **Sources:** [StepSecurity](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [The Hacker News](https://thehackernews.com/2026/05/github-actions-supply-chain-attack.html), [CybersecurityNews](https://cybersecuritynews.com/compromised-github-action-exfiltrates-workflow-credentials/)
+
+### [THREAT-2026-0032] CVE-2026-41091 / CVE-2026-45498 — Microsoft Defender EoP + DoS zero-days (CISA KEV, deadline June 3)
+- **Date detected:** 2026-05-23 (disclosed 2026-05-19; actively exploited as of 2026-05-21)
+- **Status:** 🔴 Active exploitation — Patch released; CISA FCEB deadline June 3, 2026
+- **Category:** CVE > Infrastructure > Windows
+- **Affects us:** 🟠 Could affect us (all Windows dev machines and endpoints)
+- **Summary:** Two Microsoft Defender vulnerabilities actively exploited in the wild as of May
+  19–21, 2026. **CVE-2026-41091** (CVSS 7.8): "link following" EoP in Defender's scanning logic
+  — an authenticated local user can trick Defender into following crafted junctions and gain
+  SYSTEM-level privileges. **CVE-2026-45498** (DoS): crashes or impairs the Defender antimalware
+  platform, creating a protection window for follow-on attacks. Threat actors named campaigns
+  "RedSun" (CVE-2026-41091) and "UnDefend" (CVE-2026-45498). Microsoft patched both in engine
+  version 1.1.26040.8 and platform 4.18.26040.7 (released May 22, 2026). CISA FCEB remediation
+  deadline: June 3, 2026.
+- **Affected versions:** Microsoft Malware Protection Engine ≤ 1.1.26030.3008; Defender Platform < 4.18.26040.7
+- **Safe version:** Engine ≥ 1.1.26040.8; Platform ≥ 4.18.26040.7
+- **IOCs:** N/A
+- **Action taken:** Run `Get-MpComputerStatus` on Windows machines; verify `AMEngineVersion` ≥ 1.1.26040.8
+  and `AMProductVersion` ≥ 4.18.26040.7; force update with `Update-MpSignature` if needed
+- **Last updated:** 2026-05-23
+- **Sources:** [CybersecurityNews](https://cybersecuritynews.com/microsoft-defender-0-days-exploited/), [SecurityWeek](https://www.securityweek.com/recent-microsoft-defender-vulnerability-exploited-as-zero-day/), [Winbuzzer](https://winbuzzer.com/2026/05/22/microsoft-patches-exploited-defender-zero-days-as-cisa-acts-xcxwbn/)
+
+### [THREAT-2026-0033] CVE-2026-46333 "ssh-keysign-pwn" — Linux kernel ptrace fd-theft (4th in LPE cluster)
+- **Date detected:** 2026-05-23 (patch committed 2026-05-14; Qualys disclosure 2026-05-20)
+- **Status:** 🔴 Active — PoC viable (100–2,000 attempts); patches available; this environment (6.18.5) confirmed vulnerable
+- **Category:** CVE > Infrastructure > Linux Kernel
+- **Affects us:** Yes (all Linux dev machines, CI/CD runners, and this session environment)
+- **Summary:** A 6-year race condition in `__ptrace_may_access()` (Qualys research, disclosed
+  May 20). During the narrow window between a task's memory descriptor being detached and its
+  file descriptor table being closed, an unprivileged local user can invoke `pidfd_getfd(2)`
+  (available since Linux 5.6) to clone file descriptors from exiting SUID binaries. Primary
+  targets: `ssh-keysign` (reads SSH host private keys) and `chage` (reads the shadow password
+  database). Not a full root privilege escalation but enables credential theft for lateral
+  movement. Exploit succeeds within 100–2,000 attempts (practical on real systems). This is
+  the **FOURTH** Linux kernel credential disclosure/LPE in the current cluster (after Copy Fail
+  CVE-2026-31431, Dirty Frag CVE-2026-43284/43500, Fragnesia CVE-2026-46300). Patch committed
+  publicly May 14, 2026.
+- **Affected versions:** Linux kernels with pidfd_getfd (≥5.6, unpatched)
+- **Safe version:** ≥7.0.8, ≥6.18.31, ≥6.12.89, ≥6.6.139, ≥6.1.173, ≥5.15.207, ≥5.10.256
+- **IOCs:** N/A
+- **Action taken:** Apply distro CVE-2026-46333 kernel update; check `uname -r` (must show ≥6.18.31
+  on this kernel branch); interim: apply AppArmor/SELinux confinement on ssh-keysign; restrict
+  pidfd_getfd via seccomp policy
+- **Last updated:** 2026-05-23
+- **Sources:** [Qualys Blog](https://blog.qualys.com/vulnerabilities-threat-research/2026/05/20/cve-2026-46333-local-root-privilege-escalation-and-credential-disclosure-in-the-linux-kernel-ptrace-path), [CloudLinux](https://blog.cloudlinux.com/ptrace-exit-race-cve-2026-46333-mitigation-and-kernel-update), [CybersecurityNews](https://cybersecuritynews.com/linux-kernel-vulnerability-ssh-keysign-pwn/)
+
+### [THREAT-2026-0034] Langflow CVE-2025-34291 + CVE-2026-42048 — CISA KEV, active MuddyWater exploitation (deadline June 4)
+- **Date detected:** 2026-05-23 (CISA KEV addition 2026-05-21; active exploitation confirmed)
+- **Status:** 🔴 Active exploitation — CISA KEV; federal deadline June 4, 2026; MuddyWater using for initial access
+- **Category:** CVE > AI Dev Tool > Workflow Automation
+- **Affects us:** 🟠 Could affect us (if team uses Langflow for AI agent/workflow automation)
+- **Summary:** CISA added CVE-2025-34291 (CVSS 9.4) in Langflow ≤1.6.9 to the KEV catalog on
+  May 21, 2026, with a federal remediation deadline of June 4. The flaw chains overly-permissive
+  CORS + a SameSite=None refresh token cookie to enable unauthenticated RCE and full account
+  takeover — exposing ALL API keys and tokens stored in the Langflow workspace. Active
+  exploitation linked to **MuddyWater** (Iranian state-sponsored group) using this for initial
+  network access. Additionally, CVE-2026-42048 (CVSS 9.6, path traversal in Langflow <1.9.0)
+  allows reading arbitrary files. Both fixed in Langflow ≥1.9.0. CISA simultaneously added
+  Trend Micro Apex One CVE-2026-34926 (CVSS 6.7, directory traversal in on-prem endpoint agent,
+  allows injecting malicious code distributed to all connected agents) with the same June 4 deadline.
+- **Affected versions:** Langflow ≤1.6.9 (CVE-2025-34291); Langflow <1.9.0 (CVE-2026-42048);
+  Trend Micro Apex One on-premise (CVE-2026-34926)
+- **Safe version:** Langflow ≥1.9.0; Trend Micro Apex One with CVE-2026-34926 patch applied
+- **IOCs:** N/A
+- **Action taken:** Patch Langflow to ≥1.9.0 (fixes both CVEs); if previously running ≤1.6.9,
+  rotate ALL API keys/tokens stored in Langflow workspaces immediately; for Trend Micro Apex One
+  on-prem: apply CVE-2026-34926 patch before June 4
+- **Last updated:** 2026-05-23
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/cisa-adds-exploited-langflow-and-trend.html), [Obsidian Security](https://www.obsidiansecurity.com/blog/cve-2025-34291-critical-account-takeover-and-rce-vulnerability-in-the-langflow-ai-agent-workflow-platform), [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 
 ---
 
@@ -622,6 +719,10 @@
 | 2026-05-19 | THREAT-2026-0028 | PyPI package | durabletask==1.4.1, 1.4.2, 1.4.3 | TeamPCP Phase 7 — Microsoft Azure Python SDK; 400K monthly downloads |
 | 2026-05-19 | THREAT-2026-0028 | Config file | ~/.claude/settings.json hooks section | TeamPCP Phase 7 persistence — unexpected hooks entries reinstall malware |
 | 2026-05-20 | THREAT-2026-0029 | GitHub repos | ~4,000 GitHub internal repos (claimed by UNC6780) | TeamPCP GitHub internal breach — investigation ongoing |
+| 2026-05-18 | THREAT-2026-0029 | VS Code extension | nrwl.angular-console@18.95.0 (Nx Console) | TeamPCP GitHub breach entry vector — trojanized VS Code extension; removed from Marketplace ~11 min after publish |
+| 2026-05-18 | THREAT-2026-0031 | Domain | t.m-kosche[.]com | TeamPCP Phase 7/7b exfiltration endpoint — actions-cool GitHub Action + npm/PyPI Shai-Hulud shared C2 |
+| 2026-05-18 | THREAT-2026-0031 | GitHub Action | actions-cool/issues-helper (all tags) | All tags redirected to imposter credential-stealing commit; exfil via t.m-kosche[.]com |
+| 2026-05-18 | THREAT-2026-0031 | GitHub Action | actions-cool/maintain-one-comment (all tags) | 15 tags redirected; same imposter commit and exfil domain as issues-helper |
 
 ---
 
@@ -651,6 +752,10 @@
 | @antv/* | npm | TeamPCP Phase 7 — entire ecosystem compromised May 19 | 2026-05-20 | Avoid any @antv/* version published May 19, 2026 |
 | durabletask | PyPI | TeamPCP Phase 7 — Microsoft Azure Python SDK; 3 malicious versions | 2026-05-20 | Safe if ≤ 1.4.0; do NOT install 1.4.1/1.4.2/1.4.3 |
 | ~/.claude/settings.json | Config | TeamPCP Phase 7 persistence target — hooks used to reinstall malware | 2026-05-20 | Inspect hooks section after any npm/pip install |
+| actions-cool/issues-helper | GitHub Actions | TeamPCP Phase 7b — all tags redirected to imposter commit; exfil via t.m-kosche[.]com | 2026-05-23 | Do NOT use tag-based reference; pin to known-good SHA only |
+| actions-cool/maintain-one-comment | GitHub Actions | TeamPCP Phase 7b — same imposter commit attack as issues-helper | 2026-05-23 | Do NOT use tag-based reference; pin to known-good SHA only |
+| langflow | PyPI | CVE-2025-34291 (CVSS 9.4, RCE) + CVE-2026-42048 (CVSS 9.6, path traversal); CISA KEV; MuddyWater exploiting | 2026-05-23 | Safe if ≥ 1.9.0; if was ≤ 1.6.9: rotate all stored API keys |
+| linux-kernel (ptrace) | System | CVE-2026-46333 ssh-keysign-pwn — 4th Linux LPE in cluster; reads SSH host keys + shadow | 2026-05-23 | Safe if ≥ 6.18.31 (or ≥ 7.0.8, ≥ 6.12.89, ≥ 6.6.139); this environment (6.18.5) vulnerable |
 
 ---
 
