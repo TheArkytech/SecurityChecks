@@ -281,6 +281,52 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-24] [COVERAGE] Add PHP/Packagist ecosystem to daily supply chain search scope
+- **Origin:** Prompt A
+- **Description:** The Laravel-Lang Packagist attack (May 22–23, THREAT-2026-0038) used a novel
+  GitHub tag→fork exploit to compromise 700+ PHP package versions with a cross-platform credential
+  stealer. The Radar prompt's Area 1 covers npm, PyPI, crates.io, Docker Hub, and GitHub Actions —
+  but does NOT explicitly include Packagist (PHP/Composer) or RubyGems. Given that the Mini
+  Shai-Hulud technique has now spread to PHP, these registries should be added to the daily search
+  scope. Recommend adding "Packagist supply chain attack" and "Composer package compromise" as
+  explicit daily search terms alongside the existing npm/PyPI searches.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-24] [PROMPT] Add "GitHub tag-to-fork exploit" as explicit supply chain search term
+- **Origin:** Prompt A
+- **Description:** The Laravel-Lang attack and the actions-cool attack both used the same technique:
+  GitHub allows version tags to point to commits from a fork. This is now a confirmed exploit
+  technique used by at least two separate campaigns. The Radar prompt doesn't explicitly search for
+  this pattern. Adding "GitHub tag fork redirect supply chain" or "malicious git tag fork" as a
+  search term in Area 1 would catch incidents using this vector earlier — it's distinct from
+  "hacked maintainer accounts" or "dependency confusion" which are the current supply chain terms.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-24] [COVERAGE] Add "AI agent prompt injection via issue/PR metadata" to Area 2
+- **Origin:** Prompt A
+- **Description:** "Comment and Control" (THREAT-2026-0035) was disclosed mid-April 2026 but was
+  missed until today's scan — 5+ weeks late. The Radar prompt's Area 2 covers "Prompt injection in
+  development contexts" but does not specifically mention GitHub PR/issue metadata as an injection
+  vector for CI/CD AI agents. This attack class (untrusted GitHub data flowing into AI agents
+  holding secrets) is architecturally different from TrustFall (cloned repo config files) and
+  deserves its own explicit search term: "AI agent GitHub comment prompt injection" or
+  "CI/CD AI agent credential theft." The 5-week gap confirms this search term is missing.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-24] [CHECK] Add nginx version check to Prompt B infrastructure audit
+- **Origin:** Prompt A
+- **Description:** CVE-2026-42945 "NGINX Rift" is a CVSS 9.2 actively exploited vulnerability
+  in all nginx versions since 2008. Nginx is ubiquitous in web infrastructure. Prompt B's audit
+  checklist doesn't currently include nginx version checking. Given the 18-year exposure window
+  and active exploitation, any project audit should include `nginx -v` verification and comparison
+  against the safe threshold (≥1.30.1). This should be added to Prompt B's Infrastructure section
+  alongside the existing Node.js/Python version checks.
+- **Impact:** High
+- **Effort:** Low
+
 ### [2026-05-23] [COVERAGE] Track extortion-focused threat actors (CoinbaseCartel, LAPSUS$ offshoots) separately
 - **Origin:** Prompt A
 - **Description:** CoinbaseCartel (THREAT-2026-0030) represents a distinct threat actor class:

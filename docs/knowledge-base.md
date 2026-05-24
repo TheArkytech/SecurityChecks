@@ -94,12 +94,17 @@
   actions-cool/issues-helper and actions-cool/maintain-one-comment GitHub Actions
   compromised via imposter commit tag redirect — all tags moved to credential-stealing
   Bun payload; exfiltration via t.m-kosche[.]com (same infra as Phase 7 npm burst —
-  see THREAT-2026-0031).
+  see THREAT-2026-0031). **Confirmed long-tail victim (May 24 update):** Credentials from
+  the March 2026 Trivy breach were used to clone 300+ internal Cisco GitHub repositories,
+  including source for Cisco AI Assistant, AI Defense, unreleased products, and repos belonging
+  to bank/government customers. ISC SANS tracks this as TeamPCP Update 007. Mini Shai-Hulud has
+  also spread to Packagist/PHP via a malicious Intercom PHP Composer plugin (see THREAT-2026-0038).
 - **Affected tools:** Trivy, Checkmarx AST (GH Actions), Checkmarx Jenkins AST plugin
   v2026.5.09, LiteLLM (PyPI), Telnyx (PyPI), 66+ npm packages, @bitwarden/cli,
   @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages,
   SAP CAP/MBT npm packages (April 29), @antv/* (May 19), durabletask PyPI 1.4.1–1.4.3,
-  Nx Console VS Code extension v18.95.0 (May 18), actions-cool/issues-helper + actions-cool/maintain-one-comment (May 18)
+  Nx Console VS Code extension v18.95.0 (May 18), actions-cool/issues-helper + actions-cool/maintain-one-comment (May 18),
+  Cisco internal repos (300+, long-tail victim via Trivy creds), laravel-lang Packagist packages (May 22–23)
 - **IOCs:** models.litellm[.]cloud; gh-token-monitor daemon (macOS LaunchAgent / Linux
   systemd); public GitHub repos under victim accounts for credential exfiltration;
   unexpected entries in ~/.claude/settings.json hooks section; Claude Code SessionStart
@@ -108,8 +113,8 @@
   tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
   HOOKS on all developer machines; verify @antv/* and durabletask versions; audit for
   actions-cool usage; add t.m-kosche[.]com to network blocklist
-- **Last updated:** 2026-05-23
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/)
+- **Last updated:** 2026-05-24
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -670,6 +675,144 @@
 - **Last updated:** 2026-05-23
 - **Sources:** [Qualys Blog](https://blog.qualys.com/vulnerabilities-threat-research/2026/05/20/cve-2026-46333-local-root-privilege-escalation-and-credential-disclosure-in-the-linux-kernel-ptrace-path), [CloudLinux](https://blog.cloudlinux.com/ptrace-exit-race-cve-2026-46333-mitigation-and-kernel-update), [CybersecurityNews](https://cybersecuritynews.com/linux-kernel-vulnerability-ssh-keysign-pwn/)
 
+### [THREAT-2026-0035] "Comment and Control" — Prompt injection via GitHub comments → credential theft (Claude Code, Gemini CLI, Copilot)
+- **Date detected:** 2026-05-24 (disclosed 2026-04-15; missed in initial scan)
+- **Status:** 🔴 Active — No CVE assigned; no patch from any vendor; Anthropic downgraded severity to "None" after paying $100 bounty
+- **Category:** AI Dev > Claude Code / Prompt Injection
+- **Affects us:** Yes (we use Claude Code with GitHub Actions; PR review agents)
+- **Summary:** Disclosed publicly ~April 15, 2026 by Aonan Guan (Wyze Labs) + Zhengyu Liu + Gavin Zhong
+  (Johns Hopkins). Three AI coding agents — Anthropic's Claude Code Security Review, Google's Gemini
+  CLI Action, and GitHub Copilot Agent — are vulnerable to prompt injection via ordinary GitHub PR
+  titles, issue bodies, and HTML-hidden issue comments. The attack is **proactive**: GitHub Actions
+  workflows auto-trigger on `pull_request`, `issues`, and `issue_comment` events, so an attacker
+  simply opens a PR or files an issue to activate the agent with no victim interaction. The AI reads
+  untrusted metadata as trusted context, executes attacker-supplied instructions, and exfiltrates
+  CI/CD secrets (ANTHROPIC_API_KEY, GEMINI_API_KEY, GITHUB_TOKEN) back through PR comments, issue
+  comments, or git commits — the entire loop stays within GitHub. No CVE assigned by any vendor.
+  Anthropic rated CVSS 9.4 internally, paid $100 bounty, then re-classified severity as "None."
+  GitHub marked Copilot variant as "architectural limitation." No public advisories published.
+- **Affected scope:** Any repo using Claude Code Security Review, Gemini CLI Action, or Copilot Agent
+  workflows triggered by untrusted GitHub events
+- **IOCs:** Unexpected PR comments or commits containing encoded credential strings
+- **Action taken:** Audit all GitHub Actions workflows — if any AI agent runs on pull_request/issues/
+  issue_comment events with access to secrets, add explicit input sanitization or switch to
+  pull_request_target with secret isolation; never pass raw PR metadata to an AI agent holding secrets
+- **Last updated:** 2026-05-24
+- **Sources:** [SecurityWeek](https://www.securityweek.com/claude-code-gemini-cli-github-copilot-agents-vulnerable-to-prompt-injection-via-github-comments/), [CybersecurityNews](https://cybersecuritynews.com/prompt-injection-via-github-comments/), [Original Research](https://oddguan.com/blog/comment-and-control-prompt-injection-credential-theft-claude-code-gemini-cli-github-copilot/), [Repello AI](https://repello.ai/blog/comment-and-control-claude-code-gemini-copilot-prompt-injection)
+
+### [THREAT-2026-0036] CVE-2026-42945 "NGINX Rift" — 18-year-old unauthenticated RCE in rewrite module (actively exploited)
+- **Date detected:** 2026-05-24 (disclosed 2026-05-13; exploitation confirmed 2026-05-16)
+- **Status:** 🔴 Active exploitation — CISA KEV inclusion expected; patch available since May 13
+- **Category:** CVE > Infrastructure > Web Server
+- **Affects us:** 🟠 Could affect us (if any project or CI/CD infra runs nginx with rewrite rules)
+- **Summary:** A heap buffer overflow in NGINX's `ngx_http_rewrite_module` (`ngx_http_script.c`),
+  present since NGINX 0.6.27 shipped in 2008 — 18 years ago. Discovered by depthfirst's autonomous
+  vulnerability analysis system; disclosed jointly by F5 and depthfirst on May 13, 2026. An
+  unauthenticated attacker sends a single crafted HTTP request with extensive repeating patterns
+  that trigger a heap overflow when processed by `rewrite`, `if`, or `set` directives using unnamed
+  capture groups ($1, $2). Reliable DoS; RCE potential under specific configurations. CVSS 9.2.
+  Affects NGINX OSS 0.6.27–1.30.0, NGINX Plus R32–R36, and all downstreams compiling
+  `ngx_http_script.c` (including Ingress NGINX Controller ≤1.15.1). Public PoC available on GitHub.
+  Active exploitation observed by VulnCheck canaries from May 16. CISA KEV inclusion likely given
+  confirmed in-the-wild exploitation.
+- **Affected versions:** NGINX OSS 0.6.27–1.30.0; NGINX Plus R32–R36; Ingress NGINX ≤1.15.1
+- **Safe version:** NGINX OSS ≥1.30.1 (stable) or ≥1.31.0 (mainline); NGINX Plus R32 P6 / R35 P2 / R36 P4
+- **IOCs:** N/A
+- **Action taken:** Run `nginx -v` on all systems; upgrade to 1.30.1 or 1.31.0; restart nginx workers;
+  for NGINX Plus apply F5 advisory K000161019; for Ingress NGINX upgrade controller
+- **Last updated:** 2026-05-24
+- **Sources:** [Akamai](https://www.akamai.com/blog/security-research/nginx-critical-heap-buffer-overflow-cve-2026-42945), [The Hacker News](https://thehackernews.com/2026/05/18-year-old-nginx-rewrite-module-flaw.html), [Help Net Security](https://www.helpnetsecurity.com/2026/05/18/ngnix-vulnerability-exploited-cve-2026-42945/), [HeroDevs](https://www.herodevs.com/blog-posts/cve-2026-42945-nginx-rift-heap-buffer-overflow-hits-ingress-nginx), [Picus Security](https://www.picussecurity.com/resource/blog/nginx-rift-cve-2026-42945-critical-heap-buffer-overflow-vulnerability-explained)
+
+### [THREAT-2026-0037] vm2 Node.js sandbox escape cluster — 13 critical CVEs (CVSS up to 10.0)
+- **Date detected:** 2026-05-24 (CVEs published across Jan–May 2026; latest batch disclosed May 2026)
+- **Status:** 🔴 Active — Multiple public PoCs; fix in vm2 3.11.2
+- **Category:** CVE > Node.js > Sandboxing
+- **Affects us:** 🟠 Could affect us (if using vm2 for code sandboxing, expression evaluation, or
+  AI-generated code execution — common in n8n, low-code tools, and custom script runners)
+- **Summary:** A cluster of 13 critical vulnerabilities in the widely-used `vm2` Node.js sandbox
+  library that collectively allow sandboxed code to escape isolation and execute arbitrary commands
+  on the host. Key CVEs: **CVE-2026-22709** (CVSS 9.8) — bypasses Promise callback sanitization;
+  **CVE-2026-26956** (CVSS 9.8) — WebAssembly exception handling intercepts errors below vm2's
+  JS-level defenses via V8 (Symbol-to-string conversion trick); **CVE-2026-43997** (CVSS 10.0)
+  — code injection obtains the host Object directly. Additional CVEs (CVE-2026-24118,
+  -24120, -24781, -43999) all CVSS 9.8+. Public PoC code published on GitHub for CVE-2026-26956,
+  -24118, -24781, -22709. Any application using vm2 to sandbox untrusted user input or AI-generated
+  code is at risk of full host compromise.
+- **Affected versions:** vm2 < 3.11.2
+- **Safe version:** vm2 ≥ 3.11.2
+- **IOCs:** N/A
+- **Action taken:** Run `npm list vm2` across all projects; if present, upgrade to ≥3.11.2 immediately;
+  if using vm2 for AI-generated code execution, consider migrating to Deno or isolated-vm which
+  use native V8 isolates rather than JS-level sandboxing
+- **Last updated:** 2026-05-24
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/vm2-nodejs-library-vulnerabilities.html), [Endor Labs](https://www.endorlabs.com/learn/cve-2026-22709-critical-sandbox-escape-in-vm2-enables-arbitrary-code-execution), [Qualys ThreatPROTECT](https://threatprotect.qualys.com/2026/05/07/vm2-sandbox-escape-vulnerability-allows-attackers-to-execute-code-cve-2026-26956/)
+
+### [THREAT-2026-0038] Laravel-Lang Packagist supply chain attack — 700+ malicious tags (May 22–23)
+- **Date detected:** 2026-05-24 (attack occurred 2026-05-22–23; disclosed 2026-05-23)
+- **Status:** 🟠 Contained — Malicious versions removed from Packagist; tags cleaned; rotate credentials if installed
+- **Category:** Supply Chain > Packagist / PHP
+- **Affects us:** 🟡 Low direct impact (PHP/Laravel ecosystem, not our primary stack) but technique is novel
+- **Summary:** On May 22–23, 2026, attackers exploited a GitHub feature allowing version tags to
+  point to commits in a fork — not the original repo. By controlling a malicious fork, they
+  published 700+ compromised historical version tags across four community-maintained
+  laravel-lang packages (laravel-lang/lang, /attributes, /http-statuses, /actions) on Packagist.
+  The malicious `src/helpers.php` was auto-loaded via Composer's `autoload.files` directive —
+  no user action beyond `composer install` needed. Payload: cross-platform credential stealer
+  targeting cloud keys (AWS/GCP/Azure), Kubernetes/Vault secrets, CI/CD tokens, SSH material,
+  browser data, crypto wallets. Cross-ecosystem placement (hidden in package.json lifecycle hooks)
+  evades PHP-only dependency scans. Packagist removed malicious versions within hours.
+  Technique is significant: the GitHub tag→fork exploit bypasses direct repo commit access and
+  is identical in mechanism to the actions-cool GitHub Action attack (THREAT-2026-0031).
+- **Affected versions:** laravel-lang/lang, laravel-lang/attributes, laravel-lang/http-statuses,
+  laravel-lang/actions — any version published as a tag May 22–23, 2026
+- **IOCs:** N/A (malicious versions removed)
+- **Action taken:** Run `composer show laravel-lang/*` on all PHP projects; if any laravel-lang
+  package was installed between May 22–24, rotate all cloud credentials, CI/CD tokens, and SSH keys
+  accessible from that environment
+- **Last updated:** 2026-05-24
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/laravel-lang-php-packages-compromised.html), [Aikido Security](https://www.aikido.dev/blog/supply-chain-attack-targets-laravel-lang-packages-with-credential-stealer), [StepSecurity](https://www.stepsecurity.io/blog/laravel-lang-supply-chain-attack), [CybersecurityNews](https://cybersecuritynews.com/laravel-lang-packages-compromised/)
+
+### [THREAT-2026-0039] CISA AWS GovCloud credentials publicly exposed on GitHub (844 MB leak)
+- **Date detected:** 2026-05-24 (exposed since ~Nov 2025; discovered 2026-05-14; remediated 2026-05-15)
+- **Status:** ⚪ Remediated — Repo taken down; no confirmed attacker exfiltration; context/irony significant
+- **Category:** Breach > Government > Credentials
+- **Affects us:** ⚪ General informational (not our systems, but validates secrets hygiene urgency)
+- **Summary:** On May 14, 2026, GitGuardian researcher Guillaume Valadon found a public GitHub
+  repository named "Private-CISA" containing 844 MB of plaintext credentials belonging to CISA —
+  the US agency responsible for cybersecurity guidance. Exposed since approximately November 2025.
+  Contents: AWS GovCloud administrative credentials (file literally named "importantAWStokens"),
+  plaintext usernames/passwords for dozens of internal CISA systems (file: "AWS-Workspace-Firefox-
+  Passwords.csv"), IAM identities, service accounts, internal endpoint URLs, Entra ID SAML
+  certificates, and secret-management paths. CISA had disabled GitHub's default secret-blocking
+  setting. Described by Valadon as "the worst leak I've witnessed." Repo taken offline within 26
+  hours after KrebsOnSecurity reported it. US lawmakers have demanded answers.
+- **IOCs:** N/A
+- **Action taken:** No action needed for our systems. Key lesson: verify GitHub secret scanning is
+  enabled on all org repos (`git push` protection + secret scanning); never disable default protections
+- **Last updated:** 2026-05-24
+- **Sources:** [KrebsOnSecurity](https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/), [GitGuardian](https://blog.gitguardian.com/how-we-got-a-cisa-github-leak-taken-down-in-26-hours/), [The Register](https://www.theregister.com/security/2026/05/19/americas-top-cyber-defense-agency-left-a-github-repo-open-with-passwords-keys-tokens-and-incredibly-obvious-filenames/5242915), [CyberNews](https://cybernews.com/security/cisa-844-mb-plaintext-passwords-aws-tokens-github/)
+
+### [THREAT-2026-0040] CVE-2026-20223 — Cisco Secure Workload REST API auth bypass (CVSS 10.0)
+- **Date detected:** 2026-05-24 (patched 2026-05-21; no known active exploitation)
+- **Status:** 🟡 Patched — No active exploitation confirmed; apply patch
+- **Category:** CVE > Infrastructure > Network
+- **Affects us:** 🟡 Low direct risk (only if using Cisco Secure Workload SaaS or on-prem)
+- **Summary:** CVSS 10.0 authentication bypass in Cisco Secure Workload (formerly Tetration).
+  Insufficient validation in REST API endpoints allows an unauthenticated remote attacker to send
+  crafted HTTP requests, instantly gaining Site Admin privileges. Enables reading sensitive
+  information and making configuration changes across isolated tenant boundaries — full data center
+  and cloud infrastructure reconfiguration possible without any credentials. Affects SaaS and on-prem
+  deployments regardless of configuration. No workarounds; patch only. Cisco PSIRT states no known
+  public exploitation at time of disclosure. Patched May 21, 2026. This is the second CVSS 10.0
+  Cisco vulnerability this year (after SD-WAN CVE-2026-20182).
+- **Affected versions:** Cisco Secure Workload 3.9.x (all), 3.10.x < 3.10.8.3, 4.0.x < 4.0.3.17
+- **Safe version:** 3.10.8.3 or 4.0.3.17; versions 3.9.x must migrate to newer release
+- **IOCs:** N/A
+- **Action taken:** If using Cisco Secure Workload, upgrade to 4.0.3.17 (or 3.10.8.3 for 3.10.x
+  branch) per Cisco advisory cisco-sa-csw-pnbsa-g8WEnuy
+- **Last updated:** 2026-05-24
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/cisco-patches-cvss-100-secure-workload.html), [SecurityWeek](https://www.securityweek.com/cisco-patches-critical-vulnerability-in-secure-workload/), [Cisco Advisory](https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-csw-pnbsa-g8WEnuy)
+
 ### [THREAT-2026-0034] Langflow CVE-2025-34291 + CVE-2026-42048 — CISA KEV, active MuddyWater exploitation (deadline June 4)
 - **Date detected:** 2026-05-23 (CISA KEV addition 2026-05-21; active exploitation confirmed)
 - **Status:** 🔴 Active exploitation — CISA KEV; federal deadline June 4, 2026; MuddyWater using for initial access
@@ -723,6 +866,7 @@
 | 2026-05-18 | THREAT-2026-0031 | Domain | t.m-kosche[.]com | TeamPCP Phase 7/7b exfiltration endpoint — actions-cool GitHub Action + npm/PyPI Shai-Hulud shared C2 |
 | 2026-05-18 | THREAT-2026-0031 | GitHub Action | actions-cool/issues-helper (all tags) | All tags redirected to imposter credential-stealing commit; exfil via t.m-kosche[.]com |
 | 2026-05-18 | THREAT-2026-0031 | GitHub Action | actions-cool/maintain-one-comment (all tags) | 15 tags redirected; same imposter commit and exfil domain as issues-helper |
+| 2026-05-22 | THREAT-2026-0038 | Packagist packages | laravel-lang/lang, laravel-lang/attributes, laravel-lang/http-statuses, laravel-lang/actions | 700+ malicious tags via GitHub fork exploit; cross-platform credential stealer |
 
 ---
 
@@ -756,6 +900,9 @@
 | actions-cool/maintain-one-comment | GitHub Actions | TeamPCP Phase 7b — same imposter commit attack as issues-helper | 2026-05-23 | Do NOT use tag-based reference; pin to known-good SHA only |
 | langflow | PyPI | CVE-2025-34291 (CVSS 9.4, RCE) + CVE-2026-42048 (CVSS 9.6, path traversal); CISA KEV; MuddyWater exploiting | 2026-05-23 | Safe if ≥ 1.9.0; if was ≤ 1.6.9: rotate all stored API keys |
 | linux-kernel (ptrace) | System | CVE-2026-46333 ssh-keysign-pwn — 4th Linux LPE in cluster; reads SSH host keys + shadow | 2026-05-23 | Safe if ≥ 6.18.31 (or ≥ 7.0.8, ≥ 6.12.89, ≥ 6.6.139); this environment (6.18.5) vulnerable |
+| nginx | System/Infra | CVE-2026-42945 "NGINX Rift" — 18-year-old heap buffer overflow in rewrite module; unauthenticated RCE; actively exploited | 2026-05-24 | Safe if OSS ≥ 1.30.1 or ≥ 1.31.0; Plus ≥ R36 P4; Ingress NGINX controller update required |
+| vm2 | npm | 13 critical sandbox escape CVEs (CVSS up to 10.0); public PoCs available | 2026-05-24 | Safe if ≥ 3.11.2 |
+| laravel-lang/* | Packagist | Supply chain attack May 22–23; 700+ malicious tags via fork exploit; malicious versions removed | 2026-05-24 | Rotate credentials if installed May 22–24; safe on current Packagist versions |
 
 ---
 
