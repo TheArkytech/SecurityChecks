@@ -340,6 +340,50 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-25] [CHECK] Add zero-width Unicode character scan to AI config file pre-flight checklist
+- **Origin:** Prompt A
+- **Description:** TrapDoor (THREAT-2026-0041) uses hidden zero-width Unicode characters (U+200B, U+200C,
+  U+200D, U+FEFF, U+2060) in `.cursorrules` and `CLAUDE.md` files to inject attacker instructions that
+  are invisible to human reviewers but parsed and executed by AI coding assistants (Claude Code, Cursor).
+  The existing TrustFall pre-flight check (THREAT-2026-0013) only inspects for file existence and suspicious
+  URLs. It must be extended with a Unicode character scan:
+  `grep -rP '[\x{200b}\x{200c}\x{200d}\x{feff}\x{2060}]' . --include="CLAUDE.md" --include=".cursorrules"`
+  This should be added to AGENTS.md as a mandatory pre-flight step and as a git pre-commit hook in the
+  .pre-commit-config.yaml template.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-25] [COVERAGE] Add Crates.io (Rust) to daily supply chain search scope
+- **Origin:** Prompt A
+- **Description:** TrapDoor (THREAT-2026-0041) included 6 malicious Crates.io packages that abuse `build.rs`
+  (executes automatically during Rust compilation) — a dangerous default behavior. The Radar prompt's Area 1
+  lists Crates.io but it has never been the subject of an active campaign in our KB until today. Searches for
+  Crates.io supply chain attacks should be added as an explicit daily query alongside npm/PyPI, and the
+  `build.rs` execution vector should be documented in AGENTS.md as a known risk vector for any Rust project.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-25] [PROMPT] Add "AI agent skills marketplace" to Area 2 (AI/Vibe Coding) search scope
+- **Origin:** Prompt A
+- **Description:** ToxicSkills (THREAT-2026-0043) found 36% of AI agent skills containing prompt injection
+  and 1,467 malicious payloads across ClawHub and skills.sh — a significant threat surface not currently
+  covered by the Radar prompt. Area 2 covers AI coding tools and MCP servers but does not mention AI agent
+  skill marketplaces (ClawHub, skills.sh, OpenClaw, etc.). These should be added as an explicit daily search
+  target: "AI agent skill supply chain attack OR malicious ClawHub skill." The OWASP Agentic Skills Top 10
+  launch should also be bookmarked as a standing reference source.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-25] [KB] Add "ISC SANS Update number" field to TeamPCP/UNC6780 entry for easier phase tracking
+- **Origin:** Prompt A
+- **Description:** ISC SANS now publishes weekly W-series updates AND numbered "Update NNN" reports on the
+  TeamPCP campaign. THREAT-2026-0004 captures phase numbers but not the ISC SANS update numbers. This means
+  ISC SANS Update 008 (April 27) introduced phases (Checkmarx KICS, xinference, CanisterSprawl) that were
+  not in the KB for 28 days. Cross-referencing the ISC SANS update number in the KB status field would
+  immediately flag gaps: "Last ISC SANS update incorporated: 007" makes it obvious 008 is missing.
+- **Impact:** Medium
+- **Effort:** Low
+
 ### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
 - **Origin:** Prompt A
 - **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous

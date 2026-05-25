@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Phase 7b active (May 18–23) — actions-cool GitHub Actions marketplace attack; GitHub breach ongoing; shared exfiltration domain confirms campaign live
+- **Status:** 🔴 Phase 7b+ active — actions-cool attack ongoing; ISC SANS Update 008 (Apr 27) confirmed previously-uncaptured Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -99,6 +99,12 @@
   including source for Cisco AI Assistant, AI Defense, unreleased products, and repos belonging
   to bank/government customers. ISC SANS tracks this as TeamPCP Update 007. Mini Shai-Hulud has
   also spread to Packagist/PHP via a malicious Intercom PHP Composer plugin (see THREAT-2026-0038).
+  **ISC SANS Update 008 (Apr 27 — previously uncaptured phases):** Following a ~26-day operational pause,
+  TeamPCP simultaneously hit Checkmarx KICS Docker Hub (Apr 22), xinference PyPI (Apr 22), and deployed
+  "CanisterSprawl" — a self-propagating npm worm that harvests 40 credential categories and auto-propagates
+  to PyPI if a PyPI publish token is discovered. ISC SANS now publishes weekly W-series analysis (W18, W19…).
+  GitHub/npm began major countermeasures: mandatory 2FA, classic token sunset, 90-day granular token caps,
+  staged publishing with 2FA gate. These phases fall between Phase 4 (Bitwarden Apr 22) and Phase 5 (May 9).
 - **Affected tools:** Trivy, Checkmarx AST (GH Actions), Checkmarx Jenkins AST plugin
   v2026.5.09, LiteLLM (PyPI), Telnyx (PyPI), 66+ npm packages, @bitwarden/cli,
   @tanstack/* (84 packages), @mistralai/mistralai, guardrails-ai, UiPath packages,
@@ -113,8 +119,8 @@
   tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
   HOOKS on all developer machines; verify @antv/* and durabletask versions; audit for
   actions-cool usage; add t.m-kosche[.]com to network blocklist
-- **Last updated:** 2026-05-24
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/)
+- **Last updated:** 2026-05-25
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -813,6 +819,98 @@
 - **Last updated:** 2026-05-24
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/05/cisco-patches-cvss-100-secure-workload.html), [SecurityWeek](https://www.securityweek.com/cisco-patches-critical-vulnerability-in-secure-workload/), [Cisco Advisory](https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-csw-pnbsa-g8WEnuy)
 
+### [THREAT-2026-0041] TrapDoor — Cross-Registry Supply Chain Attack + CLAUDE.md/.cursorrules AI Prompt Injection (May 22–24)
+- **Date detected:** 2026-05-25 (attack began 2026-05-22)
+- **Status:** 🔴 Active — malicious packages removed from registries; PR campaign ongoing against popular OSS repos
+- **Category:** Supply Chain > npm/PyPI/Crates.io | AI Dev > Prompt Injection
+- **Affects us:** 🔴 YES — we use Claude Code and Cursor; CLAUDE.md and .cursorrules files are directly weaponized
+- **Summary:** "TrapDoor" is a coordinated cross-registry supply chain attack discovered May 22–24, 2026 by Socket.dev.
+  34 malicious packages across npm (21), PyPI (7), and Crates.io (6) target cryptocurrency/DeFi, AI, and security
+  developers. Earliest package: `eth-security-auditor@0.1.0` (PyPI, May 22 20:20 UTC). Crates.io packages abuse
+  `build.rs` (executes automatically during Rust compilation). Steals: SSH keys, Sui/Solana/Aptos wallet keystores,
+  AWS/GCP/Azure credentials, GitHub tokens, browser databases, crypto wallet extensions. **Critical novel TTP
+  directly affecting our toolchain:** TrapDoor embeds attacker instructions inside `.cursorrules` and `CLAUDE.md`
+  files using **hidden zero-width Unicode characters** (U+200B, U+200C, U+200D, U+FEFF, U+2060) — invisible
+  in most editors and diff views but parsed as instructions by Claude Code and Cursor, silently executing
+  "security scan" commands that exfiltrate secrets. **Second novel TTP:** PR campaign against popular GitHub
+  OSS repos (langchain-ai/langchain, langflow-ai/langflow, run-llama/llama_index, FoundationAgents/MetaGPT,
+  OpenHands/OpenHands) submitting PRs with innocuous titles ("docs: add .cursorrules with dev standards") to
+  inject malicious AI config files. Detection time: Socket detected packages in avg 5m 56s.
+- **IOCs:** `eth-security-auditor` PyPI; zero-width Unicode chars in `.cursorrules` / `CLAUDE.md`;
+  GitHub Gist exfiltration (XOR-encoded with key `cargo-build-helper-2026`)
+- **Action taken:**
+  1. Inspect all CLAUDE.md and .cursorrules in repos: `grep -rP '[\x{200b}\x{200c}\x{200d}\x{feff}\x{2060}]' . --include="CLAUDE.md" --include=".cursorrules"`
+  2. Add zero-width Unicode check to repo onboarding pre-flight (add to TrustFall procedure from THREAT-2026-0013)
+  3. Check for any TrapDoor packages: `npm audit` + verify against Socket.dev indicator list
+  4. Inspect any open PRs to repos we own for suspicious .cursorrules or CLAUDE.md additions
+- **Last updated:** 2026-05-25
+- **Sources:** [Socket.dev](https://socket.dev/blog/trapdoor-crypto-stealer-npm-pypi-crates), [Cyberpress](https://cyberpress.org/supply-chain-attack-compromises-34-packages/), [Cyberkendra](https://www.cyberkendra.com/2026/05/malicious-packages-on-npm-pypi-and.html)
+
+### [THREAT-2026-0042] Instructure Canvas LMS Breach — ShinyHunters, 275M Users, Largest Educational Breach on Record
+- **Date detected:** 2026-05-25 (incident 2026-05-01; re-attack 2026-05-07; ransom resolution ~2026-05-22)
+- **Status:** 🟡 Resolved — Ransom reportedly paid ($10M); data purportedly destroyed; ShinyHunters active
+- **Category:** Breach > Education Platform | Threat Actor > ShinyHunters
+- **Affects us:** 🟡 Low direct risk (we are not in education); ShinyHunters/CoinbaseCartel activity tracking
+- **Summary:** ShinyHunters breached Instructure's Canvas LMS affecting 275 million users at 8,809 universities
+  and institutions worldwide — the largest educational breach on record. Initial incident May 1, 2026.
+  Instructure claimed containment May 6; re-attacked May 7 with login page replaced by ransomware message.
+  Attack vector: exploitation of the Free-For-Teacher account program to gain platform access. Data stolen:
+  names, email addresses, student IDs, private messages between students and teachers (3.65 TB total).
+  Disruption occurred during final exam periods at multiple universities. Instructure reportedly paid ~$10M
+  (unconfirmed terms; FBI guidance recommends against). ShinyHunters is assessed as part of the same
+  CoinbaseCartel/Scattered Spider/LAPSUS$ offshoot ecosystem seen in the Grafana breach (THREAT-2026-0030).
+- **IOCs:** N/A (ShinyHunters infrastructure — see Halcyon threat-intel feed)
+- **Action taken:** No direct action for our team. Monitors ShinyHunters as an active actor targeting
+  developer/platform infrastructure (Grafana, Canvas). If team uses Canvas or any Instructure product,
+  rotate credentials and enable MFA immediately.
+- **Last updated:** 2026-05-25
+- **Sources:** [Bitdefender](https://businessinsights.bitdefender.com/technical-advisory-shinyhunters-breach-instructure-canvas-lms), [Rescana](https://www.rescana.com/post/shinyhunters-launches-second-major-attack-on-instructure-canvas-lms-via-free-for-teacher-accounts-may-2026-breach-analys), [Halcyon](https://www.halcyon.ai/ransomware-alerts/education-sector-in-the-crosshairs-shinyhunters-extortion-campaign-against-instructure), [Wikipedia](https://en.wikipedia.org/wiki/2026_Canvas_security_incident)
+
+### [THREAT-2026-0043] ToxicSkills — AI Agent Skills Supply Chain Crisis (Snyk Research)
+- **Date detected:** 2026-05-25 (research published ~2026-05-20)
+- **Status:** 🟠 Active — 8+ malicious skills confirmed still live on ClawHub at time of publication
+- **Category:** AI Dev > Agent Skills > Supply Chain
+- **Affects us:** 🟡 Low direct risk unless team uses ClawHub/skills.sh AI skill marketplaces
+- **Summary:** Snyk published "ToxicSkills," the first comprehensive security audit of the AI Agent Skills
+  ecosystem (3,984 skills across ClawHub and skills.sh, scanned February 2026). Key findings: 36% of
+  tested skills contain prompt injection payloads; 13.4% (534 skills) contain critical-level security
+  issues; 1,467 distinct malicious payloads identified; 76 confirmed active malicious skills with verified
+  credential theft, backdoor installation, and data exfiltration capabilities. Attack patterns: skills
+  inject malicious instructions into the agent's system prompt; skills silently exfiltrate env vars on
+  trigger; skills harvest API keys from the developer shell. 91% of verified malware combines language
+  jailbreaks with executable payloads. Skills publishing grew 10x (from ~50/day in Jan 2026 to 500+/day
+  by Feb 2026). An OWASP "Agentic Skills Top 10" project was launched as a response.
+- **IOCs:** Malicious skills on ClawHub/skills.sh (see Snyk report for hash list)
+- **Action taken:** Do NOT install AI agent skills from ClawHub or skills.sh without manually reviewing
+  the skill source; prefer skills from vetted providers with source code available; treat AI skills as
+  code — apply the same vetting (PROMPT-C) as for npm packages
+- **Last updated:** 2026-05-25
+- **Sources:** [Snyk](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/), [Agensi.io](https://www.agensi.io/learn/toxicskills-clawhavoc-agent-skills-security-crisis-2026), [OWASP Agentic Skills Top 10](https://owasp.org/www-project-agentic-skills-top-10/)
+
+### [THREAT-2026-0044] Patch Tuesday May 2026 — CVE-2026-41096 (Windows DNS RCE, CVSS 9.8) + CVE-2026-41089 (Netlogon Wormable RCE, CVSS 9.8) + Hyper-V Escape
+- **Date detected:** 2026-05-25 (Patch Tuesday 2026-05-13)
+- **Status:** 🟠 Patched — No zero-days; apply Windows Update immediately; no CISA KEV additions for this batch
+- **Category:** CVE > Infrastructure > Windows
+- **Affects us:** 🟠 Could affect us (all Windows dev machines; critical for DC operators)
+- **Summary:** Microsoft's May 13, 2026 Patch Tuesday addressed 138 CVEs (30 Critical, no zero-days — first
+  zero-day-free Patch Tuesday since June 2024). Critical highlights:
+  **CVE-2026-41096** (CVSS 9.8): Heap overflow in Windows DNS Client triggered by a malicious DNS response.
+  Unauthenticated, no user interaction — attacker with MitM position or rogue DNS server achieves RCE on
+  Windows 11, Server 2022/2025. Potentially wormable.
+  **CVE-2026-41089** (CVSS 9.8): Stack overflow in Windows Netlogon — unauthenticated remote attacker sends
+  crafted network request to domain controller for full DC compromise. Wormable. Affects Windows Server
+  2012–2025. Highest priority fix for any environment with domain controllers.
+  **CVE-2026-40402** (CVSS 9.3): Hyper-V guest-to-host VM escape.
+  **CVE-2026-42826** (Azure DevOps, CVSS 10.0): Information disclosure — already fully mitigated by Microsoft
+  in cloud infrastructure; no customer action required.
+  Note: Defender zero-days (CVE-2026-41091/45498, THREAT-2026-0032) were patched in engine 1.1.26040.8 separately.
+- **Affected versions:** Windows 11, Server 2012–2025 (DNS + Netlogon); Hyper-V hosts
+- **Safe version:** Apply May 2026 Cumulative Update via Windows Update
+- **Action taken:** Apply May 2026 Patch Tuesday update on all Windows machines; prioritize domain controllers
+  for CVE-2026-41089 (Netlogon); verify `winver` shows latest update
+- **Last updated:** 2026-05-25
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/microsoft-patches-138-vulnerabilities.html), [Rapid7](https://www.rapid7.com/blog/post/em-patch-tuesday-may-2026/), [Tenable](https://www.tenable.com/blog/microsofts-may-2026-patch-tuesday-addresses-118-cves-cve-2026-41103), [ZDI](https://www.zerodayinitiative.com/blog/2026/5/12/the-may-2026-security-update-review)
+
 ### [THREAT-2026-0034] Langflow CVE-2025-34291 + CVE-2026-42048 — CISA KEV, active MuddyWater exploitation (deadline June 4)
 - **Date detected:** 2026-05-23 (CISA KEV addition 2026-05-21; active exploitation confirmed)
 - **Status:** 🔴 Active exploitation — CISA KEV; federal deadline June 4, 2026; MuddyWater using for initial access
@@ -867,6 +965,10 @@
 | 2026-05-18 | THREAT-2026-0031 | GitHub Action | actions-cool/issues-helper (all tags) | All tags redirected to imposter credential-stealing commit; exfil via t.m-kosche[.]com |
 | 2026-05-18 | THREAT-2026-0031 | GitHub Action | actions-cool/maintain-one-comment (all tags) | 15 tags redirected; same imposter commit and exfil domain as issues-helper |
 | 2026-05-22 | THREAT-2026-0038 | Packagist packages | laravel-lang/lang, laravel-lang/attributes, laravel-lang/http-statuses, laravel-lang/actions | 700+ malicious tags via GitHub fork exploit; cross-platform credential stealer |
+| 2026-05-22 | THREAT-2026-0041 | PyPI package | eth-security-auditor@0.1.0 | TrapDoor — earliest observed package; crypto/AI developer targeting |
+| 2026-05-22 | THREAT-2026-0041 | Config file vector | .cursorrules / CLAUDE.md (zero-width Unicode U+200B/C/D/FEFF/2060) | TrapDoor — hidden prompt injection in AI coding assistant config files |
+| 2026-05-22 | THREAT-2026-0041 | Exfil channel | GitHub Gist (XOR key: cargo-build-helper-2026) | TrapDoor — Crates.io payload keystore exfiltration |
+| 2026-04-22 | THREAT-2026-0004 | npm worm | CanisterSprawl | TeamPCP Update 008 — cross-registry self-propagating worm; jumps npm→PyPI if token found |
 
 ---
 
@@ -903,6 +1005,11 @@
 | nginx | System/Infra | CVE-2026-42945 "NGINX Rift" — 18-year-old heap buffer overflow in rewrite module; unauthenticated RCE; actively exploited | 2026-05-24 | Safe if OSS ≥ 1.30.1 or ≥ 1.31.0; Plus ≥ R36 P4; Ingress NGINX controller update required |
 | vm2 | npm | 13 critical sandbox escape CVEs (CVSS up to 10.0); public PoCs available | 2026-05-24 | Safe if ≥ 3.11.2 |
 | laravel-lang/* | Packagist | Supply chain attack May 22–23; 700+ malicious tags via fork exploit; malicious versions removed | 2026-05-24 | Rotate credentials if installed May 22–24; safe on current Packagist versions |
+| CLAUDE.md / .cursorrules | Config files | TrapDoor — TTP: hidden zero-width Unicode chars used to inject malicious instructions into Claude Code and Cursor | 2026-05-25 | Inspect ALL repos: `grep -rP '[\x{200b}\x{200c}\x{200d}\x{feff}\x{2060}]' . --include="CLAUDE.md" --include=".cursorrules"` |
+| xinference | PyPI | TeamPCP Update 008 (Apr 22) — compromised simultaneous with Checkmarx KICS Docker Hub | 2026-05-25 | Verify version not from Apr 22 batch |
+| checkmarx-kics | Docker Hub | TeamPCP Update 008 (Apr 22) — Docker Hub image compromised | 2026-05-25 | Avoid images from Apr 22; use SHA-pinned digest |
+| AI agent skills (ClawHub/skills.sh) | Skills marketplace | ToxicSkills: 36% contain prompt injection; 13.4% critical issues; 76 confirmed malicious skills | 2026-05-25 | Treat as untrusted code; apply PROMPT-C vetting before installing any skill |
+| Windows (DNS Client / Netlogon) | System | CVE-2026-41096 (CVSS 9.8 DNS RCE) + CVE-2026-41089 (CVSS 9.8 Netlogon wormable DC RCE) — Patch Tuesday May 2026 | 2026-05-25 | Apply May 2026 Cumulative Update; DCs are highest risk for CVE-2026-41089 |
 
 ---
 
