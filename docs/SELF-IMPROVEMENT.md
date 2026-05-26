@@ -374,6 +374,57 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-26] [COVERAGE] Add expired-domain maintainer account takeover as explicit supply chain search term
+- **Origin:** Prompt A
+- **Description:** The node-ipc attack (THREAT-2026-0045) used an expired domain re-registration to take over a
+  maintainer account — a distinct attack vector from "hacked maintainer accounts" (credential theft/phishing). The
+  Radar prompt's Area 1 covers "hacked maintainer accounts" but does not specifically mention expired-domain takeover.
+  This technique is low-cost and highly reproducible: an attacker only needs to monitor expiring domains tied to
+  npm/PyPI maintainer email addresses. Adding "expired domain npm maintainer takeover" as an explicit daily search
+  term in Area 1 would surface these attacks earlier.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-26] [COVERAGE] Add DNS-based C2 / DNS TXT exfiltration as a detection note in the IOC table
+- **Origin:** Prompt A
+- **Description:** The node-ipc attack used DNS TXT queries for credential exfiltration — a technique that bypasses
+  standard HTTP egress monitoring. The KB's IOC table captures domains and IPs but has no "exfiltration method" field
+  to distinguish HTTP C2, DNS tunneling, GitHub Gist exfiltration (TrapDoor), and public repo exfiltration (Bitwarden).
+  Adding a "method" column to the IOC table would help teams configure the right detection tools (DNS monitoring vs.
+  HTTP proxy logs vs. GitHub audit logs) for each threat.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-26] [PROMPT] Add Ivanti products to the Infrastructure area daily search list
+- **Origin:** Prompt A
+- **Description:** CVE-2026-6973 (Ivanti EPMM RCE, CISA KEV deadline May 10) was missed in our scans for 16 days.
+  Ivanti has a track record of recurring critical CVEs with active exploitation — they have been in CISA KEV multiple
+  times this year. The Radar prompt's Area 3 mentions "Vercel, AWS, GitHub, Cloudflare" but not Ivanti. Adding "Ivanti
+  EPMM OR Ivanti EPM OR Ivanti VPN" as explicit daily search terms alongside the existing list would catch these faster.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-26] [CHECK] Add ClickFix lure awareness to team security training checklist in Prompt B
+- **Origin:** Prompt A
+- **Description:** The Ghost CMS CVE-2026-26980 campaign (THREAT-2026-0049) shows ClickFix attacks are now operating
+  at scale (700+ compromised domains including Harvard, Oxford, DuckDuckGo). Any developer browsing documentation or
+  news on a compromised Ghost site could be served a fake Cloudflare verification prompt telling them to paste a
+  command in CMD/Terminal. Prompt B's audit checklist should add a "user education" check: has the team been briefed
+  on ClickFix lures (fake CAPTCHA/Cloudflare verification asking to paste/run commands)? This is a low-effort,
+  high-impact social engineering defense.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-26] [PROMPT] Add "silent patch without CVE" as explicit search signal in Area 5 (CVEs)
+- **Origin:** Prompt A
+- **Description:** The Claude Code SOCKS5 sandbox bypass (THREAT-2026-0047) was silently patched April 1 with no
+  CVE assignment and no release note mention, and only publicly disclosed ~7 weeks later on May 20. The Radar prompt's
+  Area 5 only searches for CVEs published in the last 24-48 hours. A silent patch without a CVE would be missed
+  entirely. Adding "silently patched security flaw" or "security fix without CVE" as search terms — especially for
+  AI developer tools and widely used npm/PyPI packages — would surface these earlier.
+- **Impact:** Medium
+- **Effort:** Low
+
 ### [2026-05-25] [KB] Add "ISC SANS Update number" field to TeamPCP/UNC6780 entry for easier phase tracking
 - **Origin:** Prompt A
 - **Description:** ISC SANS now publishes weekly W-series updates AND numbered "Update NNN" reports on the
