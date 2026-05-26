@@ -368,22 +368,23 @@
 - **Last updated:** 2026-05-16
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/04/pytorch-lightning-compromised-in-pypi.html), [Snyk](https://snyk.io/blog/lightning-pypi-compromise-bun-based-credential-stealer/), [Socket.dev](https://socket.dev/blog/lightning-pypi-package-compromised)
 
-### [THREAT-2026-0020] CVE-2026-42897 — Microsoft Exchange XSS/spoofing zero-day (CISA KEV)
+### [THREAT-2026-0020] CVE-2026-42897 — Microsoft Exchange XSS/spoofing zero-day (CISA KEV, deadline May 29)
 - **Date detected:** 2026-05-16 (disclosed 2026-05-14; added to CISA KEV 2026-05-15)
-- **Status:** 🔴 Active exploitation — No patch yet; EM Service mitigation available
+- **Status:** 🔴 Active exploitation — No patch yet; EM Service mitigation available; CISA FCEB deadline May 29, 2026 (3 days)
 - **Category:** CVE > Infrastructure > Email
 - **Affects us:** Low risk (only if running on-prem Exchange 2016/2019/SE)
 - **Summary:** CVSS 8.1 XSS/spoofing vulnerability in Microsoft Exchange OWA. Attacker sends
   a crafted email; if victim opens it in Outlook Web Access, arbitrary JavaScript executes in
   the browser context. Affects Exchange 2016, 2019, and SE; does NOT affect Exchange Online.
-  Added to CISA KEV May 15 (no remediation deadline yet). Microsoft confirmed active in-the-wild
-  exploitation. No patch released; Microsoft issued Exchange Emergency Mitigation (EM) Service
-  mitigation which is enabled by default.
+  Added to CISA KEV May 15. **Update 2026-05-26:** CISA federal remediation deadline confirmed as
+  May 29, 2026 (per BOD 22-01). Microsoft deployed a temporary fix via EEMS (URL rewrite config,
+  enabled by default); permanent patch still in development. Active exploitation confirmed.
 - **Affected versions:** Exchange Server 2016, 2019, Subscription Edition (all current versions)
-- **Safe version:** Patch not yet available — apply EM Service mitigation
+- **Safe version:** Patch not yet available — apply EM Service mitigation immediately; await full patch
 - **IOCs:** N/A
-- **Action taken:** Verify EM Service enabled if using on-prem Exchange; watch for patch
-- **Last updated:** 2026-05-16
+- **Action taken:** Verify EM Service (EEMS) is enabled and active on on-prem Exchange; confirm URL rewrite
+  mitigation is applied; CISA deadline is May 29 — verify TODAY if using on-prem Exchange
+- **Last updated:** 2026-05-26
 - **Sources:** [Help Net Security](https://www.helpnetsecurity.com/2026/05/15/exchange-server-cve-2026-42897-exploited/), [SecurityWeek](https://www.securityweek.com/microsoft-warns-of-exchange-server-zero-day-exploited-in-the-wild/), [The Hacker News](https://thehackernews.com/2026/05/on-prem-microsoft-exchange-server-cve.html)
 
 ### [THREAT-2026-0021] CVE-2026-20182 — Cisco Catalyst SD-WAN auth bypass (CVSS 10.0)
@@ -935,6 +936,119 @@
 - **Last updated:** 2026-05-23
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/05/cisa-adds-exploited-langflow-and-trend.html), [Obsidian Security](https://www.obsidiansecurity.com/blog/cve-2025-34291-critical-account-takeover-and-rce-vulnerability-in-the-langflow-ai-agent-workflow-platform), [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 
+### [THREAT-2026-0045] node-ipc npm supply chain — expired domain maintainer takeover, DNS TXT exfiltration
+- **Date detected:** 2026-05-26 (attack occurred 2026-05-14; missed in previous scans)
+- **Status:** 🟠 Contained — malicious versions removed; rotate credentials if installed; no worm propagation
+- **Category:** Supply Chain > npm
+- **Affects us:** 🟠 Could affect us (node-ipc is a transitive dependency in many Node.js projects; 10M+ weekly downloads)
+- **Summary:** On May 14, 2026, three malicious versions of `node-ipc` (9.1.6, 9.2.3, 12.0.1) were simultaneously
+  published to npm via a compromised inactive maintainer account (`atiertant`). Attack vector: the maintainer's email
+  domain `atlantis-software.net` expired January 10, 2025 and was re-registered by the attacker on May 7, 2026 — a
+  classic expired-domain maintainer account takeover. The malicious payload (80 KB obfuscated IIFE appended to
+  `node-ipc.cjs`) fires unconditionally on every `require('node-ipc')`, silently harvesting 90+ credential categories
+  (AWS, Azure, GCP, SSH keys, GitHub CLI, **Claude AI and Kiro IDE settings**, Terraform state, Kubernetes tokens,
+  database passwords, shell history). **Novel exfiltration technique:** data is compressed and exfiltrated via DNS TXT
+  queries to `bt.node.js.<attacker-domain>` masquerading as Azure infrastructure — bypassing standard HTTP egress
+  monitoring. Not a self-propagating worm (unlike Shai-Hulud), but high impact given download volume.
+- **Affected versions:** node-ipc 9.1.6, 9.2.3, 12.0.1
+- **Safe version:** Any version OTHER than the three above (9.1.5, 9.2.2, 11.x are clean)
+- **IOCs:** `atiertant` npm account; DNS exfiltration to `azurestaticprovider.net`; `bt.node.js.*` DNS TXT patterns
+- **Action taken:** Run `npm list node-ipc` across all projects (check transitive deps); if 9.1.6, 9.2.3, or 12.0.1
+  found, rotate ALL credentials — cloud keys, SSH keys, GitHub tokens, Claude AI API keys; monitor DNS logs for
+  `azurestaticprovider.net` queries
+- **Last updated:** 2026-05-26
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/stealer-backdoor-found-in-3-node-ipc.html), [StepSecurity](https://www.stepsecurity.io/blog/node-ipc-npm-supply-chain-attack), [BleepingComputer](https://www.bleepingcomputer.com/news/security/popular-node-ipc-npm-package-compromised-to-steal-credentials/), [Snyk](https://snyk.io/blog/malicious-node-ipc-versions-published-npm/), [Datadog Security Labs](https://securitylabs.datadoghq.com/articles/node-ipc-npm-malware-analysis/), [Socket.dev](https://socket.dev/blog/node-ipc-package-compromised)
+
+### [THREAT-2026-0046] CVE-2026-45585 "YellowKey" — Windows BitLocker bypass via WinRE physical access
+- **Date detected:** 2026-05-26 (disclosed publicly 2026-05-22; Microsoft mitigation 2026-05-20)
+- **Status:** 🟡 No patch yet — Microsoft mitigation available (TPM+PIN); no confirmed in-the-wild exploitation
+- **Category:** CVE > Infrastructure > Windows
+- **Affects us:** 🟡 Low-to-medium risk (affects physical security of dev laptops/workstations; relevant if machines are unattended)
+- **Summary:** CVE-2026-45585 (CVSS 6.8) is a BitLocker security feature bypass disclosed by researcher Chaotic Eclipse
+  (Nightmare-Eclipse) on May 22, 2026. An attacker with **brief physical access** can place specially crafted FsTx files
+  on a USB drive or EFI partition, reboot the target Windows 11 / Server 2025 machine into Windows Recovery Environment
+  (WinRE), and trigger an unrestricted shell via Ctrl key hold — bypassing BitLocker encryption and gaining read access to
+  encrypted storage. No specialized hardware tools required — attack uses only native Windows functionality and leaves no
+  persistent artifacts. Microsoft acknowledged the flaw on May 20 and published mitigations (no full patch released).
+  **Mitigation:** Switch BitLocker from "TPM-only" to "TPM+PIN" mode — this requires the PIN at decryption and blocks
+  YellowKey. Affects Windows 11 (24H2, 25H2, 26H1) and Windows Server 2025.
+- **Affected versions:** Windows 11 versions 24H2/25H2/26H1 (x64); Windows Server 2025 (including Server Core)
+- **Safe config:** BitLocker with "TPM+PIN" protector mode (not TPM-only)
+- **IOCs:** N/A (physical attack; no network IOCs)
+- **Action taken:** On all dev laptops/workstations with BitLocker: run `manage-bde -protectors -get C:` and verify
+  "TPM And PIN" is listed; if only "TPM", run `manage-bde -protectors -add C: -TPMAndPIN` and set a PIN
+- **Last updated:** 2026-05-26
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/microsoft-releases-mitigation-for.html), [Help Net Security](https://www.helpnetsecurity.com/2026/05/20/yellowkey-bitlocker-mitigation-cve-2026-45585/), [Eclypsium](https://eclypsium.com/blog/yellowkey-bitlocker-bypass-windows-recovery-environment/), [SOCPrime](https://socprime.com/blog/cve-2026-45585-yellowkey-bitlocker-bypass/)
+
+### [THREAT-2026-0047] Claude Code SOCKS5 sandbox bypass — 5.5-month silent exposure, no CVE published
+- **Date detected:** 2026-05-26 (publicly disclosed ~2026-05-20; silently patched 2026-04-01 in v2.1.90)
+- **Status:** 🟠 Patched — upgrade to ≥ v2.1.90; audit credentials if ran wildcard sandbox allowlists pre-patch
+- **Category:** AI Dev > Claude Code
+- **Affects us:** 🔴 Yes — we use Claude Code; the vulnerability was present for 5.5 months without disclosure
+- **Summary:** A SOCKS5 hostname null-byte injection vulnerability affected every Claude Code release from v2.0.24
+  (sandbox GA, October 20, 2025) through v2.1.89 — approximately 130 published versions over 5.5 months. The flaw
+  allowed an attacker to inject a null byte into a SOCKS5 hostname to bypass the sandbox network allowlist: given an
+  allowlist like `*.google.com`, the attacker sends `attacker-host.com\x00.google.com` — the allowlist filter approves
+  the trailing `.google.com` but the OS truncates at `\x00` and dials `attacker-host.com`. When paired with prompt
+  injection, this allowed Claude to read hidden instructions then exfiltrate environment variables, API keys, and source
+  code via raw SOCKS5 (bypassing standard HTTP egress logs). Anthropic silently patched the issue in v2.1.90 on April 1,
+  2026 with no mention in release notes and no CVE assignment (CVE-2025-66479 exists for the sandbox runtime, not Claude
+  Code itself). This is **distinct** from THREAT-2026-0003 (sourcemap leak and command-padding bypass). Disclosed
+  publicly around May 20 by researcher Aonan Guan (same researcher as "Comment and Control" — THREAT-2026-0035).
+- **Affected versions:** Claude Code v2.0.24 through v2.1.89
+- **Safe version:** Claude Code ≥ v2.1.90
+- **IOCs:** Outbound SOCKS5 traffic to unexpected hosts (bypasses HTTP egress monitors); null bytes in SOCKS5 hostnames
+- **Action taken:** Verify Claude Code is ≥ v2.1.90 on all machines (`claude --version`); if ran wildcard network
+  allowlists between Oct 20, 2025 and April 1, 2026, audit SOCKS5-level egress logs and rotate all credentials reachable
+  from Claude Code sessions
+- **Last updated:** 2026-05-26
+- **Sources:** [The Register](https://www.theregister.com/security/2026/05/20/even-claude-agrees-hole-in-its-sandbox-was-real-and-dangerous/5243662), [SecurityWeek](https://www.securityweek.com/anthropic-silently-patches-claude-code-sandbox-bypass/), [CybersecurityNews](https://cybersecuritynews.com/claude-codes-network-sandbox-vulnerability/), [Aonan Guan research](https://oddguan.com/blog/second-time-same-sandbox-anthropic-claude-code-network-allowlist-bypass-data-exfiltration/)
+
+### [THREAT-2026-0048] CVE-2026-6973 — Ivanti EPMM authenticated RCE (CISA KEV, deadline May 10 — PASSED)
+- **Date detected:** 2026-05-26 (disclosed 2026-05-07; CISA KEV deadline 2026-05-10 — missed in previous scans)
+- **Status:** 🟡 Post-deadline — patch available; federal deadline passed; apply immediately if using Ivanti EPMM
+- **Category:** CVE > Infrastructure > MDM
+- **Affects us:** 🟡 Low direct risk (only if using Ivanti Endpoint Manager Mobile on-prem)
+- **Summary:** CVE-2026-6973 (CVSS 7.2) is an improper input validation vulnerability in Ivanti Endpoint Manager
+  Mobile (EPMM) that allows a remotely authenticated administrator to achieve remote code execution. Ivanti confirmed
+  limited in-the-wild exploitation at time of disclosure (May 7, 2026). CISA added to KEV with a 3-day federal
+  remediation deadline of May 10, 2026 (now passed). As of disclosure date, Shadowserver tracked 800+ internet-exposed
+  EPMM instances. Four additional CVEs were patched alongside it: CVE-2026-5786, CVE-2026-5787, CVE-2026-5788
+  (privilege escalation, certificate exposure, method invocation), CVE-2026-7821 (information disclosure).
+  Only affects on-prem EPMM; Ivanti Neurons for MDM (cloud) and Ivanti EPM are not affected.
+- **Affected versions:** Ivanti EPMM ≤ 12.8.0.0 (all versions before patch)
+- **Safe version:** EPMM 12.6.1.1, 12.7.0.1, or 12.8.0.1
+- **IOCs:** N/A
+- **Action taken:** If using Ivanti EPMM on-prem, upgrade to 12.6.1.1 / 12.7.0.1 / 12.8.0.1 immediately; rotate
+  EPMM admin credentials and any privileged integration credentials; if previously exploited via CVE-2026-1281/CVE-2026-1340
+  and credentials were already rotated, risk is reduced
+- **Last updated:** 2026-05-26
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/ivanti-epmm-cve-2026-6973-rce-under.html), [SecurityWeek](https://www.securityweek.com/ivanti-patches-epmm-zero-day-exploited-in-targeted-attacks/), [SOCRadar](https://socradar.io/blog/cve-2026-6973-rce-ivanti-epmm-cisa-kev/), [Help Net Security](https://www.helpnetsecurity.com/2026/05/08/ivanti-epmm-zero-day-cve-2026-6973/)
+
+### [THREAT-2026-0049] CVE-2026-26980 — Ghost CMS SQL injection → large-scale ClickFix campaign (700+ sites)
+- **Date detected:** 2026-05-26 (exploitation campaign confirmed 2026-05-24–25)
+- **Status:** 🔴 Active exploitation — 700+ sites compromised including Harvard, Oxford, DuckDuckGo; upgrade Ghost immediately
+- **Category:** CVE > Web Platform / Threat Actor
+- **Affects us:** 🟠 Could affect us if any project uses Ghost CMS; also affects developer awareness (fake Cloudflare prompts targeting any user browsing compromised sites)
+- **Summary:** CVE-2026-26980 is a critical SQL injection vulnerability in Ghost CMS (versions 3.24.0–6.19.0) discovered
+  and documented by XLab (Qianxin). The flaw is in the slug filter ordering functionality, where user-supplied slug
+  values were concatenated directly into SQL CASE statements (no parameterized queries). An unauthenticated attacker can
+  read arbitrary data from the site database — including **admin API keys**. Once admin access is obtained, attackers
+  inject malicious JavaScript into Ghost articles; the JS fingerprints visitors and serves a fake Cloudflare CAPTCHA
+  (ClickFix lure) instructing them to paste a command in their Windows CMD, which drops malware (DLL loaders, JS
+  droppers, `UtilifySetup.exe` Electron malware). Over 700 domains confirmed compromised, including university portals
+  (Harvard, Oxford, Auburn), AI/SaaS companies, media outlets, fintech firms, and security sites. Payloads observed:
+  DLL loaders and Electron-based malware. **Developer awareness note:** Any developer browsing news/documentation on
+  affected Ghost sites could be exposed to ClickFix lures.
+- **Affected versions:** Ghost 3.24.0 through 6.19.0
+- **Safe version:** Ghost ≥ 6.19.1
+- **IOCs:** Fake Cloudflare verification iframes injected into pages; `UtilifySetup.exe` Electron payload
+- **Action taken:** (1) If any project uses Ghost CMS: upgrade to ≥ 6.19.1 immediately; (2) Warn team: if you see a
+  Cloudflare "verify you are human" prompt asking you to paste a command in CMD/Terminal on ANY site — DO NOT execute
+  it, this is a ClickFix attack; (3) Check admin API keys if running Ghost < 6.19.1 — assume compromised
+- **Last updated:** 2026-05-26
+- **Sources:** [BleepingComputer](https://www.bleepingcomputer.com/news/security/ghost-cms-sql-injection-flaw-exploited-in-large-scale-clickfix-campaign/), [The Hacker News](https://thehackernews.com/2026/05/ghost-cms-cve-2026-26980-exploited-to.html), [TechTimes](https://www.techtimes.com/articles/317134/20260525/ghost-cms-sql-injection-hits-700-sites-harvard-duckduckgo-serve-fake-cloudflare-malware.htm)
+
 ---
 
 ## Accumulated IOCs
@@ -969,6 +1083,9 @@
 | 2026-05-22 | THREAT-2026-0041 | Config file vector | .cursorrules / CLAUDE.md (zero-width Unicode U+200B/C/D/FEFF/2060) | TrapDoor — hidden prompt injection in AI coding assistant config files |
 | 2026-05-22 | THREAT-2026-0041 | Exfil channel | GitHub Gist (XOR key: cargo-build-helper-2026) | TrapDoor — Crates.io payload keystore exfiltration |
 | 2026-04-22 | THREAT-2026-0004 | npm worm | CanisterSprawl | TeamPCP Update 008 — cross-registry self-propagating worm; jumps npm→PyPI if token found |
+| 2026-05-14 | THREAT-2026-0045 | npm packages | node-ipc@9.1.6, 9.2.3, 12.0.1 | Expired domain maintainer takeover; 90+ credential categories; DNS TXT exfiltration |
+| 2026-05-14 | THREAT-2026-0045 | Domain | azurestaticprovider.net | node-ipc malware C2 — DNS TXT queries for credential exfiltration |
+| 2026-05-14 | THREAT-2026-0045 | npm account | atiertant (atlantis-software.net) | Expired domain re-registered May 7 to hijack node-ipc maintainer account |
 
 ---
 
@@ -1010,6 +1127,9 @@
 | checkmarx-kics | Docker Hub | TeamPCP Update 008 (Apr 22) — Docker Hub image compromised | 2026-05-25 | Avoid images from Apr 22; use SHA-pinned digest |
 | AI agent skills (ClawHub/skills.sh) | Skills marketplace | ToxicSkills: 36% contain prompt injection; 13.4% critical issues; 76 confirmed malicious skills | 2026-05-25 | Treat as untrusted code; apply PROMPT-C vetting before installing any skill |
 | Windows (DNS Client / Netlogon) | System | CVE-2026-41096 (CVSS 9.8 DNS RCE) + CVE-2026-41089 (CVSS 9.8 Netlogon wormable DC RCE) — Patch Tuesday May 2026 | 2026-05-25 | Apply May 2026 Cumulative Update; DCs are highest risk for CVE-2026-41089 |
+| node-ipc | npm | Expired-domain maintainer takeover May 14; versions 9.1.6, 9.2.3, 12.0.1 malicious; DNS TXT exfiltration | 2026-05-26 | Safe if NOT one of the 3 compromised versions; run `npm list node-ipc` to check transitives |
+| ghost | npm / Self-hosted | CVE-2026-26980 — SQL injection → admin API key theft → ClickFix malware injection; 700+ sites compromised | 2026-05-26 | Safe if ≥ 6.19.1; if was 3.24.0–6.19.0: rotate admin API keys immediately |
+| Exchange Server (on-prem) | System | CVE-2026-42897 — OWA XSS zero-day; CISA FCEB deadline May 29, 2026; EEMS mitigation enabled by default | 2026-05-26 | Apply EEMS URL rewrite mitigation NOW; full patch pending; deadline in 3 days |
 
 ---
 
