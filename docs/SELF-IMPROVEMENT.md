@@ -384,6 +384,50 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-27] [COVERAGE] Add "mass GitHub repo backdooring via forged CI commits" to Area 1 search scope
+- **Origin:** Prompt A
+- **Description:** Megalodon (THREAT-2026-0045, May 18) was a fundamentally different attack class from
+  package-registry compromise: it targeted GitHub repositories directly with forged automated commits
+  injecting malicious CI/CD workflows. This attack hit 5,561 repos in 6 hours and was NOT captured in
+  either the May 20 or May 25 KB updates — a 9-day gap. The Radar prompt's Area 1 covers "GitHub Actions
+  marketplace compromises" but not "mass forged commit campaigns against individual repos." Recommend adding
+  "GitHub malicious workflow commit campaign OR backdoor CI" as an explicit daily search term in Area 1.
+  Also add OX Security (ox.security/blog) as a named daily source alongside StepSecurity and Socket.dev.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-27] [COVERAGE] Add CMS/backend framework CVEs (Drupal, WordPress) to Area 5 search scope
+- **Origin:** Prompt A
+- **Description:** CVE-2026-9082 (Drupal PostgreSQL SQL injection, CISA KEV) had a federal remediation
+  deadline TODAY (May 27) and was not in the KB until this scan. The Radar prompt's Area 5 (CVEs) explicitly
+  lists "Node.js, React, Next.js, Python, Three.js, popular web framework, Linux, macOS, Windows" but does
+  not mention CMS platforms (Drupal, WordPress, Joomla) or backend frameworks (Laravel, Django, Rails).
+  Drupal is widely used in enterprise and government contexts, and appears in CISA KEV frequently. Recommend
+  adding "Drupal CVE" and "WordPress CVE actively exploited" as explicit search terms in Area 5.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-27] [PROMPT] Add OX Security blog as a named daily source in Area 1
+- **Origin:** Prompt A
+- **Description:** OX Security was the primary source for Megalodon discovery and published the comprehensive
+  MCP Supply Chain Advisory. They were also first to disclose systemic MCP STDIO vulnerabilities affecting
+  200K+ servers. The Radar prompt does not name them as a daily source, which contributed to the 9-day gap
+  on Megalodon. Recommend adding "ox.security/blog" as an explicit daily check in Area 1 alongside
+  stepsecurity.io/blog, socket.dev/blog, and wiz.io/blog.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-27] [KB] Add "CISA Deadline" as a top-level field to CVE entries with KEV deadlines
+- **Origin:** Prompt A
+- **Description:** CVE-2026-9082 had a CISA deadline of TODAY (May 27) but was not in the KB — making it
+  impossible to track proactively. The previous suggestion ([2026-05-23]) to add a "CISA Deadline" field
+  remains unimplemented (still pending). This second occurrence of the same gap in 4 days reinforces that
+  this is a high-priority KB structural improvement. The current format buries deadline dates in the
+  "Action taken" field, making them invisible in a quick scan. A dedicated "- **CISA Deadline:** YYYY-MM-DD"
+  field (used by THREAT-2026-0046 today as a pilot) would make these immediately scannable.
+- **Impact:** High
+- **Effort:** Low
+
 ### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
 - **Origin:** Prompt A
 - **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous

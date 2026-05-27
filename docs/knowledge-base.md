@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Phase 7b+ active — actions-cool attack ongoing; ISC SANS Update 008 (Apr 27) confirmed previously-uncaptured Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm
+- **Status:** 🔴 Phase 7b+ active — ISC SANS diary #33016 "Activity Through 2026-05-24" (published May 25) confirms: (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -119,8 +119,8 @@
   tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
   HOOKS on all developer machines; verify @antv/* and durabletask versions; audit for
   actions-cool usage; add t.m-kosche[.]com to network blocklist
-- **Last updated:** 2026-05-25
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/)
+- **Last updated:** 2026-05-27
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [ISC SANS Activity Through 2026-05-24](https://isc.sans.edu/diary/33016), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -659,7 +659,7 @@
 
 ### [THREAT-2026-0033] CVE-2026-46333 "ssh-keysign-pwn" — Linux kernel ptrace fd-theft (4th in LPE cluster)
 - **Date detected:** 2026-05-23 (patch committed 2026-05-14; Qualys disclosure 2026-05-20)
-- **Status:** 🔴 Active — PoC viable (100–2,000 attempts); patches available; this environment (6.18.5) confirmed vulnerable
+- **Status:** 🔴 Active — PoC viable (100–2,000 attempts); patches available; this environment (6.18.5) confirmed vulnerable. Note: THREAT-2026-0047 (DirtyDecrypt, CVE-2026-31635) is confirmed as the 5th member of the Linux LPE cluster — released May 2026 with PoC; targets CONFIG_RXGK systems (Fedora/Arch).
 - **Category:** CVE > Infrastructure > Linux Kernel
 - **Affects us:** Yes (all Linux dev machines, CI/CD runners, and this session environment)
 - **Summary:** A 6-year race condition in `__ptrace_may_access()` (Qualys research, disclosed
@@ -935,6 +935,94 @@
 - **Last updated:** 2026-05-23
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/05/cisa-adds-exploited-langflow-and-trend.html), [Obsidian Security](https://www.obsidiansecurity.com/blog/cve-2025-34291-critical-account-takeover-and-rce-vulnerability-in-the-langflow-ai-agent-workflow-platform), [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 
+### [THREAT-2026-0045] Megalodon — Mass GitHub Repository Backdooring via Forged CI/CD Workflows
+- **Date detected:** 2026-05-27 (attack occurred 2026-05-18; disclosed 2026-05-22)
+- **Status:** 🔴 Active — Backdoors dormant in infected repos; GitHub has begun removing malicious workflows; check all repos
+- **Category:** Supply Chain > GitHub Actions
+- **Affects us:** Yes (we use GitHub Actions and public repos)
+- **Summary:** On May 18, 2026, an automated campaign injected 5,718 malicious commits into 5,561
+  GitHub repositories over 6 hours using throwaway accounts with forged author identities
+  (build-bot, auto-ci, ci-bot, pipeline-bot). Two payload variants: **SysDiag** — adds a new
+  GitHub Actions workflow triggered on every push and pull request; **Optimize-Build** — replaces
+  existing workflows with dormant `workflow_dispatch` backdoors the attacker can activate on-demand
+  via GitHub API. Both exfiltrate CI secrets, cloud credentials (AWS/GCP/Azure metadata queried
+  directly), SSH keys, OIDC tokens, Docker/Kubernetes configs, Terraform credentials, and scan
+  source code for 30+ secret regex patterns via HTTPS to C2 at 216.126.225.129:8443. Attribution
+  unclear (not confirmed TeamPCP; likely copycat using Shai-Hulud open-sourced framework). Discovered
+  by OX Security/SafeDep after malicious Tiledesk npm packages appeared.
+- **IOCs:** C2 IP 216.126.225.129:8443; forged git author identities: build-bot, auto-ci, ci-bot,
+  pipeline-bot; base64-encoded bash payloads in workflow files
+- **Action taken:**
+  1. `git log --all --author="build-bot\|auto-ci\|ci-bot\|pipeline-bot" --since="2026-05-10"` across all repos
+  2. Review `.github/workflows/` for recently-added files or base64-encoded bash payloads
+  3. Block 216.126.225.129:8443 at network egress and in historical traffic logs
+  4. Rotate CI/CD secrets, cloud credentials, and SSH keys if any infected workflow found
+- **Last updated:** 2026-05-27
+- **Sources:** [OX Security](https://www.ox.security/blog/megalodon-cicd-malware-github/), [The Hacker News](https://thehackernews.com/2026/05/megalodon-github-attack-targets-5561.html), [StepSecurity](https://www.stepsecurity.io/blog/megalodon-mass-github-actions-secret-exfiltration-across-5-500-public-repositories), [SecurityWeek](https://www.securityweek.com/over-5500-github-repositories-infected-in-megalodon-supply-chain-attack/), [SafeDep](https://safedep.io/megalodon-mass-github-repo-backdooring-ci-workflows/)
+
+### [THREAT-2026-0046] CVE-2026-9082 — Drupal Core SQL Injection (PostgreSQL, CISA KEV — deadline TODAY May 27)
+- **Date detected:** 2026-05-27 (CISA KEV addition 2026-05-22; deadline 2026-05-27)
+- **Status:** 🔴 Active exploitation — CISA KEV federal deadline TODAY (May 27); 15,000+ attack attempts observed
+- **CISA Deadline:** 2026-05-27 (TODAY)
+- **Category:** CVE > Infrastructure > CMS
+- **Affects us:** 🟡 Doesn't directly affect us unless using Drupal + PostgreSQL
+- **Summary:** Highly critical SQL injection (CVSS unspecified, labeled "highly critical" by Drupal SA-CORE-2026-004)
+  in Drupal Core's PostgreSQL EntityQuery condition handler. User-controlled PHP array keys passed to the database
+  abstraction layer are not sanitized before SQL placeholder construction. Affects all PostgreSQL-backed Drupal
+  8.0–11.3.9 sites. Unauthenticated exploitation confirmed. Over 15,000 attack attempts against ~6,000 sites
+  across 65 countries since disclosure. MySQL and SQLite backends are NOT affected. CISA added to KEV May 22
+  with federal remediation deadline May 27, 2026 (today).
+- **Affected versions:** Drupal 8.0–11.3.9 (PostgreSQL backends only)
+- **Safe version:** Drupal ≥11.3.10
+- **IOCs:** N/A
+- **Action taken:** Run `drush status` to confirm Drupal version; upgrade PostgreSQL-backed Drupal sites to
+  ≥11.3.10 immediately; MySQL/SQLite deployments not affected by this CVE
+- **Last updated:** 2026-05-27
+- **Sources:** [Tenable](https://www.tenable.com/blog/cve-2026-9082-highly-critical-sql-injection-vulnerability-in-drupal-core-sa-core-2026-004), [BleepingComputer](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-drupal-vulnerability/), [Qualys ThreatPROTECT](https://threatprotect.qualys.com/2026/05/25/drupal-core-sql-injection-vulnerability-added-to-cisa-kev-cve-2026-9082/)
+
+### [THREAT-2026-0047] CVE-2026-31635 "DirtyDecrypt" — Linux Kernel LPE via RxGK/AFS (5th in LPE cluster, PoC public)
+- **Date detected:** 2026-05-27 (reported 2026-05-09; patch merged upstream 2026-04-25; PoC released ~2026-05-25)
+- **Status:** 🟡 Patch available — PoC public; low direct risk for most enterprise distros (CONFIG_RXGK disabled by default on RHEL/Debian/Ubuntu)
+- **Category:** CVE > Infrastructure > Linux Kernel
+- **Affects us:** 🟡 Low direct risk — mainly affects Fedora, Arch Linux, openSUSE Tumbleweed (CONFIG_RXGK enabled)
+- **Summary:** Fifth Linux kernel LPE in the current cluster (after Copy Fail CVE-2026-31431,
+  Dirty Frag CVE-2026-43284/43500, Fragnesia CVE-2026-46300, ssh-keysign-pwn CVE-2026-46333).
+  CVE-2026-31635 (aka DirtyDecrypt / DirtyCBC) resides in `rxgk_decrypt_skb()` in the Linux kernel's
+  RxGK subsystem (GSS-API security layer for the AFS RxRPC transport). A missing copy-on-write (COW)
+  guard allows writing directly to shared page-cache pages without creating a private copy. An
+  unprivileged local user can corrupt shared page-cache memory of privileged files (/etc/shadow,
+  /etc/sudoers, SUID binaries) to escalate to root. Discovered and reported by Zellic + V12 Security
+  on May 9. Patch committed upstream April 25, 2026. Public PoC released ~May 25.
+  IMPORTANT: RHEL 8/9, Debian Stable, and Ubuntu LTS ship with CONFIG_RXGK=n — NOT affected by default.
+  Fedora, Arch Linux, openSUSE Tumbleweed ARE affected.
+- **Affected versions:** Linux kernels with CONFIG_RXGK=y/m (Fedora, Arch, openSUSE Tumbleweed); NOT
+  affected by default: RHEL 8/9, Debian Stable, Ubuntu LTS
+- **Safe version:** Apply distro CVE-2026-31635 kernel update; or `modprobe -r rxgk` as interim
+- **IOCs:** N/A
+- **Action taken:** `zcat /proc/config.gz | grep CONFIG_RXGK` — if "=y" or "=m", apply kernel update or
+  blacklist rxgk module immediately; Fedora/Arch/openSUSE users: update now
+- **Last updated:** 2026-05-27
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/dirtydecrypt-poc-released-for-linux.html), [SecurityAffairs](https://securityaffairs.com/192436/uncategorized/dirtydecrypt-poc-released-for-yet-another-linux-flaw.html), [CybersecurityNews](https://cybersecuritynews.com/dirtydecrypt-linux-kernel-vulnerability/), [Moselwal Analysis](https://moselwal.com/blog/dirtydecrypt-linux-kernel-rxgk-cve-2026-31635)
+
+### [THREAT-2026-0048] CVE-2026-0073 — Android Zero-Click RCE via Wireless ADB (CVSS 9.8)
+- **Date detected:** 2026-05-27 (patched in Android May 2026 security bulletin; no active exploitation)
+- **Status:** ⚪ Patched — No active exploitation confirmed; patch available May 1, 2026
+- **Category:** CVE > Mobile > Android
+- **Affects us:** ⚪ General informational — relevant for devs using wireless ADB or Android test devices
+- **Summary:** CVSS 9.8 zero-click RCE in Android's ADB daemon (`adbd`). Logic error in
+  `adbd_tls_verify_cert()` in auth.cpp during mutual TLS handshake for wireless ADB connections
+  allows an attacker within Wi-Fi/local network range to silently obtain a full remote shell
+  without any user interaction. Affects Android 14, 15, 16, 16-qpr2 — hundreds of millions of
+  devices. Fixed in Android May 2026 security patch level (2026-05-01). No exploitation confirmed
+  in the wild.
+- **Affected versions:** Android 14–16-qpr2 without May 2026 security patch
+- **Safe version:** May 2026 security patch level (2026-05-01) or later
+- **IOCs:** N/A
+- **Action taken:** Ensure all Android corporate/developer devices have May 2026 security patch;
+  disable wireless ADB on devices not actively used for debugging
+- **Last updated:** 2026-05-27
+- **Sources:** [CybersecurityNews](https://cybersecuritynews.com/android-zero-click-vulnerability/), [SecurityAffairs](https://securityaffairs.com/191710/breaking-news/critical-android-vulnerability-cve-2026-0073-fixed-by-google.html), [SecurityWeek](https://www.securityweek.com/critical-remote-code-execution-vulnerability-patched-in-android-2/)
+
 ---
 
 ## Accumulated IOCs
@@ -969,6 +1057,8 @@
 | 2026-05-22 | THREAT-2026-0041 | Config file vector | .cursorrules / CLAUDE.md (zero-width Unicode U+200B/C/D/FEFF/2060) | TrapDoor — hidden prompt injection in AI coding assistant config files |
 | 2026-05-22 | THREAT-2026-0041 | Exfil channel | GitHub Gist (XOR key: cargo-build-helper-2026) | TrapDoor — Crates.io payload keystore exfiltration |
 | 2026-04-22 | THREAT-2026-0004 | npm worm | CanisterSprawl | TeamPCP Update 008 — cross-registry self-propagating worm; jumps npm→PyPI if token found |
+| 2026-05-18 | THREAT-2026-0045 | IP | 216.126.225.129:8443 | Megalodon CI/CD malware C2 — exfiltration endpoint for GitHub Actions secret theft |
+| 2026-05-18 | THREAT-2026-0045 | Git author | build-bot, auto-ci, ci-bot, pipeline-bot | Megalodon — forged commit author identities used in 5,561 GitHub repo backdooring campaign |
 
 ---
 
@@ -1010,6 +1100,9 @@
 | checkmarx-kics | Docker Hub | TeamPCP Update 008 (Apr 22) — Docker Hub image compromised | 2026-05-25 | Avoid images from Apr 22; use SHA-pinned digest |
 | AI agent skills (ClawHub/skills.sh) | Skills marketplace | ToxicSkills: 36% contain prompt injection; 13.4% critical issues; 76 confirmed malicious skills | 2026-05-25 | Treat as untrusted code; apply PROMPT-C vetting before installing any skill |
 | Windows (DNS Client / Netlogon) | System | CVE-2026-41096 (CVSS 9.8 DNS RCE) + CVE-2026-41089 (CVSS 9.8 Netlogon wormable DC RCE) — Patch Tuesday May 2026 | 2026-05-25 | Apply May 2026 Cumulative Update; DCs are highest risk for CVE-2026-41089 |
+| drupal/core | Packagist (PHP) | CVE-2026-9082 — unauthenticated SQL injection (PostgreSQL backends), CISA KEV, 15K+ attack attempts | 2026-05-27 | Safe if ≥11.3.10 (PostgreSQL backend) or if using MySQL/SQLite (not affected) |
+| linux-kernel (rxgk/RxGK) | System | CVE-2026-31635 "DirtyDecrypt" — 5th LPE in cluster; missing COW in rxgk_decrypt_skb(); PoC public | 2026-05-27 | Only Fedora/Arch/openSUSE with CONFIG_RXGK=y/m affected; RHEL/Debian/Ubuntu LTS safe by default |
+| GitHub Actions workflows (.github/workflows/) | Config | Megalodon campaign (May 18) — 5,718 forged commits backdoored 5,561 repos with CI/CD exfiltration workflows | 2026-05-27 | Audit for forged author commits and base64-encoded bash payloads; block 216.126.225.129 |
 
 ---
 
