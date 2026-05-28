@@ -223,7 +223,7 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6) now in CISA KEV (added May 27, 2026); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised
 - **Category:** Supply Chain > npm/PyPI
 - **Affects us:** Yes (ecosystem-level threat; Claude Code hooks weaponized)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
@@ -370,7 +370,7 @@
 
 ### [THREAT-2026-0020] CVE-2026-42897 — Microsoft Exchange XSS/spoofing zero-day (CISA KEV)
 - **Date detected:** 2026-05-16 (disclosed 2026-05-14; added to CISA KEV 2026-05-15)
-- **Status:** 🔴 Active exploitation — No patch yet; EM Service mitigation available
+- **Status:** 🔴 Active exploitation — CISA federal deadline May 29 (TOMORROW); no patch yet; EM Service mitigation only
 - **Category:** CVE > Infrastructure > Email
 - **Affects us:** Low risk (only if running on-prem Exchange 2016/2019/SE)
 - **Summary:** CVSS 8.1 XSS/spoofing vulnerability in Microsoft Exchange OWA. Attacker sends
@@ -565,12 +565,12 @@
 - **Action taken:** (1) Inspect ~/.claude/settings.json for unexpected hooks; (2) Check
   durabletask version in all Python environments; (3) Check @antv/* npm packages installed today;
   (4) Rotate all cloud credentials if either package was present
-- **Last updated:** 2026-05-20
+- **Last updated:** 2026-05-28
 - **Sources:** [Wiz Blog @antv](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz Blog durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [Snyk](https://snyk.io/blog/mini-shai-hulud-antv-npm-supply-chain-attack/), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-pushes-malicious-antv.html), [Cybernews](https://cybernews.com/security/shai-hulud-strikes-again-massive-npm-compromise/)
 
 ### [THREAT-2026-0029] GitHub internal repository breach — TeamPCP via malicious VS Code extension
 - **Date detected:** 2026-05-20 (ongoing investigation)
-- **Status:** 🔴 Active — VS Code extension identified (Nx Console v18.95.0); stolen data listed for sale at $50K; zero-days from stolen source code remain a watch item
+- **Status:** 🔴 Active — CVE-2026-48027 (Nx Console) added to CISA KEV May 27, 2026; attribution chain fully closed per ISC SANS (TanStack OIDC token → Nx Console → GitHub breach); stolen data listed for sale at $50K
 - **Category:** Breach > Infrastructure > GitHub | Threat Actor
 - **Affects us:** Yes (we host code on GitHub; potential zero-days from stolen source)
 - **Summary:** TeamPCP (UNC6780) posted ~3,800 GitHub internal repositories for sale on a
@@ -587,7 +587,7 @@
 - **Action taken:** Rotate GitHub PATs; audit VS Code extensions for nrwl.angular-console and
   any other low-install-count extensions; watch GitHub security advisories this week;
   DO NOT install Nx Console unless from the official Nx publisher page and verified
-- **Last updated:** 2026-05-23
+- **Last updated:** 2026-05-28
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-investigating-teampcp-claimed.html), [Help Net Security](https://www.helpnetsecurity.com/2026/05/20/github-breached-teampcp/), [StepSecurity](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [The Next Web](https://thenextweb.com/news/github-confirms-hackers-stole-thousands-of-internal-code-repositories-after-employee-installed-a-poisoned-vs-code-extension)
 
 ### [THREAT-2026-0030] Grafana Labs codebase stolen — CoinbaseCartel Pwn Request (May 16–18)
@@ -962,8 +962,8 @@
 
 ### [THREAT-2026-0046] CVE-2026-9082 — Drupal Core SQL Injection (PostgreSQL, CISA KEV — deadline TODAY May 27)
 - **Date detected:** 2026-05-27 (CISA KEV addition 2026-05-22; deadline 2026-05-27)
-- **Status:** 🔴 Active exploitation — CISA KEV federal deadline TODAY (May 27); 15,000+ attack attempts observed
-- **CISA Deadline:** 2026-05-27 (TODAY)
+- **Status:** 🔴 Post-deadline — CISA federal deadline May 27 PASSED; 15,000+ attack attempts observed; upgrade NOW
+- **CISA Deadline:** 2026-05-27 (PASSED)
 - **Category:** CVE > Infrastructure > CMS
 - **Affects us:** 🟡 Doesn't directly affect us unless using Drupal + PostgreSQL
 - **Summary:** Highly critical SQL injection (CVSS unspecified, labeled "highly critical" by Drupal SA-CORE-2026-004)
@@ -1023,6 +1023,126 @@
 - **Last updated:** 2026-05-27
 - **Sources:** [CybersecurityNews](https://cybersecuritynews.com/android-zero-click-vulnerability/), [SecurityAffairs](https://securityaffairs.com/191710/breaking-news/critical-android-vulnerability-cve-2026-0073-fixed-by-google.html), [SecurityWeek](https://www.securityweek.com/critical-remote-code-execution-vulnerability-patched-in-android-2/)
 
+### [THREAT-2026-0049] CVE-2026-8398 — DAEMON Tools Lite signed supply chain attack (CISA KEV May 27)
+- **Date detected:** 2026-05-28 (attack window 2026-04-08 – 2026-05-05; CISA KEV 2026-05-27)
+- **Status:** 🔴 Active exploitation — CISA KEV confirmed; ~month-long official installer trojan
+- **Category:** Supply Chain > Windows Software
+- **Affects us:** 🟠 Could affect us (DAEMON Tools Lite is a common Windows dev utility)
+- **Summary:** The official DAEMON Tools Lite installer downloaded from daemon-tools.cc was
+  trojanized from approximately April 8 to May 5, 2026 (versions 12.5.0.2421 through
+  12.5.0.2434). Attackers gained access to AVB Disc Soft's build/distribution infrastructure
+  and replaced three binaries (DTHelper.exe, DiscSoftBusServiceLite.exe, DTShellHlp.exe) with
+  malicious variants signed using the legitimate AVB Disc Soft code-signing certificate —
+  bypassing all signature-based detection. The backdoor contacts env-check.daemontools[.]cc
+  (registered March 27, 2026) to receive and execute arbitrary shell commands via cmd.exe.
+  Confirmed victims include government agencies and scientific research institutions. CISA added
+  to KEV catalog May 27, 2026 alongside CVE-2026-45321 and CVE-2026-48027 — all three related
+  to the May 2026 supply chain cluster. Clean version: DAEMON Tools Lite ≥12.6.0 (released May 5).
+- **Affected versions:** DAEMON Tools Lite 12.5.0.2421 – 12.5.0.2434 (downloaded Apr 8 – May 5)
+- **Safe version:** DAEMON Tools Lite ≥ 12.6.0
+- **IOCs:** env-check.daemontools[.]cc (backdoor C2 domain, registered 2026-03-27)
+- **Action taken:** Run `Get-WmiObject -Class Win32_Product | Where-Object { $_.Name -like "*DAEMON*" }`
+  and verify installed version ≥ 12.6.0; if ever ran 12.5.0.2421–2434, treat machine as
+  compromised — rotate all credentials; block env-check.daemontools[.]cc at perimeter
+- **Last updated:** 2026-05-28
+- **Sources:** [Kaspersky Blog](https://www.kaspersky.com/blog/daemon-tools-supply-chain-attack/55691/), [The Hacker News](https://thehackernews.com/2026/05/daemon-tools-supply-chain-attack.html), [CISA KEV](https://www.cisa.gov/news-events/alerts/2026/05/27/cisa-adds-three-known-exploited-vulnerabilities-catalog), [Neowin](https://www.neowin.net/news/daemon-tools-supply-chain-attack-ongoing-since-april-thousands-affected/)
+
+### [THREAT-2026-0050] node-ipc npm supply chain — DNS tunneling exfiltration via expired-domain hijack (May 14)
+- **Date detected:** 2026-05-28 (attack occurred 2026-05-14)
+- **Status:** 🔴 Active — malicious versions unpublished; rotate secrets if installed
+- **Category:** Supply Chain > npm
+- **Affects us:** 🟠 Could affect us (node-ipc has 10M+ weekly downloads; high transitive dependency risk)
+- **Summary:** On May 14, 2026, three malicious versions of node-ipc (9.1.6, 9.2.3, 12.0.1) were
+  simultaneously published via a hijacked maintainer account. The attack vector was novel: the
+  attacker re-registered an expired maintainer recovery email domain (atlantis-software.net),
+  then triggered a standard npm password reset — receiving the reset link and gaining publish
+  rights without ever compromising the legitimate maintainer's infrastructure. The 80 KB obfuscated
+  payload harvests environment variables, cloud credentials (AWS/GCP/Azure), SSH keys, Kubernetes
+  configs, database connections, and source control tokens. Exfiltration is via DNS TXT queries —
+  highly evasive; standard network monitors do not flag DNS TXT traffic. node-ipc is a transitive
+  dependency of many popular packages, meaning projects not directly depending on it may still be
+  exposed. StepSecurity detected and disclosed.
+- **Affected versions:** node-ipc@9.1.6, 9.2.3, 12.0.1
+- **Safe version:** Latest stable node-ipc (≥ 12.0.2 or latest clean release)
+- **IOCs:** atlantis-software[.]net (expired recovery domain re-registered by attacker); DNS TXT
+  exfiltration traffic pattern from compromised hosts
+- **Action taken:** Run `npm list node-ipc` across all projects; if 9.1.6, 9.2.3, or 12.0.1 is
+  present in any install, rotate ALL secrets (env vars, cloud credentials, SSH keys, tokens);
+  review DNS TXT query logs if available; npm accounts: audit all recovery email domains —
+  ensure no recovery domain has expired
+- **Last updated:** 2026-05-28
+- **Sources:** [StepSecurity](https://www.stepsecurity.io/blog/node-ipc-npm-supply-chain-attack), [Snyk](https://snyk.io/blog/malicious-node-ipc-versions-published-npm/), [Socket.dev](https://socket.dev/blog/node-ipc-package-compromised), [The Hacker News](https://thehackernews.com/2026/05/stealer-backdoor-found-in-3-node-ipc-versions-targeting-developer-secrets.html), [Datadog Security Labs](https://securitylabs.datadoghq.com/articles/node-ipc-npm-malware-analysis/)
+
+### [THREAT-2026-0051] CVE-2026-27771 — Gitea/Forgejo private container images exposed without auth (4-year flaw)
+- **Date detected:** 2026-05-28 (flaw ~4 years old; patch 2026-05-20; disclosure 2026-05-25)
+- **Status:** 🔴 Active — patch available (v1.26.2); 30,000+ deployments still potentially unpatched
+- **Category:** CVE > Infrastructure > Self-hosted Git
+- **Affects us:** 🟠 Could affect us (if any project uses self-hosted Gitea or Forgejo)
+- **Summary:** All Gitea versions prior to 1.26.2 allowed any unauthenticated attacker to pull
+  private container images without any account or credentials. The "private" designation on
+  container repositories provided no actual access control. Container images routinely embed
+  application source code, hardcoded credentials, API keys, database connection strings, and
+  internal service endpoints. The flaw went undetected for approximately 4 years. Forgejo (the
+  widely-used community fork) shares the same container registry implementation and is equally
+  vulnerable. 30,000+ deployments estimated globally across healthcare, aerospace, retail, and
+  ISP sectors. Discovered by UK firm Noscope via autonomous penetration testing. Patch released
+  May 20, 2026; publicly disclosed May 25, 2026. No confirmed active exploitation yet, but the
+  4-year exposure window means historical access is highly plausible.
+- **Affected versions:** Gitea < 1.26.2; Forgejo (all versions prior to equivalent patch)
+- **Safe version:** Gitea ≥ 1.26.2; interim workaround: set REQUIRE_SIGNIN_VIEW=true under
+  [service] in Gitea config
+- **IOCs:** N/A
+- **Action taken:** Upgrade Gitea to ≥1.26.2 immediately; apply equivalent Forgejo patch; audit
+  access logs for anonymous container pulls going back as far as available; if sensitive images
+  were hosted, rotate all embedded credentials
+- **Last updated:** 2026-05-28
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/gitea-vulnerability-exposes-private.html), [Noscope](https://www.noscope.com/blog/gitea-instances-exposing-private-container), [TechTimes](https://www.techtimes.com/articles/317291/20260527/gitea-flaw-left-30000-deployments-private-container-images-readable-4-years.htm)
+
+### [THREAT-2026-0052] Claude Code SOCKS5 network sandbox bypass — silently patched in v2.1.90 (no CVE, no advisory)
+- **Date detected:** 2026-05-28 (vulnerability present Oct 2025 – Apr 2026; patched v2.1.90)
+- **Status:** 🟡 Patched in v2.1.90 — verify version; Anthropic pattern of silent fixes is a growing concern
+- **Category:** AI Dev > Claude Code
+- **Affects us:** 🔴 Directly affects us (we use Claude Code)
+- **Summary:** Researcher Aonan Guan (same researcher as THREAT-2026-0035 "Comment and Control")
+  disclosed that Claude Code's network sandbox contained a SOCKS5 null-byte injection vulnerability
+  present since October 20, 2025, when the network sandbox became GA. By injecting a null byte into
+  the SOCKS5 hostname field, the vulnerability allowed a malicious repository or MCP server to route
+  outbound traffic through arbitrary hosts, bypassing the enforced allow-list entirely and enabling
+  credential and source code exfiltration while the sandbox appeared to be active. Anthropic silently
+  patched this in Claude Code v2.1.90 without assigning a CVE, without a security advisory, and
+  without any mention in release notes. This is Anthropic's second silent fix (after CVE-2026-21852,
+  which was similarly undisclosed until a researcher found it). The disclosure pattern is a growing
+  concern for teams that rely on Claude Code's sandbox as a security control.
+- **Affected versions:** Claude Code < 2.1.90 (Oct 2025 – Apr 2026 exposure window)
+- **Safe version:** Claude Code ≥ 2.1.90
+- **IOCs:** N/A
+- **Action taken:** Run `claude --version` on all dev machines; update to latest immediately if below
+  2.1.90; treat Claude Code sandbox as a best-effort control, not a hard security boundary; given
+  pattern of silent fixes, check for Claude Code updates proactively each week
+- **Last updated:** 2026-05-28
+- **Sources:** [SecurityWeek](https://www.securityweek.com/anthropic-silently-patches-claude-code-sandbox-bypass/), [The Register](https://www.theregister.com/security/2026/05/20/even-claude-agrees-hole-in-its-sandbox-was-real-and-dangerous/5243662), [Researcher Blog](https://oddguan.com/blog/second-time-same-sandbox-anthropic-claude-code-network-allowlist-bypass-data-exfiltration/)
+
+### [THREAT-2026-0053] Trellix source code breach — RansomHouse, May 2026
+- **Date detected:** 2026-05-28 (disclosed 2026-05-01; RansomHouse claimed 2026-05-07)
+- **Status:** 🟡 Contained (per Trellix) — no evidence of product-level compromise; watch for future disclosures
+- **Category:** Breach > Security Vendor
+- **Affects us:** 🟡 Doesn't directly affect us unless using Trellix products
+- **Summary:** Trellix (major EDR/XDR/SIEM vendor, formerly FireEye/McAfee Enterprise) disclosed
+  on May 1, 2026 that attackers gained unauthorized access to a portion of its source code repository.
+  RansomHouse claimed responsibility May 7, 2026, publishing screenshots of access to Trellix's
+  appliance management system. Trellix confirmed the breach but stated no evidence that source code
+  was exploited or that the release/distribution pipeline was affected. However, Trellix has not
+  disclosed which repositories were compromised or the full scope of what was stolen. Security concern:
+  access to a major EDR vendor's source code may enable future detection evasion techniques targeting
+  Trellix products. Pattern is concerning given the 2021–2022 SolarWinds/Kaseya precedent where source
+  access preceded product tampering.
+- **IOCs:** RansomHouse infrastructure (see Halcyon threat-intel feed)
+- **Action taken:** If using Trellix products (Helix, EDR, XDR, Triage), monitor Trellix security
+  advisories closely and apply updates as released; watch for any future disclosure of product-level
+  compromise
+- **Last updated:** 2026-05-28
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/trellix-confirms-source-code-breach.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/trellix-source-code-breach-claimed-by-ransomhouse-hackers/), [Dark Reading](https://www.darkreading.com/cyberattacks-data-breaches/trellix-source-code-breach-supply-chain-threats), [Cybersecurity Dive](https://www.cybersecuritydive.com/news/trellix-investigating-breach-source-code-repository/819327/)
+
 ---
 
 ## Accumulated IOCs
@@ -1059,6 +1179,9 @@
 | 2026-04-22 | THREAT-2026-0004 | npm worm | CanisterSprawl | TeamPCP Update 008 — cross-registry self-propagating worm; jumps npm→PyPI if token found |
 | 2026-05-18 | THREAT-2026-0045 | IP | 216.126.225.129:8443 | Megalodon CI/CD malware C2 — exfiltration endpoint for GitHub Actions secret theft |
 | 2026-05-18 | THREAT-2026-0045 | Git author | build-bot, auto-ci, ci-bot, pipeline-bot | Megalodon — forged commit author identities used in 5,561 GitHub repo backdooring campaign |
+| 2026-04-08 | THREAT-2026-0049 | Domain | env-check.daemontools[.]cc | DAEMON Tools Lite supply chain C2 — registered 2026-03-27; receives shell commands for execution |
+| 2026-05-14 | THREAT-2026-0050 | npm packages | node-ipc@9.1.6, 9.2.3, 12.0.1 | Malicious versions via expired recovery domain hijack; DNS TXT exfiltration |
+| 2026-05-14 | THREAT-2026-0050 | Domain | atlantis-software[.]net | Expired recovery email domain re-registered by attacker to hijack npm maintainer account |
 
 ---
 
@@ -1103,6 +1226,10 @@
 | drupal/core | Packagist (PHP) | CVE-2026-9082 — unauthenticated SQL injection (PostgreSQL backends), CISA KEV, 15K+ attack attempts | 2026-05-27 | Safe if ≥11.3.10 (PostgreSQL backend) or if using MySQL/SQLite (not affected) |
 | linux-kernel (rxgk/RxGK) | System | CVE-2026-31635 "DirtyDecrypt" — 5th LPE in cluster; missing COW in rxgk_decrypt_skb(); PoC public | 2026-05-27 | Only Fedora/Arch/openSUSE with CONFIG_RXGK=y/m affected; RHEL/Debian/Ubuntu LTS safe by default |
 | GitHub Actions workflows (.github/workflows/) | Config | Megalodon campaign (May 18) — 5,718 forged commits backdoored 5,561 repos with CI/CD exfiltration workflows | 2026-05-27 | Audit for forged author commits and base64-encoded bash payloads; block 216.126.225.129 |
+| DAEMON Tools Lite | Windows app | CVE-2026-8398 — signed official installer trojanized Apr 8–May 5 2026; CISA KEV; governments targeted | 2026-05-28 | Safe if ≥ 12.6.0; treat 12.5.0.2421–2434 as full compromise; block env-check.daemontools[.]cc |
+| node-ipc | npm | Supply chain via expired-domain maintainer hijack (May 14); DNS TXT exfiltration; 10M+ weekly downloads | 2026-05-28 | Do NOT use 9.1.6, 9.2.3, or 12.0.1; rotate all secrets if installed |
+| gitea / forgejo | Self-hosted infra | CVE-2026-27771 — unauthenticated private container image pull; 4-year flaw; 30K+ deployments | 2026-05-28 | Safe if Gitea ≥ 1.26.2; apply Forgejo equivalent patch; interim: REQUIRE_SIGNIN_VIEW=true |
+| claude-code (network sandbox) | CLI tool | Silent SOCKS5 sandbox bypass (no CVE, no advisory) — present Oct 2025 – Apr 2026 | 2026-05-28 | Safe if ≥ 2.1.90; treat Claude Code sandbox as best-effort control, not hard boundary |
 
 ---
 
