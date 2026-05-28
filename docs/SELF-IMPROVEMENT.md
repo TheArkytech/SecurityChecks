@@ -428,6 +428,30 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-28] [COVERAGE] Add "recovery email domain expiry" to PROMPT-C package vetting and npm account hygiene checklist
+- **Origin:** Prompt A
+- **Description:** The node-ipc attack (THREAT-2026-0050) used a re-registered expired recovery email domain to hijack a maintainer's npm publish rights — no infrastructure compromise, no phishing, no user interaction on the victim side. The current PROMPT-C vetting process and dependency guard focus on package content and download counts but do not include any check for whether a package's maintainer account uses a valid, non-expired recovery email domain. This is now a confirmed active attack vector (10M+ weekly downloads at risk). Recommend adding to the npm account hygiene checklist in AGENTS.md: "Verify recovery email domain for all npm accounts under org control — if domain has expired, update recovery email immediately." Also recommend adding to PROMPT-C: "Check npm account registration date and recovery email health for packages being vetted."
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-28] [COVERAGE] Add self-hosted Git platform (Gitea, Forgejo, Gogs) CVEs to Area 3 infrastructure scan
+- **Origin:** Prompt A
+- **Description:** CVE-2026-27771 (Gitea/Forgejo unauthenticated container image pull) was a 4-year-old vulnerability affecting 30,000+ deployments. The Radar prompt's Area 3 (Infrastructure) covers Vercel, AWS, GitHub, Cloudflare — but does not explicitly include self-hosted Git platforms (Gitea, Forgejo, Gogs, self-hosted GitLab). These are increasingly common for privacy-conscious or compliance-constrained teams and have their own CVE stream. Recommend adding "Gitea CVE", "Forgejo vulnerability", "self-hosted GitLab RCE" as daily search terms in Area 3.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-28] [KB] Add "vendor disclosure pattern" field to AI Dev tool threats
+- **Origin:** Prompt A
+- **Description:** THREAT-2026-0052 (Claude Code SOCKS5 sandbox bypass) is Anthropic's second silent fix — no CVE, no advisory, no release notes. THREAT-2026-0035 was rated CVSS 9.4 internally but re-classified as "None." This pattern of silent fixes and downgraded severity is security-relevant: teams relying on CVE feeds or release notes for Claude Code security decisions will miss these issues entirely. The KB should add a "Vendor disclosure quality" or "Silent fix" field to AI Dev threats to track this pattern explicitly. This would also help during STEP 2 classification — a "silent fix" should automatically elevate our monitoring posture for that tool.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-28] [COVERAGE] Add security vendor source code breaches to Area 6 (Breaches) search scope
+- **Origin:** Prompt A
+- **Description:** The Trellix source code breach (THREAT-2026-0053, RansomHouse) demonstrates that EDR/XDR vendor breaches deserve explicit monitoring — stolen security tool source code can enable future detection evasion. The Radar prompt's Area 6 covers "credential leaks from development platforms" but does not explicitly mention security vendor breaches (EDR, SIEM, vulnerability scanner source code theft). Given that Trivy, Checkmarx, Bitwarden, and now Trellix have all been breached in 2026, security vendor supply chain compromise is a distinct risk category. Recommend adding "security vendor breach OR EDR source code stolen OR vulnerability scanner compromised" as an explicit daily search term in Area 6.
+- **Impact:** High
+- **Effort:** Low
+
 ### [2026-05-16] [CHECK] Add "AI tool privileged/autonomous mode audit" to Prompt B
 - **Origin:** Prompt A
 - **Description:** ClaudeBleed and TrustFall both show that "Act without asking" / autonomous
