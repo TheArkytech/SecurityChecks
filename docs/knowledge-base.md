@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Phase 7b+ active — ISC SANS diary #33016 "Activity Through 2026-05-24" (published May 25) confirms: (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
+- **Status:** 🟠 Monitoring — Possible operational pause as of 2026-05-29; npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector; ISC SANS diary #33016 "Activity Through 2026-05-24" (published May 25) is latest tracker; watch for Phase 8. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -124,7 +124,7 @@
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Escalating — Vendor refusal to patch emerging as new pattern
+- **Status:** 🔴 Escalating — NSA published first official MCP security advisory (May 20); vendor refusal to patch remains a pattern
 - **Category:** AI Dev > MCP
 - **Affects us:** Yes (we use MCP servers)
 - **Summary:** CVE count now exceeds 50 since January. Key CVEs: CVE-2026-32211 (Azure MCP
@@ -140,9 +140,10 @@
   (Splunk MCP Server < 1.0.3) exposes session and authorization tokens in cleartext logs.
   Adversa AI published "Top MCP Security Resources — May 2026" tracking digest.
 - **Action taken:** Review all connected MCP servers; rotate tokens; update VS Code; avoid
-  running public MCP servers without explicit sandboxing; upgrade Splunk MCP Server to ≥1.0.3
-- **Last updated:** 2026-05-16
-- **Sources:** [Dark Reading](https://www.darkreading.com/application-security/microsoft-anthropic-mcp-servers-risk-takeovers), [OX Security](https://www.ox.security/blog/the-mother-of-all-ai-supply-chains-critical-systemic-vulnerability-at-the-core-of-the-mcp/), [The Register](https://www.theregister.com/2026/04/16/anthropic_mcp_design_flaw/), [vulnerablemcp.info](https://vulnerablemcp.info/)
+  running public MCP servers without explicit sandboxing; upgrade Splunk MCP Server to ≥1.0.3;
+  review NSA MCP advisory (U/OO/6030316-26) and implement Agent Firewall pattern for production
+- **Last updated:** 2026-05-29
+- **Sources:** [Dark Reading](https://www.darkreading.com/application-security/microsoft-anthropic-mcp-servers-risk-takeovers), [OX Security](https://www.ox.security/blog/the-mother-of-all-ai-supply-chains-critical-systemic-vulnerability-at-the-core-of-the-mcp/), [The Register](https://www.theregister.com/2026/04/16/anthropic_mcp_design_flaw/), [vulnerablemcp.info](https://vulnerablemcp.info/), [NSA Advisory U/OO/6030316-26](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496698/)
 
 ### [THREAT-2026-0006] CVE-2026-23864 — React/Next.js DoS via memory exhaustion
 - **Date detected:** 2026-04-03
@@ -223,7 +224,7 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 14 days remaining
 - **Category:** Supply Chain > npm/PyPI
 - **Affects us:** Yes (ecosystem-level threat; Claude Code hooks weaponized)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
@@ -1023,6 +1024,67 @@
 - **Last updated:** 2026-05-27
 - **Sources:** [CybersecurityNews](https://cybersecuritynews.com/android-zero-click-vulnerability/), [SecurityAffairs](https://securityaffairs.com/191710/breaking-news/critical-android-vulnerability-cve-2026-0073-fixed-by-google.html), [SecurityWeek](https://www.securityweek.com/critical-remote-code-execution-vulnerability-patched-in-android-2/)
 
+### [THREAT-2026-0049] CVE-2026-22812 / CVE-2026-22813 — OpenCode AI Coding Agent Dual RCE (220K exposed instances)
+- **Date detected:** 2026-05-29 (CVEs published 2026-01-12; gap in coverage)
+- **Status:** 🟠 Active — PoCs public; 220K+ instances exposed; no confirmed in-the-wild exploitation reported yet
+- **Category:** AI Dev > AI Coding Tool / CVE
+- **Affects us:** Potentially (if any team member uses OpenCode)
+- **Summary:** Two CVEs in OpenCode, an open-source AI coding agent with 71K GitHub stars and 220K+ internet-exposed
+  instances. **CVE-2026-22812** (CVSS 8.8): OpenCode < 1.0.216 automatically starts an unauthenticated HTTP server
+  binding to 0.0.0.0. Any website (via permissive CORS) can send requests to `/session/{id}/shell` and execute arbitrary
+  shell commands with the developer's full user privileges — zero interaction required. With `--mdns`, the server
+  advertises via Bonjour across the local network. Drive-by exploitation via malicious ads or phishing is realistic.
+  **CVE-2026-22813** (CVSS 9.4): XSS in the Markdown renderer used to display LLM output — AI responses are inserted
+  directly into the DOM without sanitization or CSP. Attacker who can control or influence LLM responses achieves
+  script execution in the chat session, chainable to full RCE via WebSocket. PoCs published on GitHub for both.
+  Fix: OpenCode ≥ 1.0.216 (adds authentication token to the HTTP server).
+- **Affected versions:** OpenCode < 1.0.216
+- **Safe version:** OpenCode ≥ 1.0.216
+- **IOCs:** N/A
+- **Action taken:** `which opencode` on developer machines — if present, verify version ≥ 1.0.216; also verify no
+  OpenCode server is bound to 0.0.0.0 on port 3000 without authentication
+- **Last updated:** 2026-05-29
+- **Sources:** [lilting.ch dual-CVE writeup](https://lilting.ch/en/articles/opencode-cve-2026-22812-22813-rce), [NVD CVE-2026-22812](https://nvd.nist.gov/vuln/detail/CVE-2026-22812), [SentinelOne](https://www.sentinelone.com/vulnerability-database/cve-2026-22812/), [CVEReports](https://cvereports.com/reports/CVE-2026-22812)
+
+### [THREAT-2026-0050] CVE-2025-59528 — Flowise AI Workflow Builder CVSS 10.0 RCE (Actively Exploited)
+- **Date detected:** 2026-05-29 (active exploitation confirmed April 2026; gap in coverage)
+- **Status:** 🔴 Active exploitation — EPSS 84.07% (99.28th percentile); 12,000–15,000 exposed instances
+- **Category:** AI Dev > AI Workflow Tool / CVE
+- **Affects us:** Potentially (if any project uses Flowise for AI agent/LLM workflow automation)
+- **Summary:** CVSS 10.0 code injection in Flowise (widely-used open-source LLM workflow builder / AI agent platform).
+  The CustomMCP node's `mcpServerConfig` parameter is passed directly to JavaScript's `Function()` constructor without
+  any validation — functionally equivalent to `eval()`. An unauthenticated attacker with access to port 3000 can invoke
+  `/api/v1/node-load-method/customMCP` and achieve full Node.js RCE on the server. Flowise instances commonly hold
+  API keys for OpenAI, Anthropic, Azure OpenAI, and other LLM providers, plus database credentials, vector store
+  tokens, and internal service credentials. VulnCheck confirmed active in-the-wild exploitation. EPSS score of 84.07%
+  (99.28th percentile). Affected versions: Flowise ≥ 2.2.7-patch.1 and < 3.0.6.
+- **Affected versions:** Flowise ≥ 2.2.7-patch.1 and < 3.0.6
+- **Safe version:** Flowise ≥ 3.0.6 (prefer 3.1.1)
+- **IOCs:** N/A
+- **Action taken:** Run `npm list flowise` and audit any Flowise deployments on port 3000; upgrade to ≥ 3.1.1;
+  rotate ALL LLM API keys, DB credentials, and vector store tokens if running < 3.0.6
+- **Last updated:** 2026-05-29
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/04/flowise-ai-agent-builder-under-active.html), [GitHub Advisory](https://github.com/advisories/GHSA-3gcm-f6qx-ff7p), [SonicWall](https://www.sonicwall.com/blog/flowiseai-custom-mcp-node-remote-code-execution-), [CSA Research](https://labs.cloudsecurityalliance.org/research/csa-research-note-flowise-mcp-rce-exploitation-20260409-csa/)
+
+### [THREAT-2026-0051] CVE-2026-41940 — cPanel & WHM Authentication Bypass (CVSS 9.8, 1.5M Servers, Multi-Actor Exploitation)
+- **Date detected:** 2026-05-29 (exploitation since ~2026-02-23; patched ~2026-04-30)
+- **Status:** 🟠 Patch available — Active multi-actor exploitation; ~1.5M servers; rotate credentials if affected
+- **Category:** CVE > Infrastructure > Hosting Control Panel
+- **Affects us:** Potentially (if any team project is hosted on cPanel/WHM-based hosting)
+- **Summary:** CRLF injection in the cPanel & WHM login and session-loading process allows unauthenticated remote
+  attackers to bypass authentication and gain root-level control. Attack: attacker injects raw `\r\n` characters via
+  a malicious `Authorization` header; the server writes a session file with attacker-supplied properties (e.g.,
+  `user=root`) without sanitization. Exploitation confirmed since approximately February 23, 2026 — roughly two months
+  before the patch was released (~April 30). ~1.5 million internet-exposed cPanel instances per Shodan. Multi-actor
+  exploitation confirmed (not just single group). Affected: cPanel & WHM < 11.136.0.5; WP Squared < 136.1.7.
+- **Affected versions:** cPanel & WHM < 11.136.0.5; WP Squared < 136.1.7
+- **Safe version:** cPanel & WHM ≥ 11.136.0.5
+- **IOCs:** N/A
+- **Action taken:** Confirm hosting provider has patched to ≥ 11.136.0.5; rotate all cPanel/WHM admin credentials
+  and hosted site credentials; assume breach for any instance that was internet-exposed prior to patch
+- **Last updated:** 2026-05-29
+- **Sources:** [Help Net Security](https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/), [Picus Security](https://www.picussecurity.com/resource/blog/cve-2026-41940-explained-cpanel-whm-authentication-bypass-hit-1-5m-servers), [Rapid7](https://www.rapid7.com/blog/post/etr-cve-2026-41940-cpanel-whm-authentication-bypass/), [Malwarebytes](https://www.malwarebytes.com/blog/news/2026/05/actively-exploited-cpanel-bug-exposes-millions-of-websites-to-takeover)
+
 ---
 
 ## Accumulated IOCs
@@ -1103,6 +1165,9 @@
 | drupal/core | Packagist (PHP) | CVE-2026-9082 — unauthenticated SQL injection (PostgreSQL backends), CISA KEV, 15K+ attack attempts | 2026-05-27 | Safe if ≥11.3.10 (PostgreSQL backend) or if using MySQL/SQLite (not affected) |
 | linux-kernel (rxgk/RxGK) | System | CVE-2026-31635 "DirtyDecrypt" — 5th LPE in cluster; missing COW in rxgk_decrypt_skb(); PoC public | 2026-05-27 | Only Fedora/Arch/openSUSE with CONFIG_RXGK=y/m affected; RHEL/Debian/Ubuntu LTS safe by default |
 | GitHub Actions workflows (.github/workflows/) | Config | Megalodon campaign (May 18) — 5,718 forged commits backdoored 5,561 repos with CI/CD exfiltration workflows | 2026-05-27 | Audit for forged author commits and base64-encoded bash payloads; block 216.126.225.129 |
+| opencode | npm / CLI | CVE-2026-22812 (CVSS 8.8) + CVE-2026-22813 (CVSS 9.4) — unauthenticated RCE via HTTP server + XSS→RCE in Markdown renderer; 220K+ exposed instances | 2026-05-29 | Safe if ≥ 1.0.216; verify with `opencode --version` |
+| flowise | npm / Docker | CVE-2025-59528 (CVSS 10.0) — CustomMCP node eval() RCE; actively exploited; 12K–15K exposed instances | 2026-05-29 | Safe if ≥ 3.0.6 (prefer 3.1.1); rotate all API keys if was < 3.0.6 |
+| cPanel & WHM | Hosting infra | CVE-2026-41940 (CVSS 9.8) — CRLF injection auth bypass; exploited since Feb 2026; 1.5M servers | 2026-05-29 | Safe if ≥ 11.136.0.5; rotate all hosting credentials |
 
 ---
 

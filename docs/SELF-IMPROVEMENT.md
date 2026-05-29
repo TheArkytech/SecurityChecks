@@ -407,6 +407,48 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-29] [COVERAGE] Add AI workflow builders (Flowise, n8n, Langchain server) as explicit Area 2 search targets
+- **Origin:** Prompt A
+- **Description:** Flowise CVE-2025-59528 (CVSS 10.0, actively exploited, 12K–15K exposed instances) was missed for
+  ~6 weeks because the Radar prompt's Area 2 covers "AI coding tools" and "MCP servers" but not "AI workflow builders"
+  or "LLM orchestration platforms." Flowise, n8n, LangChain server, Dify, and similar tools are widely deployed in
+  developer environments and hold LLM API keys + cloud credentials. They should be explicit daily search targets:
+  "Flowise vulnerability", "n8n security CVE", "AI workflow builder exploit" should be added to Area 2.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-29] [COVERAGE] Add AI coding agent CVEs as an explicit Area 2 search target
+- **Origin:** Prompt A
+- **Description:** OpenCode CVE-2026-22812/22813 (220K exposed instances, dual RCE) was published January 2026 but
+  was not captured until today — a 4+ month gap. "OpenCode" is not named in the Radar prompt's Area 2, which focuses
+  on the tools our team specifically uses (Claude Code, Cursor, Antigravity, Copilot, Windsurf). However, AI coding
+  agents are proliferating rapidly and developers frequently evaluate/install new ones. Recommend adding "AI coding
+  agent CVE site:nvd.nist.gov" and "open source AI coding tool vulnerability" as daily search terms in Area 2 to
+  catch CVEs in tools like OpenCode, Aider, Continue.dev, etc. before they proliferate to 220K exposed instances.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-29] [PROMPT] Add hosting control panel CVEs (cPanel, Plesk, DirectAdmin) to Area 5 search scope
+- **Origin:** Prompt A
+- **Description:** CVE-2026-41940 (cPanel/WHM CVSS 9.8 auth bypass) was exploited since February 2026, affected
+  ~1.5M servers, and was not in the KB until today — approximately 3 months late. The Radar prompt's Area 5 CVE
+  list explicitly covers Node.js, React, Next.js, Python, Three.js, popular web frameworks, Linux, macOS, Windows —
+  but not hosting control panels. cPanel/WHM is ubiquitous in web hosting environments used by development teams.
+  Recommend adding "cPanel CVE" and "Plesk vulnerability" as explicit daily search terms in Area 5.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-29] [COVERAGE] Track NSA/CISA government security advisories for AI/ML tooling as a standing check
+- **Origin:** Prompt A
+- **Description:** The NSA published the first official US government MCP security advisory (U/OO/6030316-26,
+  May 20, 2026) — a significant signal that MCP security is now a government-level concern. The Radar prompt
+  doesn't include a standing check for government advisories specifically targeting AI development tooling
+  (NSA AISC, CISA AI guidance, NCSC AI advisories). These are low-frequency but high-signal events. Recommend
+  adding "NSA CISA advisory AI MCP 2026" and "NCSC AI security guidance" as weekly (not daily) checks in Area 7
+  (Trends & Tools).
+- **Impact:** Medium
+- **Effort:** Low
+
 ### [2026-05-27] [PROMPT] Add OX Security blog as a named daily source in Area 1
 - **Origin:** Prompt A
 - **Description:** OX Security was the primary source for Megalodon discovery and published the comprehensive
