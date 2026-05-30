@@ -438,6 +438,42 @@
 - **Impact:** Medium
 - **Effort:** Low
 
+### [2026-05-30] [COVERAGE] Add Python notebook tools as explicit Area 2/5 search targets
+- **Origin:** Prompt A
+- **Description:** CVE-2026-39987 (Marimo pre-auth RCE, CVSS 9.3, CISA KEV April 23) was missed for 37 days — exploited in the wild within 10 hours of disclosure. The Radar prompt's Area 2 covers AI coding tools (Claude Code, Cursor, Copilot) and Area 5 covers Python, but neither explicitly includes "Python notebook tools" or "reactive notebook RCE." Marimo, Jupyter, and similar interactive Python environments are widely used by AI/ML developers, bind to local network ports by default, and routinely hold environment variables and cloud credentials. Recommend adding "Marimo CVE", "Jupyter vulnerability", "Python notebook RCE" as explicit daily search terms in Area 2 or Area 5.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-30] [COVERAGE] Track non-TeamPCP developer-targeting botnets (GlassWorm, similar actors)
+- **Origin:** Prompt A
+- **Description:** GlassWorm was a separate developer-targeting botnet (Russian attribution, since 2025) that poisoned OpenVSX extensions, npm/PyPI packages, and GitHub repos — entirely distinct from TeamPCP. The Radar prompt's Area 1 searches for supply chain attacks but doesn't explicitly search for developer-targeting botnets or non-TeamPCP supply chain campaigns. GlassWorm used novel C2 channels (Solana blockchain, BitTorrent DHT, Google Calendar) that would not be caught by standard IoC-based detection. Recommend adding "developer botnet" and "developer targeting malware" as explicit search terms in Area 4 (Threat Actors) or Area 1 (Supply Chain). Also: awareness that TeamPCP is not the only developer-targeting threat actor active in 2026.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-30] [COVERAGE] Add AI orchestration frameworks (Semantic Kernel, LangChain, LlamaIndex) to Area 2 search scope
+- **Origin:** Prompt A
+- **Description:** CVE-2026-26030 (Semantic Kernel CVSS 9.8 eval() RCE) was disclosed May 7 but missed until today (May 30) — a 23-day gap. Semantic Kernel is Microsoft's production AI agent orchestration SDK, directly relevant to teams building AI agents. The Radar prompt's Area 2 covers AI coding tools and MCP servers but not "AI agent orchestration frameworks" like Semantic Kernel, LangChain, LlamaIndex, or Haystack. These frameworks sit in the AI agent execution path, often run with elevated permissions, and are now confirmed exploit targets via their own output channel (LLM-controlled eval()). Recommend adding "Semantic Kernel vulnerability", "LangChain CVE", "AI agent framework RCE" as explicit daily search terms in Area 2.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-30] [PROMPT] Add "blockchain C2 / living-off-trusted-services C2" to Threat Actor search area
+- **Origin:** Prompt A
+- **Description:** GlassWorm's use of Solana blockchain, BitTorrent DHT, and Google Calendar as C2 dead-drops is a pattern specifically designed to evade domain/IP-based detection. The Radar prompt's Area 4 searches for threat actor activity but doesn't include detection of adversaries using legitimate services for C2 — a growing pattern also seen with GitHub (TeamPCP exfiltration repos), Google Docs (various APTs), and now the blockchain. Adding "blockchain C2" and "living off trusted services supply chain" as Area 4 search terms would surface these novel evasion techniques.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-30] [KB] Add "days since last KB update" field to CISA KEV threats that have passed deadlines
+- **Origin:** Prompt A
+- **Description:** THREAT-2026-0046 (Drupal) CISA deadline passed on May 27 (today is May 30 — 3 days overdue). THREAT-2026-0034 (Langflow) deadline is June 4 (5 days). THREAT-2026-0032 (Defender) deadline is June 3 (4 days). The current KB structure makes it hard to quickly identify which deadlines are approaching vs. already passed. Adding a dedicated "Days to deadline / Days overdue" computed field (or at minimum updating Status to include explicit countdown) would make time-sensitive items visually prominent in a quick scan. The THREAT-2026-0046 entry says "CISA deadline TODAY (May 27)" in the detected date section — but after the date passes, this becomes misleading rather than actionable.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-30] [CHECK] Add Gitea/Forgejo container registry to infrastructure audit checklist in Prompt B
+- **Origin:** Prompt A
+- **Description:** CVE-2026-27771 (Gitea container registry auth bypass, 4-year exposure, 30K instances) affects self-hosted Gitea and Forgejo deployments. Gitea is commonly used by teams running self-hosted code hosting as a GitHub alternative — particularly relevant for teams with on-prem CI/CD. Prompt B currently checks GitHub Actions but not self-hosted code hosting alternatives. A Gitea/Forgejo version check should be added to the infrastructure section of Prompt B.
+- **Impact:** Low
+- **Effort:** Low
+
 ### [2026-05-29] [COVERAGE] Track NSA/CISA government security advisories for AI/ML tooling as a standing check
 - **Origin:** Prompt A
 - **Description:** The NSA published the first official US government MCP security advisory (U/OO/6030316-26,

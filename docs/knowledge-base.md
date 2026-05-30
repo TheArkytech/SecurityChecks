@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🟠 Monitoring — Possible operational pause as of 2026-05-29; npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector; ISC SANS diary #33016 "Activity Through 2026-05-24" (published May 25) is latest tracker; watch for Phase 8. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
+- **Status:** 🟠 Monitoring — Operational pause continues as of 2026-05-30 (~6 days quiet); no Phase 8 detected; ISC SANS diary #33014–33016 "Activity Through 2026-05-24" remains latest tracker (published May 25); Datadog Security Labs completed static analysis of the full Shai-Hulud framework source (published to GitHub by TeamPCP May 22); ransomware monetization channels remain impaired (Vect: 25 victims, last posting ~41 days ago; CipherForce: 91+ days inactive); CISA issued May 28 advisory naming Nx Console + Megalodon as coordinated supply chain threats — government-level monitoring confirmed. npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -119,12 +119,12 @@
   tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
   HOOKS on all developer machines; verify @antv/* and durabletask versions; audit for
   actions-cool usage; add t.m-kosche[.]com to network blocklist
-- **Last updated:** 2026-05-27
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [ISC SANS Activity Through 2026-05-24](https://isc.sans.edu/diary/33016), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/)
+- **Last updated:** 2026-05-30
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [ISC SANS Activity Through 2026-05-24](https://isc.sans.edu/diary/33014), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/), [CISA Advisory May 28](https://www.cisa.gov/news-events/alerts/2026/05/28/supply-chain-compromises-impact-nx-console-and-github-repositories), [Datadog Shai-Hulud analysis](https://www.datadoghq.com/blog/engineering/shai-hulud-framework-static-analysis/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Escalating — NSA published first official MCP security advisory (May 20); vendor refusal to patch remains a pattern
+- **Status:** 🔴 Escalating — NSA published first official MCP security advisory (May 20); vendor refusal to patch remains a pattern; Semantic Kernel CVE-2026-26030 (CVSS 9.8, see THREAT-2026-0053) confirmed first critical RCE via LLM output in major AI orchestration framework using MCP-adjacent eval() vector; CISA May 28 advisory cites VS Code extension attack surface as government-level concern
 - **Category:** AI Dev > MCP
 - **Affects us:** Yes (we use MCP servers)
 - **Summary:** CVE count now exceeds 50 since January. Key CVEs: CVE-2026-32211 (Azure MCP
@@ -224,7 +224,7 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 14 days remaining
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 13 days remaining
 - **Category:** Supply Chain > npm/PyPI
 - **Affects us:** Yes (ecosystem-level threat; Claude Code hooks weaponized)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
@@ -571,7 +571,7 @@
 
 ### [THREAT-2026-0029] GitHub internal repository breach — TeamPCP via malicious VS Code extension
 - **Date detected:** 2026-05-20 (ongoing investigation)
-- **Status:** 🔴 Active — VS Code extension identified (Nx Console v18.95.0); stolen data listed for sale at $50K; zero-days from stolen source code remain a watch item
+- **Status:** 🔴 Active — CVE-2026-48027 (CVSS 9.3) formally assigned; CISA advisory issued May 28 (first US gov advisory naming Nx Console + Megalodon as coordinated threat pair); auto-update propagation confirmed as vector — developers with Nx Console installed received malicious build without manual action; stolen data listed for sale at $50K; zero-days from stolen source code remain a watch item
 - **Category:** Breach > Infrastructure > GitHub | Threat Actor
 - **Affects us:** Yes (we host code on GitHub; potential zero-days from stolen source)
 - **Summary:** TeamPCP (UNC6780) posted ~3,800 GitHub internal repositories for sale on a
@@ -588,8 +588,8 @@
 - **Action taken:** Rotate GitHub PATs; audit VS Code extensions for nrwl.angular-console and
   any other low-install-count extensions; watch GitHub security advisories this week;
   DO NOT install Nx Console unless from the official Nx publisher page and verified
-- **Last updated:** 2026-05-23
-- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-investigating-teampcp-claimed.html), [Help Net Security](https://www.helpnetsecurity.com/2026/05/20/github-breached-teampcp/), [StepSecurity](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [The Next Web](https://thenextweb.com/news/github-confirms-hackers-stole-thousands-of-internal-code-repositories-after-employee-installed-a-poisoned-vs-code-extension)
+- **Last updated:** 2026-05-30
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/github-internal-repositories-breached.html), [Help Net Security](https://www.helpnetsecurity.com/2026/05/20/github-breached-teampcp/), [StepSecurity Nx Console](https://www.stepsecurity.io/blog/nx-console-vs-code-extension-compromised), [CISA Advisory May 28](https://www.cisa.gov/news-events/alerts/2026/05/28/supply-chain-compromises-impact-nx-console-and-github-repositories), [Infosecurity Magazine](https://www.infosecurity-magazine.com/news/github-breach-nx-console-vs-code/), [NVD CVE-2026-48027](https://nvd.nist.gov/vuln/detail/CVE-2026-48027)
 
 ### [THREAT-2026-0030] Grafana Labs codebase stolen — CoinbaseCartel Pwn Request (May 16–18)
 - **Date detected:** 2026-05-20 (disclosed 2026-05-16; reported 2026-05-18)
@@ -639,7 +639,7 @@
 
 ### [THREAT-2026-0032] CVE-2026-41091 / CVE-2026-45498 — Microsoft Defender EoP + DoS zero-days (CISA KEV, deadline June 3)
 - **Date detected:** 2026-05-23 (disclosed 2026-05-19; actively exploited as of 2026-05-21)
-- **Status:** 🔴 Active exploitation — Patch released; CISA FCEB deadline June 3, 2026
+- **Status:** 🔴 CISA DEADLINE IN 4 DAYS (June 3, 2026) — Patch released; run Get-MpComputerStatus NOW
 - **Category:** CVE > Infrastructure > Windows
 - **Affects us:** 🟠 Could affect us (all Windows dev machines and endpoints)
 - **Summary:** Two Microsoft Defender vulnerabilities actively exploited in the wild as of May
@@ -914,7 +914,7 @@
 
 ### [THREAT-2026-0034] Langflow CVE-2025-34291 + CVE-2026-42048 — CISA KEV, active MuddyWater exploitation (deadline June 4)
 - **Date detected:** 2026-05-23 (CISA KEV addition 2026-05-21; active exploitation confirmed)
-- **Status:** 🔴 Active exploitation — CISA KEV; federal deadline June 4, 2026; MuddyWater using for initial access
+- **Status:** 🔴 CISA DEADLINE IN 5 DAYS (June 4, 2026) — MuddyWater active exploitation; patch to ≥ 1.9.0 urgently
 - **Category:** CVE > AI Dev Tool > Workflow Automation
 - **Affects us:** 🟠 Could affect us (if team uses Langflow for AI agent/workflow automation)
 - **Summary:** CISA added CVE-2025-34291 (CVSS 9.4) in Langflow ≤1.6.9 to the KEV catalog on
@@ -938,7 +938,7 @@
 
 ### [THREAT-2026-0045] Megalodon — Mass GitHub Repository Backdooring via Forged CI/CD Workflows
 - **Date detected:** 2026-05-27 (attack occurred 2026-05-18; disclosed 2026-05-22)
-- **Status:** 🔴 Active — Backdoors dormant in infected repos; GitHub has begun removing malicious workflows; check all repos
+- **Status:** 🔴 Active — CISA officially cited in May 28 advisory (alongside Nx Console) elevating to US government radar; CISA recommends auditing commits from build-bot/auto-ci/ci-bot/pipeline-bot after May 18; backdoors dormant in infected repos; GitHub has begun removing malicious workflows
 - **Category:** Supply Chain > GitHub Actions
 - **Affects us:** Yes (we use GitHub Actions and public repos)
 - **Summary:** On May 18, 2026, an automated campaign injected 5,718 malicious commits into 5,561
@@ -963,8 +963,8 @@
 
 ### [THREAT-2026-0046] CVE-2026-9082 — Drupal Core SQL Injection (PostgreSQL, CISA KEV — deadline TODAY May 27)
 - **Date detected:** 2026-05-27 (CISA KEV addition 2026-05-22; deadline 2026-05-27)
-- **Status:** 🔴 Active exploitation — CISA KEV federal deadline TODAY (May 27); 15,000+ attack attempts observed
-- **CISA Deadline:** 2026-05-27 (TODAY)
+- **Status:** 🔴 Post-deadline — CISA KEV deadline May 27 PASSED; 15,000+ attack attempts ongoing; any unpatched PostgreSQL-backed Drupal site is in violation
+- **CISA Deadline:** 2026-05-27 (PASSED)
 - **Category:** CVE > Infrastructure > CMS
 - **Affects us:** 🟡 Doesn't directly affect us unless using Drupal + PostgreSQL
 - **Summary:** Highly critical SQL injection (CVSS unspecified, labeled "highly critical" by Drupal SA-CORE-2026-004)
@@ -1085,6 +1085,56 @@
 - **Last updated:** 2026-05-29
 - **Sources:** [Help Net Security](https://www.helpnetsecurity.com/2026/04/30/cpanel-zero-day-vulnerability-cve-2026-41940-exploited/), [Picus Security](https://www.picussecurity.com/resource/blog/cve-2026-41940-explained-cpanel-whm-authentication-bypass-hit-1-5m-servers), [Rapid7](https://www.rapid7.com/blog/post/etr-cve-2026-41940-cpanel-whm-authentication-bypass/), [Malwarebytes](https://www.malwarebytes.com/blog/news/2026/05/actively-exploited-cpanel-bug-exposes-millions-of-websites-to-takeover)
 
+### [THREAT-2026-0052] GlassWorm — Developer-Targeting Supply Chain Botnet (Taken Down)
+- **Date detected:** 2026-05-30 (active since early 2025; takedown 2026-05-26)
+- **Status:** 🟡 Disrupted — Infrastructure taken down by CrowdStrike + Google + Shadowserver May 26; dormant payloads may persist on previously infected machines
+- **Category:** Supply Chain > Botnet
+- **Affects us:** 🟡 Doesn't directly affect us — historical threat now disrupted, but dormant payloads possible
+- **Summary:** GlassWorm is a developer-targeting botnet active since early 2025, attributed to likely Russian operators (malware exits on CIS locale). Targeted developers via: (1) trojanized VSCode extensions on OpenVSX marketplace, (2) malicious npm/PyPI postinstall hook packages, (3) GitHub repo poisoning using stolen developer credentials (300+ repos). Novel C2 architecture uses four dead-drop channels: Solana blockchain encoded C2 addresses, BitTorrent DHT configuration data, Google Calendar event titles, and direct VPS connections — deliberately avoiding IP/domain blocklists. On May 26, 2026, CrowdStrike Counter Adversary Operations, Google, and Shadowserver simultaneously disrupted all four C2 channels. Not affiliated with TeamPCP (UNC6780). Separate threat actor, separate TTPs.
+- **IOCs:** OpenVSX marketplace extensions (non-MS source); npm/PyPI postinstall hooks with encoded commands; Solana mainnet RPC: api.mainnet-beta.solana.com (unexpected process connections); BitTorrent DHT port 6881/UDP from dev machines; unexpected Google Calendar API calls from non-browser processes
+- **Action taken:** Review VS Code extensions for OpenVSX-sourced items; audit npm packages for postinstall hook anomalies; scan GitHub repos for suspicious non-TeamPCP automated commits; monitor for dormant C2 callbacks
+- **Last updated:** 2026-05-30
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/glassworm-malware-takedown-disrupts.html), [CrowdStrike](https://www.crowdstrike.com/en-us/blog/inside-crowdstrike-takedown-of-a-developer-targeting-botnet/), [TechCrunch](https://techcrunch.com/2026/05/27/crowdstrike-and-google-take-down-botnet-used-by-hackers-to-target-software-developers-in-supply-chain-attacks/), [The Register](https://www.theregister.com/cyber-crime/2026/05/27/crowdstrike-google-shatter-glassworm-botnet/5247337)
+
+### [THREAT-2026-0053] CVE-2026-26030 + CVE-2026-25592 — Microsoft Semantic Kernel AI Agent RCE (CVSS 9.8)
+- **Date detected:** 2026-05-30 (disclosed 2026-05-07; gap in coverage)
+- **Status:** 🟠 Active — Patched in semantic-kernel 1.39.4 (Python) / 1.71.0 (.NET); no confirmed in-the-wild exploitation
+- **Category:** CVE > AI Framework
+- **Affects us:** Potentially (if any project uses Semantic Kernel for AI agent orchestration)
+- **Summary:** Two CVEs in Microsoft's open-source Semantic Kernel SDK (widely used for AI agent and LLM integration). **CVE-2026-26030** (CVSS 9.8): The InMemoryVectorStore `filter_str` argument is passed into Python's AST compiler and then `eval()` without sanitization — an attacker who can influence any document returned from a vector store achieves full host RCE with zero user interaction. This is the first confirmed critical RCE in a major AI orchestration framework exploitable purely through the LLM's own output channel. **CVE-2026-25592**: similar code injection via Python plugin executor. Disclosed by Microsoft May 7, 2026 in a security blog post titled "When prompts become shells." Patches ship in semantic-kernel ≥ 1.39.4 (Python) and ≥ 1.71.0 (.NET). The four-layer fix includes: AST node-type allowlist, function call allowlist, dangerous attributes blocklist, and name node restriction.
+- **Affected versions:** semantic-kernel < 1.39.4 (Python); < 1.71.0 (.NET)
+- **Safe version:** semantic-kernel ≥ 1.39.4 (Python), ≥ 1.71.0 (.NET)
+- **IOCs:** N/A
+- **Action taken:** `pip show semantic-kernel` in all Python envs — upgrade to ≥ 1.39.4; `dotnet list package | grep -i semantic` for .NET — upgrade to ≥ 1.71.0; if using InMemoryVectorStore with untrusted retrieval sources, treat as compromised until upgraded
+- **Last updated:** 2026-05-30
+- **Sources:** [Microsoft Security Blog](https://www.microsoft.com/en-us/security/blog/2026/05/07/prompts-become-shells-rce-vulnerabilities-ai-agent-frameworks/), [NVD CVE-2026-26030](https://nvd.nist.gov/vuln/detail/cve-2026-26030), [PointGuard AI](https://www.pointguardai.com/ai-security-incidents/semantic-kernel-lets-a-prompt-open-a-shell-cve-2026-25592-cve-2026-26030), [GitHub Advisory](https://github.com/advisories/GHSA-xjw9-4gw8-4rqx)
+
+### [THREAT-2026-0054] CVE-2026-27771 — Gitea Container Registry Authentication Bypass (30,000 deployments, 4-year gap)
+- **Date detected:** 2026-05-30 (vulnerability existed ~4 years; disclosed May 2026)
+- **Status:** 🟡 Patched — Gitea 1.26.2 released; no confirmed active exploitation
+- **Category:** CVE > Infrastructure > Container Registry
+- **Affects us:** 🟡 Low direct risk unless team self-hosts Gitea or Forgejo
+- **Summary:** Missing authentication enforcement in Gitea's built-in container registry: the `private` designation on container repositories failed to enforce authentication on image layer and manifest endpoints. Any unauthenticated remote user can pull private container images from any private Gitea/Forgejo repository. Present in all versions prior to 1.26.2 — roughly 4 years of exposure. Discovered by NoScope's autonomous pen-testing agent April 2026. 30,000+ internet-facing instances affected across 30+ countries. No confirmed active exploitation. Risk: container images routinely embed API keys, SSH keys, TLS certificates, and database credentials in layers. Also affects Forgejo (prominent Gitea fork).
+- **Affected versions:** Gitea < 1.26.2; Forgejo (pre-patch equivalent versions)
+- **Safe version:** Gitea ≥ 1.26.2
+- **IOCs:** N/A
+- **Action taken:** Upgrade Gitea to ≥ 1.26.2; interim: set `[service].REQUIRE_SIGNIN_VIEW=true` in config; audit private container image layers for embedded secrets and rotate any found
+- **Last updated:** 2026-05-30
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/gitea-vulnerability-exposes-private.html), [SecurityWeek](https://www.securityweek.com/gitea-vulnerability-exposed-30000-deployments-to-attacks/), [Orca Security](https://orca.security/resources/blog/gitea-container-registry-vulnerability/), [Rescana](https://www.rescana.com/post/cve-2026-27771-critical-gitea-container-registry-vulnerability-exposes-private-images-to-unauthenticated-attackers)
+
+### [THREAT-2026-0055] CVE-2026-39987 — Marimo Python Notebook Pre-Auth RCE (CVSS 9.3, CISA KEV, Actively Exploited)
+- **Date detected:** 2026-05-30 (CISA KEV added 2026-04-23; gap in coverage)
+- **Status:** 🔴 Active exploitation — CISA KEV; federal deadline May 7 PASSED; exploited in the wild within 9h41m of disclosure; delivers NKAbuse malware
+- **Category:** CVE > AI Dev Tool > Python
+- **Affects us:** Potentially (if team uses Marimo reactive Python notebooks for data or AI work)
+- **Summary:** Marimo (24K GitHub stars reactive Python notebook) exposes `/terminal/ws` WebSocket without any authentication validation. The endpoint checks only running mode and platform support before accepting connections — completely skipping `validate_auth()`. Any unauthenticated network-reachable attacker obtains a full PTY shell and arbitrary OS command execution. Exploited in the wild by Sysdig within 9 hours and 41 minutes of disclosure; 662 exploit events recorded April 11–14, 2026. Payload: NKAbuse malware using NKN peer-to-peer protocol for C2 (resistant to domain-based blocklists). CISA added to KEV April 23 with federal deadline May 7 (passed). Note: added retroactively — missed in April/May scans.
+- **Affected versions:** Marimo < 0.23.0
+- **Safe version:** Marimo ≥ 0.23.0
+- **IOCs:** NKAbuse malware (NKN P2P C2 protocol); /terminal/ws WebSocket probe traffic
+- **Action taken:** `pip show marimo` in all Python envs — if < 0.23.0, upgrade immediately; do NOT expose Marimo on public or untrusted network interfaces; add auth proxy if LAN-accessible; rotate credentials on any machine that ran vulnerable Marimo
+- **Last updated:** 2026-05-30
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/04/marimo-rce-flaw-cve-2026-39987.html), [Sysdig](https://www.sysdig.com/blog/marimo-oss-python-notebook-rce-from-disclosure-to-exploitation-in-under-10-hours), [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog), [Resecurity](https://www.resecurity.com/blog/article/marimo-pre-auth-rce-via-unauthenticated-websocket-terminal-cve-2026-39987), [CSA Labs](https://labs.cloudsecurityalliance.org/research/csa-research-note-marimo-rce-cve-2026-39987-ai-toolchain-202/)
+
 ---
 
 ## Accumulated IOCs
@@ -1121,6 +1171,10 @@
 | 2026-04-22 | THREAT-2026-0004 | npm worm | CanisterSprawl | TeamPCP Update 008 — cross-registry self-propagating worm; jumps npm→PyPI if token found |
 | 2026-05-18 | THREAT-2026-0045 | IP | 216.126.225.129:8443 | Megalodon CI/CD malware C2 — exfiltration endpoint for GitHub Actions secret theft |
 | 2026-05-18 | THREAT-2026-0045 | Git author | build-bot, auto-ci, ci-bot, pipeline-bot | Megalodon — forged commit author identities used in 5,561 GitHub repo backdooring campaign |
+| 2026-05-26 | THREAT-2026-0052 | Network | api.mainnet-beta.solana.com (unexpected non-browser process connection) | GlassWorm botnet — C2 via Solana blockchain dead-drop |
+| 2026-05-26 | THREAT-2026-0052 | Network | BitTorrent DHT port 6881/UDP from developer machines | GlassWorm botnet — C2 via DHT configuration |
+| 2026-05-26 | THREAT-2026-0052 | Process | Google Calendar API calls from non-browser/non-user processes | GlassWorm botnet — C2 dead-drop in Calendar event titles |
+| 2026-04-11 | THREAT-2026-0055 | Malware | NKAbuse (NKN P2P C2 protocol traffic) | Marimo CVE-2026-39987 payload — P2P-based C2 resistant to domain blocklists |
 
 ---
 
@@ -1168,6 +1222,9 @@
 | opencode | npm / CLI | CVE-2026-22812 (CVSS 8.8) + CVE-2026-22813 (CVSS 9.4) — unauthenticated RCE via HTTP server + XSS→RCE in Markdown renderer; 220K+ exposed instances | 2026-05-29 | Safe if ≥ 1.0.216; verify with `opencode --version` |
 | flowise | npm / Docker | CVE-2025-59528 (CVSS 10.0) — CustomMCP node eval() RCE; actively exploited; 12K–15K exposed instances | 2026-05-29 | Safe if ≥ 3.0.6 (prefer 3.1.1); rotate all API keys if was < 3.0.6 |
 | cPanel & WHM | Hosting infra | CVE-2026-41940 (CVSS 9.8) — CRLF injection auth bypass; exploited since Feb 2026; 1.5M servers | 2026-05-29 | Safe if ≥ 11.136.0.5; rotate all hosting credentials |
+| semantic-kernel | PyPI / NuGet | CVE-2026-26030 (CVSS 9.8) + CVE-2026-25592 — InMemoryVectorStore filter eval() RCE; first confirmed critical RCE via AI orchestration output | 2026-05-30 | Safe if Python ≥ 1.39.4 or .NET ≥ 1.71.0 |
+| marimo | PyPI | CVE-2026-39987 (CVSS 9.3) — pre-auth RCE via /terminal/ws WebSocket; CISA KEV; actively exploited; delivers NKAbuse | 2026-05-30 | Safe if ≥ 0.23.0; do not expose on public network |
+| gitea / forgejo | Self-hosted infra | CVE-2026-27771 — container registry auth bypass; private images exposed to unauthenticated pull; 30K deployments; 4-year gap | 2026-05-30 | Safe if Gitea ≥ 1.26.2; interim: REQUIRE_SIGNIN_VIEW=true |
 
 ---
 
