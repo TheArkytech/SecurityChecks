@@ -517,6 +517,64 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-05-31] [COVERAGE] Add VPN/network access control CVEs to Area 3 (Infrastructure) search scope
+- **Origin:** Prompt A
+- **Description:** CVE-2026-0257 (Palo Alto GlobalProtect, CVSS 9.1, actively exploited since May 18, CISA KEV May 29)
+  was not in the KB until today — a 13-day gap from first exploitation to KB entry. The Radar prompt's Area 3
+  (Infrastructure) covers "Vulnerabilities in Vercel, AWS, GitHub, Cloudflare" and "Attacks on DNS, CDNs" but does not
+  explicitly mention VPN appliances (Palo Alto, Fortinet, Cisco, Pulse Secure). These are critical network perimeter
+  controls used by virtually all development teams for remote access, and they are consistently targeted by nation-state
+  actors. Recommend adding "Palo Alto PAN-OS CVE", "Fortinet VPN vulnerability", "Pulse Secure Ivanti exploit" as
+  explicit daily search terms in Area 3.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-31] [COVERAGE] Add SEO poisoning of developer tools as an explicit Area 2 search target
+- **Origin:** Prompt A
+- **Description:** THREAT-2026-0058 (SEO Poisoning — Fake Gemini CLI & Claude Code installers) was active since March
+  2026 but not in the KB until today — a 3-month gap. The Radar prompt's Area 2 covers social engineering via "malicious
+  repositories or configuration files" and "AI-generated code as a vector," but does not explicitly search for SEO
+  poisoning campaigns targeting AI coding tool installs. This is now a confirmed and ongoing attack class. Recommend
+  adding "SEO poisoning AI coding tool installer" and "fake Claude Code download" as explicit daily search terms in
+  Area 2. Also consider adding EclecticIQ blog (blog.eclecticiq.com) as a named daily source alongside Socket.dev
+  and StepSecurity.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-05-31] [COVERAGE] Add ClickFix clipboard injection to Area 4 (Threat Actors) search scope
+- **Origin:** Prompt A
+- **Description:** BlueNoroff's ClickFix + Deepfake Zoom campaign (THREAT-2026-0059) was disclosed April 27, 2026, but
+  was not in our KB until today — a 34-day gap. ClickFix is now a confirmed social engineering vector used by North
+  Korean APTs (BlueNoroff), ransomware groups, and other threat actors. The Radar's Area 4 searches for "phishing
+  targeting devs" but not specifically for "ClickFix" as an attack technique. Adding "ClickFix attack developer 2026"
+  as an explicit daily search term would surface future ClickFix campaigns faster. Also: the deepfake AI pipeline for
+  creating fake Zoom meeting participants is a significant new TTP that should be tracked as it proliferates to other
+  threat actors.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-31] [KB] Add "Coverage gap discovery date" field to threats added after significant delay
+- **Origin:** Prompt A
+- **Description:** Today's scan added 4 threats (THREAT-2026-0056 through 0059) that were detected/disclosed between
+  March and May 2026 but missed in earlier scans — gaps ranging from 13 days (PAN-OS CVE) to 3 months (SEO poisoning).
+  The KB currently has no field distinguishing "first detected date" from "when it was actually publicly disclosed."
+  Adding a "Gap discovered" note to threats that were missed would help track the health of our monitoring coverage
+  and identify which search terms/sources need to be added. Example: "First public disclosure: 2026-04-27 | Detected:
+  2026-05-31 | Gap: 34 days" — this would make coverage gaps measurable over time.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-05-31] [PROMPT] Add "CISA KEV additions in last 48 hours" as an explicit daily search in Area 5
+- **Origin:** Prompt A
+- **Description:** CVE-2026-0257 was added to the CISA KEV on May 29 but not captured until today's May 31 scan — a
+  2-day lag for a vulnerability with active exploitation. The Radar's Area 5 searches for critical CVEs and mentions
+  "CISA KEV catalog" but doesn't explicitly make it the first query of the day. Making "CISA KEV additions last 48 hours
+  site:cisa.gov" the very first search in Area 5 would ensure we catch actively-exploited vulnerabilities the day CISA
+  confirms them, rather than 2+ days later. CISA's KEV catalog is arguably the highest-signal, highest-precision source
+  for prioritizing vulnerabilities.
+- **Impact:** High
+- **Effort:** Low
+
 ---
 
 ## Implemented suggestions

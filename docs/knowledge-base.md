@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🟠 Monitoring — Operational pause continues as of 2026-05-30 (~6 days quiet); no Phase 8 detected; ISC SANS diary #33014–33016 "Activity Through 2026-05-24" remains latest tracker (published May 25); Datadog Security Labs completed static analysis of the full Shai-Hulud framework source (published to GitHub by TeamPCP May 22); ransomware monetization channels remain impaired (Vect: 25 victims, last posting ~41 days ago; CipherForce: 91+ days inactive); CISA issued May 28 advisory naming Nx Console + Megalodon as coordinated supply chain threats — government-level monitoring confirmed. npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
+- **Status:** 🟠 Monitoring — Operational pause continues as of 2026-05-31 (~7 days quiet); no Phase 8 detected; ISC SANS diary #33014–33016 "Activity Through 2026-05-24" remains latest tracker (published May 25); Datadog Security Labs completed static analysis of the full Shai-Hulud framework source (published to GitHub by TeamPCP May 22); ransomware monetization channels remain impaired (Vect: 25 victims, last posting ~42 days ago; CipherForce: 92+ days inactive); CISA issued May 28 advisory naming Nx Console + Megalodon as coordinated supply chain threats — government-level monitoring confirmed. npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -119,12 +119,12 @@
   tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
   HOOKS on all developer machines; verify @antv/* and durabletask versions; audit for
   actions-cool usage; add t.m-kosche[.]com to network blocklist
-- **Last updated:** 2026-05-30
+- **Last updated:** 2026-05-31
 - **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [ISC SANS Activity Through 2026-05-24](https://isc.sans.edu/diary/33014), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/), [CISA Advisory May 28](https://www.cisa.gov/news-events/alerts/2026/05/28/supply-chain-compromises-impact-nx-console-and-github-repositories), [Datadog Shai-Hulud analysis](https://www.datadoghq.com/blog/engineering/shai-hulud-framework-static-analysis/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
-- **Status:** 🔴 Escalating — NSA published first official MCP security advisory (May 20); vendor refusal to patch remains a pattern; Semantic Kernel CVE-2026-26030 (CVSS 9.8, see THREAT-2026-0053) confirmed first critical RCE via LLM output in major AI orchestration framework using MCP-adjacent eval() vector; CISA May 28 advisory cites VS Code extension attack surface as government-level concern
+- **Status:** 🔴 Escalating — NSA published first official MCP security advisory (May 20); vendor refusal to patch remains a pattern; Semantic Kernel CVE-2026-26030 (CVSS 9.8, see THREAT-2026-0053) confirmed first critical RCE via LLM output in major AI orchestration framework using MCP-adjacent eval() vector; CISA May 28 advisory cites VS Code extension attack surface as government-level concern; MCP specification now mandates OAuth 2.1 + PKCE as Resource Servers (June 2026 spec), a positive hardening step; new Unit 42 research confirms MCP sampling feature is exploitable for resource theft, conversation hijacking, and covert tool invocation
 - **Category:** AI Dev > MCP
 - **Affects us:** Yes (we use MCP servers)
 - **Summary:** CVE count now exceeds 50 since January. Key CVEs: CVE-2026-32211 (Azure MCP
@@ -142,7 +142,7 @@
 - **Action taken:** Review all connected MCP servers; rotate tokens; update VS Code; avoid
   running public MCP servers without explicit sandboxing; upgrade Splunk MCP Server to ≥1.0.3;
   review NSA MCP advisory (U/OO/6030316-26) and implement Agent Firewall pattern for production
-- **Last updated:** 2026-05-29
+- **Last updated:** 2026-05-31
 - **Sources:** [Dark Reading](https://www.darkreading.com/application-security/microsoft-anthropic-mcp-servers-risk-takeovers), [OX Security](https://www.ox.security/blog/the-mother-of-all-ai-supply-chains-critical-systemic-vulnerability-at-the-core-of-the-mcp/), [The Register](https://www.theregister.com/2026/04/16/anthropic_mcp_design_flaw/), [vulnerablemcp.info](https://vulnerablemcp.info/), [NSA Advisory U/OO/6030316-26](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496698/)
 
 ### [THREAT-2026-0006] CVE-2026-23864 — React/Next.js DoS via memory exhaustion
@@ -224,7 +224,7 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 13 days remaining
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 12 days remaining
 - **Category:** Supply Chain > npm/PyPI
 - **Affects us:** Yes (ecosystem-level threat; Claude Code hooks weaponized)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
@@ -250,7 +250,7 @@
   under victim accounts for exfiltration; unexpected Claude Code hooks in ~/.claude/settings.json
 - **Action taken:** Run `npm audit` and verify @tanstack versions; check for gh-token-monitor
   process/service; verify Claude Code hooks; macOS OpenAI apps must update before June 12
-- **Last updated:** 2026-05-20
+- **Last updated:** 2026-05-31
 - **Sources:** [Wiz Blog](https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised), [The Hacker News](https://thehackernews.com/2026/05/mini-shai-hulud-worm-compromises.html), [StepSecurity](https://www.stepsecurity.io/blog/mini-shai-hulud-is-back-a-self-spreading-supply-chain-attack-hits-the-npm-ecosystem), [Aikido](https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised), [Socket.dev](https://socket.dev/blog/tanstack-npm-packages-compromised-mini-shai-hulud-supply-chain-attack)
 
 ### [THREAT-2026-0013] TrustFall — one-click RCE via MCP trust prompt in Claude Code, Cursor, Gemini CLI, Copilot
@@ -660,7 +660,7 @@
 
 ### [THREAT-2026-0033] CVE-2026-46333 "ssh-keysign-pwn" — Linux kernel ptrace fd-theft (4th in LPE cluster)
 - **Date detected:** 2026-05-23 (patch committed 2026-05-14; Qualys disclosure 2026-05-20)
-- **Status:** 🔴 Active — PoC viable (100–2,000 attempts); patches available; this environment (6.18.5) confirmed vulnerable. Note: THREAT-2026-0047 (DirtyDecrypt, CVE-2026-31635) is confirmed as the 5th member of the Linux LPE cluster — released May 2026 with PoC; targets CONFIG_RXGK systems (Fedora/Arch).
+- **Status:** 🔴 Active — PoC viable (100–2,000 attempts); patches available; this environment (6.18.5) confirmed vulnerable. Note: THREAT-2026-0047 (DirtyDecrypt, CVE-2026-31635) is confirmed as the 5th member of the Linux LPE cluster — released May 2026 with PoC; targets CONFIG_RXGK systems (Fedora/Arch). THREAT-2026-0057 (PinTheft, CVE-2026-43494) confirmed as 6th member — chains RDS zerocopy bug + io_uring to overwrite SUID-root page cache; mainly affects Arch Linux; public PoC released May 28.
 - **Category:** CVE > Infrastructure > Linux Kernel
 - **Affects us:** Yes (all Linux dev machines, CI/CD runners, and this session environment)
 - **Summary:** A 6-year race condition in `__ptrace_may_access()` (Qualys research, disclosed
@@ -679,7 +679,7 @@
 - **Action taken:** Apply distro CVE-2026-46333 kernel update; check `uname -r` (must show ≥6.18.31
   on this kernel branch); interim: apply AppArmor/SELinux confinement on ssh-keysign; restrict
   pidfd_getfd via seccomp policy
-- **Last updated:** 2026-05-23
+- **Last updated:** 2026-05-31
 - **Sources:** [Qualys Blog](https://blog.qualys.com/vulnerabilities-threat-research/2026/05/20/cve-2026-46333-local-root-privilege-escalation-and-credential-disclosure-in-the-linux-kernel-ptrace-path), [CloudLinux](https://blog.cloudlinux.com/ptrace-exit-race-cve-2026-46333-mitigation-and-kernel-update), [CybersecurityNews](https://cybersecuritynews.com/linux-kernel-vulnerability-ssh-keysign-pwn/)
 
 ### [THREAT-2026-0035] "Comment and Control" — Prompt injection via GitHub comments → credential theft (Claude Code, Gemini CLI, Copilot)
@@ -1135,6 +1135,56 @@
 - **Last updated:** 2026-05-30
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/04/marimo-rce-flaw-cve-2026-39987.html), [Sysdig](https://www.sysdig.com/blog/marimo-oss-python-notebook-rce-from-disclosure-to-exploitation-in-under-10-hours), [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog), [Resecurity](https://www.resecurity.com/blog/article/marimo-pre-auth-rce-via-unauthenticated-websocket-terminal-cve-2026-39987), [CSA Labs](https://labs.cloudsecurityalliance.org/research/csa-research-note-marimo-rce-cve-2026-39987-ai-toolchain-202/)
 
+### [THREAT-2026-0056] CVE-2026-0257 — Palo Alto PAN-OS GlobalProtect Authentication Bypass (CISA KEV, deadline June 19)
+- **Date detected:** 2026-05-31 (added to CISA KEV 2026-05-29; exploitation observed 2026-05-18)
+- **Status:** 🔴 Active exploitation — CISA KEV; federal deadline June 19, 2026; attacks observed from Vultr (May 18) and Dromatics Systems (May 21)
+- **CISA Deadline:** 2026-06-19
+- **Category:** CVE > Infrastructure > VPN
+- **Affects us:** 🟠 Could affect us (if any project or developer uses Palo Alto GlobalProtect VPN for remote access)
+- **Summary:** Authentication bypass in the GlobalProtect portal and gateway of Palo Alto Networks PAN-OS. Triggered only when "authentication override cookies" are enabled AND the certificate used to sign those cookies is shared with another service (e.g., the HTTPS portal/gateway). Root cause: improper handling of SAML assertions in mixed-authentication mode (local database + SAML IdP) — the server accepts attacker-forged SAML assertions without verifying the IdP digital signature or certificate chain. An unauthenticated remote attacker sends crafted HTTP requests to forge authentication override cookies and establish unauthorized VPN connections — no credentials required. CVSS 9.1. Active exploitation since May 18; CISA added to KEV May 29 with federal agency deadline June 19 under BOD 22-01. Affected: PAN-OS 10.2.7–12.1.6 (with GlobalProtect + auth override cookies + shared cert config). EOL versions (9.0, 9.1, 10.0) also vulnerable but will NOT receive patches.
+- **Affected versions:** PAN-OS 10.2.7 through 12.1.6 (with authentication override cookies enabled + shared cert)
+- **Safe version:** Apply patch per Palo Alto advisory CVE-2026-0257; interim: restrict GlobalProtect portal to trusted IPs via security policy
+- **IOCs:** N/A (exploitation infrastructure: Vultr-hosted IPs; Dromatics Systems IPs)
+- **Action taken:** If using Palo Alto GlobalProtect: (1) check if authentication override cookies are enabled; (2) apply patch immediately; (3) restrict access to trusted IP ranges as interim measure; CISA federal deadline June 19
+- **Last updated:** 2026-05-31
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/05/pan-os-globalprotect-authentication.html), [BleepingComputer](https://www.bleepingcomputer.com/news/security/palo-alto-globalprotect-vpn-auth-bypass-flaw-now-exploited-in-attacks/), [Rapid7](https://www.rapid7.com/blog/post/etr-rapid7-observed-exploitation-of-pan-os-globalprotect-authentication-bypass-vulnerability-cve-2026-0257/), [Palo Alto Official Advisory](https://security.paloaltonetworks.com/CVE-2026-0257), [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
+
+### [THREAT-2026-0057] CVE-2026-43494 "PinTheft" — Linux Kernel LPE via RDS + io_uring (6th in LPE cluster)
+- **Date detected:** 2026-05-31 (disclosed 2026-05-19; public PoC released ~2026-05-28)
+- **Status:** 🟡 Active — Public PoC available; patches available; mainly affects Arch Linux by default; low direct risk for enterprise distributions unless RDS workloads present
+- **Category:** CVE > Infrastructure > Linux Kernel
+- **Affects us:** 🟡 Low direct risk — affects Arch Linux by default; Ubuntu/RHEL/Debian only if RDS (Reliable Datagram Sockets) module is explicitly enabled
+- **Summary:** The SIXTH Linux kernel LPE in the current cluster (after Copy Fail CVE-2026-31431, Dirty Frag CVE-2026-43284/43500, Fragnesia CVE-2026-46300, ssh-keysign-pwn CVE-2026-46333, DirtyDecrypt CVE-2026-31635). Discovered by Aaron Esau and V12 Security, disclosed May 19, 2026. PinTheft chains two primitives: (1) an RDS (Reliable Datagram Sockets) zerocopy reference-count bug that creates a shared page-cache reference, and (2) io_uring fixed buffers that allow writing to that shared page. Result: an unprivileged local user can overwrite the page cache of a SUID-root binary (e.g., /usr/bin/su) and execute attacker-controlled code as root. 9-year-old flaw. Public PoC released approximately May 28, 2026. SCOPE LIMITATION: the RDS kernel module is enabled by default only on Arch Linux among common distributions. Ubuntu is only affected if RDS workloads are running. CloudLinux platforms not affected.
+- **Affected versions:** Linux kernels with RDS module enabled (Arch Linux by default; enterprise distros only if rds/rds_tcp loaded)
+- **Safe version:** Apply distro CVE-2026-43494 kernel update; or blacklist rds/rds_tcp modules as interim
+- **IOCs:** N/A
+- **Action taken:** `lsmod | grep rds` — if rds or rds_tcp module is loaded, apply kernel patch or blacklist modules immediately; Arch Linux users: update kernel urgently; `echo "blacklist rds" >> /etc/modprobe.d/blacklist.conf` as interim
+- **Last updated:** 2026-05-31
+- **Sources:** [TuxCare Blog](https://tuxcare.com/blog/cve-pintheft/), [The Hacker News](https://thehackernews.com/2026/05/9-year-old-linux-kernel-flaw-enables.html), [BleepingComputer](https://www.bleepingcomputer.com/news/linux/exploit-released-for-new-pintheft-arch-linux-root-escalation-flaw/), [CloudLinux](https://blog.cloudlinux.com/pintheft-cloudlinux-platforms-not-affected), [Ubuntu Advisory](https://ubuntu.com/blog/pintheft-linux-kernel-vulnerability-mitigation)
+
+### [THREAT-2026-0058] SEO Poisoning — Fake Gemini CLI & Claude Code Installers Deliver In-Memory Infostealer
+- **Date detected:** 2026-05-31 (discovered early March 2026 by EclecticIQ; ongoing campaign; gap in KB coverage)
+- **Status:** 🔴 Active — Ongoing since March 2026; fake domains rank above official pages; fileless PowerShell payload; no confirmed takedown
+- **Category:** AI Dev > Social Engineering > Supply Chain
+- **Affects us:** 🔴 Directly affects us — we use Claude Code daily; team members searching Google for AI CLI installs are at direct risk
+- **Summary:** EclecticIQ analysts identified a persistent SEO poisoning campaign targeting developers searching for Gemini CLI and Claude Code installers. Attackers registered typosquatted domains (geminicli[.]co[.]com, claudecode[.]co[.]com, claude-setup[.]com) and poisoned Google search results to rank above official pages. When a developer lands on the fake page, they are instructed to run a PowerShell "installation" command — this executes a fileless infostealer entirely in memory (Invoke-RestMethod → Invoke-Expression, no disk write), while simultaneously running the legitimate `npm install -g @google/gemini-cli` to make the install appear successful. Stolen data: OAuth tokens, CI/CD credentials, corporate VPN details, session cookies from Slack, Microsoft Teams, Discord, and Telegram. Claude Code variant domains registered March 30, 2026. Targets Windows endpoints. This is distinct from THREAT-2026-0008 (GitHub-hosted trojanized Claude Code archives with Vidar+GhostSocks) and represents a separate SEO-based distribution vector.
+- **Affected scope:** Windows developers who search Google for Claude Code or Gemini CLI installation instructions
+- **IOCs:** geminicli[.]co[.]com; claudecode[.]co[.]com; claude-setup[.]com; fileless PowerShell infostealer (Invoke-RestMethod + Invoke-Expression chain)
+- **Action taken:** (1) WARN ALL TEAM: never search Google for Claude Code or Gemini CLI install instructions — always use bookmarked official links; (2) Official Claude Code install: Anthropic official docs only; (3) Official Gemini CLI: directly from Google AI Studio or `npm install -g @google/gemini-cli` typed manually; (4) Add fake domains to DNS/browser blocklist
+- **Last updated:** 2026-05-31
+- **Sources:** [EclecticIQ Blog](https://blog.eclecticiq.com/seo-poisoning-campaign-leverages-gemini-and-claude-code-impersonation-to-deliver-infostealer), [Infosecurity Magazine](https://www.infosecurity-magazine.com/news/gemini-claude-infostealers-seo/), [CybersecurityNews](https://cybersecuritynews.com/hackers-use-seo-poisoning-to-impersonate-gemini-cli/), [HackRead](https://hackread.com/trojan-gemini-claude-installers-developers-seo-poisoning/)
+
+### [THREAT-2026-0059] BlueNoroff (UNC1069) ClickFix + AI Deepfake Zoom Campaign — Crypto/Web3 Targeting
+- **Date detected:** 2026-05-31 (disclosed 2026-04-27 by Arctic Wolf Labs; gap in KB coverage)
+- **Status:** 🟡 Active — ~100 executives compromised; AI deepfake pipeline operational; BlueNoroff expanding developer targeting
+- **Category:** Threat Actor > BlueNoroff (UNC1069/Lazarus) > Social Engineering
+- **Affects us:** 🟡 Doesn't directly target us (crypto/Web3 executives targeted), but BlueNoroff is the same actor behind the axios npm supply chain attack (THREAT-2026-0001); developer targeting is expanding
+- **Summary:** Arctic Wolf Labs (April 27, 2026) attributed a sophisticated social engineering campaign to BlueNoroff (UNC1069, Lazarus Group subunit — same group behind THREAT-2026-0001 axios supply chain attack). Attack chain: (1) Spear-phishing via typosquatted Zoom/Teams links and fake Calendly invites; (2) ClickFix clipboard injection prompt claiming "Zoom SDK needs an update" → victim pastes and runs malicious PowerShell → fileless multi-payload install in under 5 minutes (C2, persistence, credential harvesting, crypto wallet theft, Telegram session theft); (3) AI-generated deepfake Zoom content using a self-sustaining pipeline — attacker's media server held 950+ files of exfiltrated victim webcam footage merged with AI-generated images to create new deepfake bait. At least 100 individuals compromised (nearly half CEOs/co-founders); 80% in crypto/blockchain/fintech. macOS backdoors also deployed. Attribution: HIGH confidence. NOTE: BlueNoroff's developer-targeting history (axios npm attack, developer recruitment Operation 99) suggests potential future pivot to dev tool targeting.
+- **IOCs:** Typosquatted Zoom/Teams domains; ClickFix clipboard injection payloads; fileless PowerShell C2
+- **Action taken:** Warn team: never click Zoom/Teams meeting links from unsolicited messages; never execute ClickFix prompts claiming tool updates; treat any unsolicited "join a meeting" link as suspicious; be aware BlueNoroff is an active adversary in the developer ecosystem
+- **Last updated:** 2026-05-31
+- **Sources:** [Arctic Wolf Labs](https://arcticwolf.com/resources/blog/bluenoroff-uses-clickfix-fileless-powershell-and-ai-generated-zoom-meetings-to-target-web3-sector/), [Dark Reading](https://www.darkreading.com/cyberattacks-data-breaches/bluenoroff-turns-victims-into-new-attack-lures), [Infosecurity Magazine](https://www.infosecurity-magazine.com/news/bluenoroff-dprk-hackers-target/), [The Record](https://therecord.media/north-korean-hackers-targeted-crypto-exec-clickfix), [TechRadar](https://www.techradar.com/pro/security/the-attacker-completed-in-under-five-minutes-experts-warn-of-north-korea-linked-campaign-using-fake-zoom-meetings-to-target-crypto-execs)
+
 ---
 
 ## Accumulated IOCs
@@ -1175,6 +1225,10 @@
 | 2026-05-26 | THREAT-2026-0052 | Network | BitTorrent DHT port 6881/UDP from developer machines | GlassWorm botnet — C2 via DHT configuration |
 | 2026-05-26 | THREAT-2026-0052 | Process | Google Calendar API calls from non-browser/non-user processes | GlassWorm botnet — C2 dead-drop in Calendar event titles |
 | 2026-04-11 | THREAT-2026-0055 | Malware | NKAbuse (NKN P2P C2 protocol traffic) | Marimo CVE-2026-39987 payload — P2P-based C2 resistant to domain blocklists |
+| 2026-05-31 | THREAT-2026-0058 | Domain | geminicli[.]co[.]com | SEO Poisoning — fake Gemini CLI installer page delivering fileless PowerShell infostealer |
+| 2026-05-31 | THREAT-2026-0058 | Domain | claudecode[.]co[.]com | SEO Poisoning — fake Claude Code installer page; registered March 30, 2026 |
+| 2026-05-31 | THREAT-2026-0058 | Domain | claude-setup[.]com | SEO Poisoning — secondary fake Claude Code install domain; same fileless infostealer |
+| 2026-05-31 | THREAT-2026-0059 | TTP | ClickFix clipboard injection (Zoom SDK update lure) | BlueNoroff UNC1069 — fileless PowerShell multi-payload; full compromise in <5 min |
 
 ---
 
@@ -1225,6 +1279,8 @@
 | semantic-kernel | PyPI / NuGet | CVE-2026-26030 (CVSS 9.8) + CVE-2026-25592 — InMemoryVectorStore filter eval() RCE; first confirmed critical RCE via AI orchestration output | 2026-05-30 | Safe if Python ≥ 1.39.4 or .NET ≥ 1.71.0 |
 | marimo | PyPI | CVE-2026-39987 (CVSS 9.3) — pre-auth RCE via /terminal/ws WebSocket; CISA KEV; actively exploited; delivers NKAbuse | 2026-05-30 | Safe if ≥ 0.23.0; do not expose on public network |
 | gitea / forgejo | Self-hosted infra | CVE-2026-27771 — container registry auth bypass; private images exposed to unauthenticated pull; 30K deployments; 4-year gap | 2026-05-30 | Safe if Gitea ≥ 1.26.2; interim: REQUIRE_SIGNIN_VIEW=true |
+| panos (GlobalProtect) | Network infra | CVE-2026-0257 (CVSS 9.1) — authentication bypass via forged SAML; CISA KEV deadline June 19; actively exploited since May 18 | 2026-05-31 | Apply CVE-2026-0257 patch; restrict GlobalProtect to trusted IPs as interim |
+| linux-kernel (RDS/io_uring) | System | CVE-2026-43494 "PinTheft" — 6th LPE in cluster; RDS zerocopy + io_uring page-cache write; PoC public | 2026-05-31 | Mainly Arch Linux; `lsmod | grep rds` — if loaded, blacklist immediately; enterprise distros safe by default |
 
 ---
 
