@@ -575,6 +575,48 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-06-01] [COVERAGE] Add retaliatory/independent researcher zero-day campaigns to Area 4 search scope
+- **Origin:** Prompt A
+- **Description:** Nightmare-Eclipse (THREAT-2026-0060) is a solo security researcher who has released
+  six working Windows zero-day exploits in six weeks and is actively promising more for specific
+  dates (June 16 Patch Tuesday, July 14). This is a distinct threat model from nation-state actors
+  (TeamPCP, BlueNoroff) and extortion groups (CoinbaseCartel). The Radar prompt's Area 4 searches
+  for "campaigns" and "groups" but does not include "independent researcher zero-day dump" or
+  "public exploit PoC release" as explicit search vectors. Adding "zero-day researcher github dump
+  2026" and "unpatched Windows exploit public release" as daily search terms in Area 4 would catch
+  these events faster. The specific date promises (June 16, July 14) should also be flagged as
+  calendar-based threat intelligence milestones.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-06-01] [COVERAGE] Add AI workflow automation platforms (n8n, Zapier, Make) to Area 2 search scope
+- **Origin:** Prompt A
+- **Description:** CVE-2026-21858 "Ni8mare" (CVSS 10.0, n8n, 100K+ exposed instances) was published
+  January 8, 2026 and was not captured in the KB until June 1 — a 5-month gap. The self-improvement
+  suggestion from 2026-05-29 recommended adding AI workflow builders, but that suggestion was not
+  implemented in time to catch the n8n vulnerability. The pattern is consistent: AI/automation
+  workflow platforms (n8n, Flowise, Langflow, Zapier, Make/Integromat) hold LLM API keys, database
+  credentials, and cloud tokens — they are high-value targets. n8n had 100,000 exposed instances
+  with a CVSS 10.0 vulnerability unpatched for months. Recommend adding "n8n vulnerability",
+  "Zapier security CVE", "Make.com exploit" as explicit daily search terms in Area 2 alongside the
+  already-added Flowise/Langflow terms.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-06-01] [PROCESS] Add forward-looking "threat calendar" section to daily report
+- **Origin:** Prompt A
+- **Description:** Today's report identifies three time-bound milestones in the next 30 days:
+  June 3 (Defender CISA deadline), June 4 (Langflow CISA deadline), June 12 (OpenAI macOS
+  cert revocation), June 16 (Patch Tuesday — Nightmare-Eclipse "big surprise"), June 19
+  (PAN-OS CISA deadline), June 26 (Secure Boot cert expiry), July 14 (Nightmare-Eclipse
+  "bone-shattering" release). These forward-looking milestones are actionable and time-critical
+  but are currently scattered across the report. Adding a small "Upcoming threat calendar"
+  section to the daily report format (listing known dates in the next 30 days) would make these
+  immediately scannable and easier to track week-over-week. Format example:
+  "| 2026-06-03 | Defender CISA deadline | THREAT-2026-0032 |"
+- **Impact:** Medium
+- **Effort:** Low
+
 ---
 
 ## Implemented suggestions

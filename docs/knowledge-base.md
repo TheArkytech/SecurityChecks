@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🟠 Monitoring — Operational pause continues as of 2026-05-31 (~7 days quiet); no Phase 8 detected; ISC SANS diary #33014–33016 "Activity Through 2026-05-24" remains latest tracker (published May 25); Datadog Security Labs completed static analysis of the full Shai-Hulud framework source (published to GitHub by TeamPCP May 22); ransomware monetization channels remain impaired (Vect: 25 victims, last posting ~42 days ago; CipherForce: 92+ days inactive); CISA issued May 28 advisory naming Nx Console + Megalodon as coordinated supply chain threats — government-level monitoring confirmed. npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
+- **Status:** 🟠 Monitoring — Operational pause continues as of 2026-06-01 (~9 days quiet); no Phase 8 detected; ISC SANS diary #33014–33016 "Activity Through 2026-05-24" remains latest tracker (published May 25); Datadog Security Labs completed static analysis of the full Shai-Hulud framework source (published to GitHub by TeamPCP May 22); ransomware monetization channels remain impaired (Vect: 25 victims, last posting ~42 days ago; CipherForce: 92+ days inactive); CISA issued May 28 advisory naming Nx Console + Megalodon as coordinated supply chain threats — government-level monitoring confirmed. npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -224,7 +224,7 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 12 days remaining
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 11 DAYS REMAINING (update ChatGPT Desktop, Codex App, Codex CLI, Atlas on macOS NOW)
 - **Category:** Supply Chain > npm/PyPI
 - **Affects us:** Yes (ecosystem-level threat; Claude Code hooks weaponized)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
@@ -639,7 +639,7 @@
 
 ### [THREAT-2026-0032] CVE-2026-41091 / CVE-2026-45498 — Microsoft Defender EoP + DoS zero-days (CISA KEV, deadline June 3)
 - **Date detected:** 2026-05-23 (disclosed 2026-05-19; actively exploited as of 2026-05-21)
-- **Status:** 🔴 CISA DEADLINE IN 4 DAYS (June 3, 2026) — Patch released; run Get-MpComputerStatus NOW
+- **Status:** 🔴 CISA DEADLINE IN 2 DAYS (June 3, 2026) — Part of Nightmare-Eclipse campaign (see THREAT-2026-0060); BlueHammer/YellowKey/GreenPlasma/MiniPlasma are additional exploits in the same chain; patch released; run Get-MpComputerStatus NOW
 - **Category:** CVE > Infrastructure > Windows
 - **Affects us:** 🟠 Could affect us (all Windows dev machines and endpoints)
 - **Summary:** Two Microsoft Defender vulnerabilities actively exploited in the wild as of May
@@ -655,7 +655,7 @@
 - **IOCs:** N/A
 - **Action taken:** Run `Get-MpComputerStatus` on Windows machines; verify `AMEngineVersion` ≥ 1.1.26040.8
   and `AMProductVersion` ≥ 4.18.26040.7; force update with `Update-MpSignature` if needed
-- **Last updated:** 2026-05-23
+- **Last updated:** 2026-06-01
 - **Sources:** [CybersecurityNews](https://cybersecuritynews.com/microsoft-defender-0-days-exploited/), [SecurityWeek](https://www.securityweek.com/recent-microsoft-defender-vulnerability-exploited-as-zero-day/), [Winbuzzer](https://winbuzzer.com/2026/05/22/microsoft-patches-exploited-defender-zero-days-as-cisa-acts-xcxwbn/)
 
 ### [THREAT-2026-0033] CVE-2026-46333 "ssh-keysign-pwn" — Linux kernel ptrace fd-theft (4th in LPE cluster)
@@ -914,7 +914,7 @@
 
 ### [THREAT-2026-0034] Langflow CVE-2025-34291 + CVE-2026-42048 — CISA KEV, active MuddyWater exploitation (deadline June 4)
 - **Date detected:** 2026-05-23 (CISA KEV addition 2026-05-21; active exploitation confirmed)
-- **Status:** 🔴 CISA DEADLINE IN 5 DAYS (June 4, 2026) — MuddyWater active exploitation; patch to ≥ 1.9.0 urgently
+- **Status:** 🔴 CISA DEADLINE IN 3 DAYS (June 4, 2026) — MuddyWater active exploitation; patch to ≥ 1.9.0 urgently
 - **Category:** CVE > AI Dev Tool > Workflow Automation
 - **Affects us:** 🟠 Could affect us (if team uses Langflow for AI agent/workflow automation)
 - **Summary:** CISA added CVE-2025-34291 (CVSS 9.4) in Langflow ≤1.6.9 to the KEV catalog on
@@ -933,7 +933,7 @@
 - **Action taken:** Patch Langflow to ≥1.9.0 (fixes both CVEs); if previously running ≤1.6.9,
   rotate ALL API keys/tokens stored in Langflow workspaces immediately; for Trend Micro Apex One
   on-prem: apply CVE-2026-34926 patch before June 4
-- **Last updated:** 2026-05-23
+- **Last updated:** 2026-06-01
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/05/cisa-adds-exploited-langflow-and-trend.html), [Obsidian Security](https://www.obsidiansecurity.com/blog/cve-2025-34291-critical-account-takeover-and-rce-vulnerability-in-the-langflow-ai-agent-workflow-platform), [CISA KEV](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 
 ### [THREAT-2026-0045] Megalodon — Mass GitHub Repository Backdooring via Forged CI/CD Workflows
@@ -1185,6 +1185,82 @@
 - **Last updated:** 2026-05-31
 - **Sources:** [Arctic Wolf Labs](https://arcticwolf.com/resources/blog/bluenoroff-uses-clickfix-fileless-powershell-and-ai-generated-zoom-meetings-to-target-web3-sector/), [Dark Reading](https://www.darkreading.com/cyberattacks-data-breaches/bluenoroff-turns-victims-into-new-attack-lures), [Infosecurity Magazine](https://www.infosecurity-magazine.com/news/bluenoroff-dprk-hackers-target/), [The Record](https://therecord.media/north-korean-hackers-targeted-crypto-exec-clickfix), [TechRadar](https://www.techradar.com/pro/security/the-attacker-completed-in-under-five-minutes-experts-warn-of-north-korea-linked-campaign-using-fake-zoom-meetings-to-target-crypto-execs)
 
+### [THREAT-2026-0060] Nightmare-Eclipse — Retaliatory Windows Zero-Day Escalation Campaign
+- **Date detected:** 2026-06-01 (campaign began ~April 2026; escalating)
+- **Status:** 🔴 Active — Three of six exploits (BlueHammer, RedSun, UnDefend) actively exploited in the wild; researcher promises "big surprise" for June 16 Patch Tuesday and "bone-shattering" release on July 14; dead man's switch claimed; GitHub/GitLab accounts banned
+- **Category:** Threat Actor > CVE > Windows
+- **Affects us:** 🟠 Could affect us (Windows developer machines and endpoints)
+- **Summary:** A disgruntled security researcher ("Nightmare-Eclipse") has released six Windows
+  zero-day exploits in six weeks since early April 2026 in a retaliatory campaign against
+  Microsoft. The six exploits form a complete operational attack chain:
+  **BlueHammer** — LPE to SYSTEM (unprivileged user);
+  **RedSun** — alternate LPE to SYSTEM (CVE-2026-41091, in THREAT-2026-0032);
+  **MiniPlasma** — backup SYSTEM escalation path;
+  **UnDefend** — disables Microsoft Defender while displaying a healthy status (CVE-2026-45498, THREAT-2026-0032);
+  **YellowKey** — bypasses BitLocker on stolen or seized devices;
+  **GreenPlasma** — additional SYSTEM escalation variant.
+  BlueHammer, RedSun, and UnDefend are confirmed exploited in real-world attacks by third-party
+  threat actors who adopted the public PoC code. GitHub and GitLab have banned the researcher's
+  accounts and wiped repositories. Microsoft has acknowledged the situation legally. The researcher
+  has explicitly promised (1) a "big surprise" for June 16, 2026 Patch Tuesday, (2) a
+  "bone-shattering" release on July 14, 2026, (3) potential expansion to non-Microsoft vendors,
+  and (4) a "dead man's switch" that auto-releases further exploits. This is NOT TeamPCP/UNC6780
+  and NOT a nation-state actor — it is a solo researcher with working Windows exploit capabilities.
+- **IOCs:** N/A (PoC code was on GitHub/GitLab, now removed; exploits in active use by third-party actors)
+- **Action taken:** Apply May 2026 Patch Tuesday (KB5089549) on all Windows machines — covers
+  RedSun (CVE-2026-41091) and UnDefend (CVE-2026-45498); monitor June 16 Patch Tuesday for
+  emergency patches addressing BlueHammer/YellowKey/GreenPlasma/MiniPlasma; subscribe to
+  Microsoft MSRC alerts; verify `winver` shows Build 26200.8457 or later
+- **Last updated:** 2026-06-01
+- **Sources:** [Barracuda Networks Blog](https://blog.barracuda.com/2026/05/19/nightmare-eclipse-zero-days-grudge), [The Register (May 28)](https://www.theregister.com/security/2026/05/28/microsoft-0-day-feud-escalates-as-researcher-threatens-another-windows-exploit-dump/5248085), [CyberNews](https://cybernews.com/security/microsoft-responds-to-nightmare-eclipse-zero-days/), [WindowsNews AI](https://windowsnews.ai/article/nightmare-eclipse-windows-zero-day-githubgitlab-bans-patch-timeline-and-defender-risk.420500)
+
+### [THREAT-2026-0061] CVE-2026-21858 "Ni8mare" — n8n Unauthenticated RCE (CVSS 10.0, gap from January 2026)
+- **Date detected:** 2026-06-01 (vulnerability disclosed January 2026; gap in KB coverage)
+- **Status:** 🟠 Active — Patch available since January 2026; 100,000+ internet-exposed instances; no confirmed large-scale exploitation reported but gap in monitoring
+- **Category:** AI Dev > AI Workflow Tool / CVE
+- **Affects us:** 🟠 Could affect us (if team uses n8n for AI agent or LLM workflow automation)
+- **Summary:** CVSS 10.0 unauthenticated RCE in n8n, a widely-used open-source workflow automation
+  platform commonly deployed for AI agent pipelines and LLM orchestration. Discovered by security
+  researcher Dor Attias (reported November 2025; disclosed publicly January 8, 2026). Root cause:
+  a file-handling function executes without verifying that content-type is "multipart/form-data,"
+  allowing an attacker to override `req.body.files` — achieving full server takeover without any
+  authentication. Estimated 100,000 internet-exposed n8n instances affected. n8n workflows routinely
+  hold API keys for OpenAI, Anthropic, cloud providers, and databases. Additional authenticated CVEs
+  (CVE-2025-68613, CVE-2025-68668, CVE-2025-68697, CVE-2026-21877 — "N8scape" chain) can be
+  chained for further code execution. Fix: n8n ≥ 1.121.0. This threat was logged retroactively as
+  a coverage gap (linked to the [2026-05-29] self-improvement suggestion to add AI workflow builders).
+- **Affected versions:** n8n < 1.121.0
+- **Safe version:** n8n ≥ 1.121.0
+- **IOCs:** N/A
+- **Action taken:** Run `npm list n8n` and check all Docker/container n8n deployments; upgrade to
+  ≥ 1.121.0 immediately; if internet-exposed and running < 1.121.0, treat as compromised — rotate
+  all API keys and credentials stored in n8n workflows
+- **Last updated:** 2026-06-01
+- **Sources:** [The Hacker News](https://thehackernews.com/2026/01/critical-n8n-vulnerability-cvss-100.html), [Cyera Research](https://www.cyera.com/research/ni8mare-unauthenticated-remote-code-execution-in-n8n-cve-2026-21858), [The Register](https://www.theregister.com/2026/01/08/n8n_rce_bug/), [Rapid7 ETR](https://www.rapid7.com/blog/post/etr-ni8mare-n8scape-flaws-multiple-critical-vulnerabilities-affecting-n8n/)
+
+### [THREAT-2026-0062] Windows Secure Boot Certificate Expiration — Deadline June 26, 2026
+- **Date detected:** 2026-06-01
+- **Status:** 🟠 Active — Patch available (May 2026 CU); deadline June 26; 25 days remaining; June 16 Patch Tuesday is last scheduled opportunity before deadline
+- **CISA Deadline:** N/A (not a CISA KEV; Microsoft-set deadline June 26, 2026)
+- **Category:** CVE > Infrastructure > Windows
+- **Affects us:** 🟠 Could affect us (Windows developer machines and servers not current on updates)
+- **Summary:** Microsoft Secure Boot certificates used by most Windows devices are expiring
+  starting in June 2026. Devices that have not received required Windows updates before the
+  June 26, 2026 deadline will experience "catastrophic boot-level security failures" or
+  degraded Secure Boot state — devices may fail to boot securely or have reduced protections.
+  This is a certificate lifecycle event, not a new CVE, but with infrastructure-level impact
+  equivalent to a critical patch. Affects Windows 10, 11, and Server editions. Fix is included
+  in May 2026 Cumulative Update (KB5089549) and later. June 16 Patch Tuesday is the last
+  scheduled update window before the deadline for teams on monthly patch cycles.
+- **Affected versions:** Windows 10, 11, Server — unpatched past May 2026 CU
+- **Safe version:** KB5089549 (May 2026 CU) or any subsequent update applied before June 26
+- **IOCs:** N/A
+- **Action taken:** Verify all Windows dev machines and servers have KB5089549 installed:
+  `winver` → confirm Build 26200.8457 or 26100.8457 (Win 11 24H2); apply June 16 Patch
+  Tuesday immediately when released; do NOT defer Windows updates past June 26, 2026
+- **Last updated:** 2026-06-01
+- **Sources:** [Microsoft MSRC Blog](https://www.microsoft.com/en-us/msrc/blog/2026/05/a-note-on-patch-tuesday), [DBT Support](https://www.dbtsupport.com/2026/05/12/microsoft-patch-tuesday-may-2026-security-updates/)
+
 ---
 
 ## Accumulated IOCs
@@ -1281,6 +1357,9 @@
 | gitea / forgejo | Self-hosted infra | CVE-2026-27771 — container registry auth bypass; private images exposed to unauthenticated pull; 30K deployments; 4-year gap | 2026-05-30 | Safe if Gitea ≥ 1.26.2; interim: REQUIRE_SIGNIN_VIEW=true |
 | panos (GlobalProtect) | Network infra | CVE-2026-0257 (CVSS 9.1) — authentication bypass via forged SAML; CISA KEV deadline June 19; actively exploited since May 18 | 2026-05-31 | Apply CVE-2026-0257 patch; restrict GlobalProtect to trusted IPs as interim |
 | linux-kernel (RDS/io_uring) | System | CVE-2026-43494 "PinTheft" — 6th LPE in cluster; RDS zerocopy + io_uring page-cache write; PoC public | 2026-05-31 | Mainly Arch Linux; `lsmod | grep rds` — if loaded, blacklist immediately; enterprise distros safe by default |
+| n8n | npm / Docker | CVE-2026-21858 "Ni8mare" (CVSS 10.0) — unauthenticated RCE; 100K+ exposed; fix available since January 2026 | 2026-06-01 | Safe if ≥ 1.121.0; if internet-exposed and < 1.121.0, treat as compromised |
+| Windows (Secure Boot certs) | System | Secure Boot certificate expiration — all Windows devices; deadline June 26, 2026 | 2026-06-01 | Apply KB5089549 (May 2026 CU) or later; June 16 PT is last scheduled update before deadline |
+| OpenAI macOS apps | macOS / App | TanStack supply chain breach forced certificate revocation; ChatGPT Desktop, Codex App, Codex CLI, Atlas cease to function June 12, 2026 | 2026-06-01 | Update all OpenAI macOS apps before June 12; 11 days remaining |
 
 ---
 
