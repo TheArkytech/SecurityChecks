@@ -603,6 +603,44 @@
 - **Impact:** High
 - **Effort:** Low
 
+### [2026-06-02] [COVERAGE] Add dedicated daily search for malicious AI tooling npm packages by alias/publisher
+- **Origin:** Prompt A
+- **Description:** codexui-android (THREAT-2026-0064) was active for 6 weeks before discovery — 27K-29K
+  weekly downloads silently stealing OpenAI Codex refresh tokens. The exfil code was not in the GitHub repo,
+  only in the published npm package — making it invisible to source-based audits. The Radar prompt's Area 1
+  covers "compromised packages" in general but doesn't include targeted searches for malicious AI tool
+  impostors (fake Codex UI, fake Claude CLI, fake Cursor packages). Recommend adding a daily query:
+  "malicious npm package AI tool impostor Codex Cursor Claude 2026" in Area 2 (AI/Vibe Coding). Also:
+  the "exfil code not in GitHub repo" pattern should be added to PROMPT-C vetting as a red flag —
+  check that the published npm tarball matches the GitHub tag hash via `npm pack --dry-run` comparison.
+- **Impact:** High
+- **Effort:** Low
+
+### [2026-06-02] [KB] Add calendar-date verification requirement for time-sensitive threat entries
+- **Origin:** Prompt A
+- **Description:** THREAT-2026-0060 (Nightmare-Eclipse) had "June 16 Patch Tuesday" recorded in its status
+  field — but June 16 is NOT a Patch Tuesday in June 2026. The real June Patch Tuesday is June 9. This is a
+  consequential error because the researcher promised new exploits timed to Patch Tuesday. The KB entry was
+  created May 31 and the error persisted until today's scan (June 2). When recording specific calendar dates
+  in threat status fields (especially "Patch Tuesday", "CISA deadline", or "certificate expiration"), the
+  radar should verify the date against a calendar before recording it. Consider adding a simple check: for
+  any entry that says "Patch Tuesday", verify it is actually the 2nd Tuesday of the stated month.
+- **Impact:** Medium
+- **Effort:** Low
+
+### [2026-06-02] [COVERAGE] Track Shai-Hulud copycat actors separately from TeamPCP attribution
+- **Origin:** Prompt A
+- **Description:** The Miasma @redhat-cloud-services attack (THREAT-2026-0063) used Shai-Hulud TTPs but
+  attribution is uncertain — TeamPCP open-sourced the full framework in May 2026. This creates a new
+  monitoring challenge: any npm supply chain attack using Shai-Hulud-like TTPs may now be a copycat
+  rather than TeamPCP directly. The current KB structure groups all Shai-Hulud variants under THREAT-2026-0004
+  (TeamPCP). We should distinguish between "confirmed TeamPCP" and "Shai-Hulud-based (attribution uncertain)."
+  Recommend adding a "Confirmed TeamPCP" vs "Shai-Hulud-derived (possible copycat)" flag to supply chain
+  attack entries — this changes the threat model, since copycat actors may have different targets,
+  escalation patterns, and exfiltration infrastructure.
+- **Impact:** Medium
+- **Effort:** Low
+
 ### [2026-06-01] [PROCESS] Add forward-looking "threat calendar" section to daily report
 - **Origin:** Prompt A
 - **Description:** Today's report identifies three time-bound milestones in the next 30 days:

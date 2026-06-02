@@ -70,7 +70,7 @@
 
 ### [THREAT-2026-0004] TeamPCP multi-ecosystem supply chain campaign
 - **Date detected:** 2026-04-03
-- **Status:** 🟠 Monitoring — Operational pause continues as of 2026-06-01 (~9 days quiet); no Phase 8 detected; ISC SANS diary #33014–33016 "Activity Through 2026-05-24" remains latest tracker (published May 25); Datadog Security Labs completed static analysis of the full Shai-Hulud framework source (published to GitHub by TeamPCP May 22); ransomware monetization channels remain impaired (Vect: 25 victims, last posting ~42 days ago; CipherForce: 92+ days inactive); CISA issued May 28 advisory naming Nx Console + Megalodon as coordinated supply chain threats — government-level monitoring confirmed. npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector. Previous status: Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
+- **Status:** 🔴 Escalating — **June 1 update: @redhat-cloud-services npm scope compromised (THREAT-2026-0063 "Miasma") — possible Phase 8 or copycat using open-sourced Shai-Hulud code; attribution uncertain.** Prior 9-day operational pause (after 2026-05-24) may have been a regrouping period. ISC SANS diary #33014–33016 "Activity Through 2026-05-24" remains latest tracker; Datadog Security Labs completed static analysis of the full Shai-Hulud framework source (published to GitHub by TeamPCP May 22); ransomware monetization channels remain impaired (Vect: 25 victims, last posting ~42 days ago; CipherForce: 92+ days inactive); CISA issued May 28 advisory naming Nx Console + Megalodon as coordinated supply chain threats — government-level monitoring confirmed. npm 2FA staged publishing gate (May 22) blocks stolen CI token publish vector. Previous status: Operational pause ~9 days (May 24 – June 1). Phase 7b+ active — (1) TanStack OIDC credentials stolen May 11 were the direct source of the Nx Console extension compromise used to breach GitHub (attribution chain now closed: Mini Shai-Hulud → stolen maintainer token → malicious extension → GitHub internal repos); (2) Unit 42 now tracks 500+ poisoned packages across 20 documented attack waves. ISC SANS Update 008 (Apr 27) previously confirmed Phase 4b: Checkmarx KICS Docker Hub + xinference PyPI + CanisterSprawl cross-registry worm. npm staged publishing with 2FA gate (shipped May 22) is a direct countermeasure blocking the stolen CI token publish vector TeamPCP used across all waves.
 - **Category:** Threat Actor > Supply Chain
 - **Affects us:** Yes (GitHub Actions, npm, PyPI, Claude Code hooks in our stack)
 - **Summary:** Sustained cascading campaign, now crossing 8+ ecosystems. Formally
@@ -119,8 +119,8 @@
   tools; rotate CI/CD credentials; update Checkmarx Jenkins plugin; CHECK CLAUDE CODE
   HOOKS on all developer machines; verify @antv/* and durabletask versions; audit for
   actions-cool usage; add t.m-kosche[.]com to network blocklist
-- **Last updated:** 2026-05-31
-- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [ISC SANS Activity Through 2026-05-24](https://isc.sans.edu/diary/33014), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/), [CISA Advisory May 28](https://www.cisa.gov/news-events/alerts/2026/05/28/supply-chain-compromises-impact-nx-console-and-github-repositories), [Datadog Shai-Hulud analysis](https://www.datadoghq.com/blog/engineering/shai-hulud-framework-static-analysis/)
+- **Last updated:** 2026-06-02
+- **Sources:** [Unit42](https://unit42.paloaltonetworks.com/teampcp-supply-chain-attacks/), [Sysdig](https://www.sysdig.com/blog/teampcp-expands-supply-chain-compromise-spreads-from-trivy-to-checkmarx-github-actions), [Wiz AntV](https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain), [Wiz durabletask](https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack), [Wiz Miasma](https://www.wiz.io/blog/miasma-supply-chain-attack-targeting-redhat-npm-packages), [StepSecurity](https://www.stepsecurity.io/blog/microsofts-durabletask-pypi-package-compromised-in-supply-chain-attack), [StepSecurity actions-cool](https://www.stepsecurity.io/blog/actions-cool-issues-helper-github-action-compromised-all-tags-point-to-imposter-commit-that-exfiltrates-ci-cd-credentials), [Incident Timeline](https://ramimac.me/teampcp/), [ISC SANS Update 007](https://isc.sans.edu/diary/TeamPCP+Supply+Chain+Campaign+Update+007+Cisco+Source+Code+Stolen+via+TrivyLinked+Breach+Google+GTIG+Tracks+TeamPCP+as+UNC6780+and+CISA+KEV+Deadline+Arrives+with+No+Standalone+Advisory/32880), [ISC SANS Update 008](https://isc.sans.edu/diary/32926), [ISC SANS Activity Through 2026-05-24](https://isc.sans.edu/diary/33014), [BleepingComputer Cisco](https://www.bleepingcomputer.com/news/security/cisco-source-code-stolen-in-trivy-linked-dev-environment-breach/), [CISA Advisory May 28](https://www.cisa.gov/news-events/alerts/2026/05/28/supply-chain-compromises-impact-nx-console-and-github-repositories), [Datadog Shai-Hulud analysis](https://www.datadoghq.com/blog/engineering/shai-hulud-framework-static-analysis/)
 
 ### [THREAT-2026-0005] MCP security crisis — 50+ CVEs in 5 months
 - **Date detected:** 2026-04-03
@@ -224,7 +224,7 @@
 
 ### [THREAT-2026-0012] Mini Shai-Hulud — npm/PyPI self-propagating supply chain worm (TeamPCP Phase 5)
 - **Date detected:** 2026-05-13 (attack occurred 2026-05-11)
-- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — 11 DAYS REMAINING (update ChatGPT Desktop, Codex App, Codex CLI, Atlas on macOS NOW)
+- **Status:** 🔴 Active — CVE-2026-45321 (CVSS 9.6); Claude Code hook persistence confirmed; OpenAI devices confirmed compromised; ⚠️ JUNE 12 CERTIFICATE REVOCATION DEADLINE — **10 DAYS REMAINING** (update ChatGPT Desktop, Codex App, Codex CLI, Atlas on macOS NOW)
 - **Category:** Supply Chain > npm/PyPI
 - **Affects us:** Yes (ecosystem-level threat; Claude Code hooks weaponized)
 - **Summary:** On May 11, 2026, TeamPCP's "Mini Shai-Hulud" worm exploited a chained GitHub
@@ -639,7 +639,7 @@
 
 ### [THREAT-2026-0032] CVE-2026-41091 / CVE-2026-45498 — Microsoft Defender EoP + DoS zero-days (CISA KEV, deadline June 3)
 - **Date detected:** 2026-05-23 (disclosed 2026-05-19; actively exploited as of 2026-05-21)
-- **Status:** 🔴 CISA DEADLINE IN 2 DAYS (June 3, 2026) — Part of Nightmare-Eclipse campaign (see THREAT-2026-0060); BlueHammer/YellowKey/GreenPlasma/MiniPlasma are additional exploits in the same chain; patch released; run Get-MpComputerStatus NOW
+- **Status:** 🔴 CISA DEADLINE TOMORROW (June 3, 2026) — **24 HOURS REMAINING** — Part of Nightmare-Eclipse campaign (see THREAT-2026-0060); BlueHammer/YellowKey/GreenPlasma/MiniPlasma are additional exploits in the same chain; patch released; run Get-MpComputerStatus NOW
 - **Category:** CVE > Infrastructure > Windows
 - **Affects us:** 🟠 Could affect us (all Windows dev machines and endpoints)
 - **Summary:** Two Microsoft Defender vulnerabilities actively exploited in the wild as of May
@@ -1187,7 +1187,7 @@
 
 ### [THREAT-2026-0060] Nightmare-Eclipse — Retaliatory Windows Zero-Day Escalation Campaign
 - **Date detected:** 2026-06-01 (campaign began ~April 2026; escalating)
-- **Status:** 🔴 Active — Three of six exploits (BlueHammer, RedSun, UnDefend) actively exploited in the wild; researcher promises "big surprise" for June 16 Patch Tuesday and "bone-shattering" release on July 14; dead man's switch claimed; GitHub/GitLab accounts banned
+- **Status:** 🔴 Active — ⚠️ DATE CORRECTION: June Patch Tuesday is June 9, NOT June 16 (June 16 is not a Patch Tuesday — 3rd Tuesday). Researcher promised "big surprise" for June Patch Tuesday = **7 DAYS FROM NOW (June 9)**; "bone-shattering" release promised July 14 (which IS July Patch Tuesday). Three of six exploits (BlueHammer, RedSun, UnDefend) actively exploited in the wild. Dead man's switch claimed; GitHub/GitLab accounts banned.
 - **Category:** Threat Actor > CVE > Windows
 - **Affects us:** 🟠 Could affect us (Windows developer machines and endpoints)
 - **Summary:** A disgruntled security researcher ("Nightmare-Eclipse") has released six Windows
@@ -1237,6 +1237,58 @@
   all API keys and credentials stored in n8n workflows
 - **Last updated:** 2026-06-01
 - **Sources:** [The Hacker News](https://thehackernews.com/2026/01/critical-n8n-vulnerability-cvss-100.html), [Cyera Research](https://www.cyera.com/research/ni8mare-unauthenticated-remote-code-execution-in-n8n-cve-2026-21858), [The Register](https://www.theregister.com/2026/01/08/n8n_rce_bug/), [Rapid7 ETR](https://www.rapid7.com/blog/post/etr-ni8mare-n8scape-flaws-multiple-critical-vulnerabilities-affecting-n8n/)
+
+### [THREAT-2026-0063] Miasma: The Spreading Blight — @redhat-cloud-services npm Supply Chain Attack
+- **Date detected:** 2026-06-02 (attack discovered and disclosed 2026-06-01)
+- **Status:** 🔴 Active — Most malicious versions revoked by June 1 1PM UTC; 2 packages still pending removal at time of KB entry; rotate credentials immediately if any @redhat-cloud-services package was installed in June 2026
+- **Category:** Supply Chain > npm | Threat Actor (TeamPCP or copycat)
+- **Affects us:** 🟠 Could affect us (if any project uses @redhat-cloud-services packages — CI tooling for OpenShift/Hybrid Cloud)
+- **Summary:** On June 1, 2026, Wiz Research discovered a supply chain compromise targeting the official
+  @redhat-cloud-services npm scope. 96 versions across 32 packages were compromised with a new Shai-Hulud
+  variant dubbed "Miasma: The Spreading Blight" — cumulatively ~117K weekly downloads. Attack vector: GitHub
+  Actions OIDC tokens compromised (CI/CD pipeline, not individual developer accounts). Malicious packages use
+  preinstall scripts executing heavily obfuscated JavaScript with eval()/ROT-based decoding. Credential sweep:
+  AWS/Azure/GCP (all credential types), Kubernetes tokens, GitHub Actions secrets (GITHUB_TOKEN +
+  ACTIONS_RUNTIME_TOKEN), npm/PyPI publish tokens, HashiCorp Vault tokens, SSH private keys, Docker credentials,
+  GPG keys, .env files. Exfiltration via GitHub "dead-drop" repos with description "Miasma: The Spreading
+  Blight" (same technique as TeamPCP). Destructive token monitor: if stolen GitHub token revoked, rm -rf ~/
+  executes. **Attribution uncertain:** payload is functionally identical to Shai-Hulud but since TeamPCP
+  open-sourced the full framework in May 2026 (THREAT-2026-0023), copycat actors using the published code
+  cannot be ruled out. This may be TeamPCP Phase 8 or an independent actor — treat as operationally equivalent.
+- **Affected versions:** @redhat-cloud-services/* — versions published June 1, 2026
+- **Safe version:** Any @redhat-cloud-services/* version NOT from June 1; verify via npm registry timestamps
+- **IOCs:** GitHub repos with description "Miasma: The Spreading Blight" (exfiltration dead-drops)
+- **Action taken:** (1) `npm list | grep @redhat-cloud-services` across all projects; (2) if found with June
+  2026 install date, rotate ALL cloud credentials (AWS/Azure/GCP), CI/CD tokens, npm/PyPI publish tokens, SSH
+  keys; (3) check for destructive token monitor daemon (same gh-token-monitor pattern as Shai-Hulud)
+- **Last updated:** 2026-06-02
+- **Sources:** [Wiz Blog](https://www.wiz.io/blog/miasma-supply-chain-attack-targeting-redhat-npm-packages), [The Hacker News](https://thehackernews.com/2026/06/miasma-supply-chain-attack-compromises.html), [Aikido](https://www.aikido.dev/blog/red-hat-npm-packages-compromised-credential-stealing-worm), [Snyk](https://snyk.io/blog/miasma-supply-chain-attack-malicious-code-redhat-cloud-services-npm-packages/), [The Register](https://www.theregister.com/security/2026/06/01/shai-hulud-malware-infects-red-hat-npm-packages-downloaded-80k-times-weekly/5249803), [OX Security](https://www.ox.security/blog/new-npm-supply-chain-attack-redhat-cloud-services-compromised/), [Semgrep](https://semgrep.dev/blog/2026/forking-shai-hulud-redhat-npm-packages-are-the-next-victim-after-github-actions-compromise-and-worm/)
+
+### [THREAT-2026-0064] codexui-android npm — Silent OpenAI Codex Refresh Token Stealer (6 Weeks Undetected)
+- **Date detected:** 2026-06-02 (discovered 2026-05-27 by Aikido; active since 2026-04-12)
+- **Status:** 🔴 Active — Package reportedly still available on npm as of reporting; silent exfiltration active since April 12, 2026; non-expiring refresh tokens stolen
+- **Category:** Supply Chain > npm | AI Dev Tool
+- **Affects us:** 🟠 Could affect us (if any team member uses OpenAI Codex CLI)
+- **Summary:** "codexui-android" is a malicious npm package (~27K-29K weekly downloads) posing as a legitimate
+  remote UI for OpenAI Codex. Discovered May 27, 2026 by Aikido Security. Active since April 12 (first
+  version published; matching exfil domain registered April 12). **Critical detail:** every published version
+  has contained code that silently reads ~/.codex/auth.json and exfiltrates it to sentry.anyclaw.store — a
+  domain designed to blend with the package's legitimate Sentry error-reporting traffic. The exfiltration
+  code is NOT in the public GitHub repository — only in the published npm package, defeating source-code-
+  based supply chain audits. Stolen credentials: access_token, **refresh_token (does not expire — enables
+  indefinite silent account impersonation**), id_token, account_id. Attribution: publisher alias
+  "BrutalStrike" — also ships Android app "OpenClaw Codex Claude AI Agent" (gptos.intelligence.assistant,
+  Google Play, 5M+ downloads for a gaming shell app), which runs the npm package via PRoot and sends stolen
+  tokens to the same endpoint. The 6-week undetected window with 27K+ weekly downloads implies significant
+  token exposure.
+- **Affected versions:** codexui-android — all versions (April 12, 2026 onward)
+- **Safe version:** Do NOT install codexui-android; use only official OpenAI tools
+- **IOCs:** sentry.anyclaw.store (exfil endpoint); npm package codexui-android (all versions); Android app gptos.intelligence.assistant
+- **Action taken:** (1) `npm list -g | grep codexui-android` and grep all lockfiles; (2) if found, immediately
+  revoke ALL OpenAI refresh tokens via openai.com account settings; (3) check Android devices for OpenClaw
+  Codex Claude AI Agent; (4) block sentry.anyclaw.store at DNS/network level
+- **Last updated:** 2026-06-02
+- **Sources:** [Aikido](https://www.aikido.dev/blog/codex-remote-ui-steals-ai-tokens), [The Hacker News](https://thehackernews.com/2026/06/openai-codex-authentication-tokens.html), [HackRead](https://hackread.com/codex-ui-tool-secretly-stole-openai-refresh-tokens/), [CyberNews](https://cybernews.com/security/openai-codex-tool-malware-token-theft/), [TechRadar](https://www.techradar.com/pro/security/openai-codex-tool-with-over-29-000-downloads-linked-to-malicious-npm-supply-chain-attack-stealing-authentication-tokens)
 
 ### [THREAT-2026-0062] Windows Secure Boot Certificate Expiration — Deadline June 26, 2026
 - **Date detected:** 2026-06-01
@@ -1305,6 +1357,10 @@
 | 2026-05-31 | THREAT-2026-0058 | Domain | claudecode[.]co[.]com | SEO Poisoning — fake Claude Code installer page; registered March 30, 2026 |
 | 2026-05-31 | THREAT-2026-0058 | Domain | claude-setup[.]com | SEO Poisoning — secondary fake Claude Code install domain; same fileless infostealer |
 | 2026-05-31 | THREAT-2026-0059 | TTP | ClickFix clipboard injection (Zoom SDK update lure) | BlueNoroff UNC1069 — fileless PowerShell multi-payload; full compromise in <5 min |
+| 2026-06-01 | THREAT-2026-0063 | GitHub indicator | GitHub repos with description "Miasma: The Spreading Blight" | Miasma @redhat-cloud-services worm — exfiltration dead-drop repos created under victim accounts |
+| 2026-06-02 | THREAT-2026-0064 | Domain | sentry.anyclaw.store | codexui-android — exfiltration endpoint disguised as Sentry error-reporting traffic |
+| 2026-06-02 | THREAT-2026-0064 | npm package | codexui-android (all versions) | Silent OpenAI Codex token stealer; all versions compromised since April 12, 2026 |
+| 2026-06-02 | THREAT-2026-0064 | Android app | gptos.intelligence.assistant (Google Play) | OpenClaw Codex Claude AI Agent — same codexui-android payload via PRoot, 5M+ downloads |
 
 ---
 
@@ -1359,7 +1415,9 @@
 | linux-kernel (RDS/io_uring) | System | CVE-2026-43494 "PinTheft" — 6th LPE in cluster; RDS zerocopy + io_uring page-cache write; PoC public | 2026-05-31 | Mainly Arch Linux; `lsmod | grep rds` — if loaded, blacklist immediately; enterprise distros safe by default |
 | n8n | npm / Docker | CVE-2026-21858 "Ni8mare" (CVSS 10.0) — unauthenticated RCE; 100K+ exposed; fix available since January 2026 | 2026-06-01 | Safe if ≥ 1.121.0; if internet-exposed and < 1.121.0, treat as compromised |
 | Windows (Secure Boot certs) | System | Secure Boot certificate expiration — all Windows devices; deadline June 26, 2026 | 2026-06-01 | Apply KB5089549 (May 2026 CU) or later; June 16 PT is last scheduled update before deadline |
-| OpenAI macOS apps | macOS / App | TanStack supply chain breach forced certificate revocation; ChatGPT Desktop, Codex App, Codex CLI, Atlas cease to function June 12, 2026 | 2026-06-01 | Update all OpenAI macOS apps before June 12; 11 days remaining |
+| OpenAI macOS apps | macOS / App | TanStack supply chain breach forced certificate revocation; ChatGPT Desktop, Codex App, Codex CLI, Atlas cease to function June 12, 2026 | 2026-06-01 | Update all OpenAI macOS apps before June 12; 10 days remaining |
+| @redhat-cloud-services/* | npm | Miasma supply chain attack (June 1, 2026) — 32 packages, 96 versions, ~117K weekly downloads | 2026-06-02 | Avoid any version from June 1, 2026; verify install timestamps; rotate cloud credentials if installed |
+| codexui-android | npm | Silent OpenAI Codex token stealer — all versions; exfil to sentry.anyclaw.store | 2026-06-02 | Do NOT install; remove immediately if present; revoke all OpenAI refresh tokens |
 
 ---
 
